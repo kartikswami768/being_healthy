@@ -1,5 +1,6 @@
 ---
-title - Understanding the Economics of Calories
+title: Understanding the Economics of Calories
+draft: false
 ---
 # Total Daily Energy Expenditure (TDEE)
 
