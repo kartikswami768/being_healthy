@@ -195,7 +195,7 @@ plugins:
     layout:
       position: beforeBody
       priority: 30
-  - source: "./quartz/plugins/profile"
+  - source: "profile"
     enabled: true
     layout:
       position: left
