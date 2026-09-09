@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=./quartz/plugins/quartz-plugins.schema.json
 configuration:
-  pageTitle: Quartz 5
+  pageTitle: Notes on Being Human
   pageTitleSuffix: ""
   enableSPA: true
   enablePopovers: true
@@ -195,6 +195,11 @@ plugins:
     layout:
       position: beforeBody
       priority: 30
+  - source: "./quartz/plugins/profile"
+    enabled: true
+    layout:
+      position: left
+      priority: 5
   - source: "@quartz-community/page-title"
     enabled: true
     layout:
