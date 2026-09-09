@@ -3,8 +3,8 @@ import { QuartzComponent, QuartzComponentConstructor } from "./types"
 const Profile: QuartzComponent = () => {
   return (
     <div class="profile">
-      <img src="/me.jpg" alt="Kartik Swami" />
-      <div class="profile-name">Kartik Swami</div>
+      <img src="/me.jpg" alt="Dr. Kartik Swami" />
+      <div class="profile-name">Dr. Kartik Swami</div>
     </div>
   )
 }
