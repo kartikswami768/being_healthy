@@ -7,7 +7,7 @@ configuration:
   analytics:
     provider: plausible
   locale: en-US
-  baseUrl: kartikswami768.github.io/being_healthy
+  baseUrl: being-healthy.kartikswami768.workers.dev
   ignorePatterns:
     - private
     - templates
