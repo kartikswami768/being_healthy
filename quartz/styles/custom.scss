@@ -790,3 +790,212 @@ footer {
     padding-top: var(--site-space-2);
   }
 }
+
+// -----------------------------------------------------------------------------
+// ARTICLE EXPERIENCE — PASS 2
+// Editorial body elements
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// BLOCKQUOTES
+// -----------------------------------------------------------------------------
+.center > article blockquote:not(.callout) {
+  margin: var(--site-space-6) 0;
+  padding: var(--site-space-3) var(--site-space-5);
+  border-left: 2px solid var(--site-primary);
+  color: var(--site-muted);
+  font-size: 1.02rem;
+  font-style: italic;
+}
+// -----------------------------------------------------------------------------
+// CALLOUTS
+// -----------------------------------------------------------------------------
+.center > article .callout {
+  margin: var(--site-space-6) 0;
+  border-radius: var(--site-radius-md);
+  border: 1px solid var(--site-border);
+  border-left: 3px solid var(--site-primary);
+  background: var(--site-surface);
+}
+.center > article .callout-title {
+  padding: var(--site-space-3) var(--site-space-4);
+}
+.center > article .callout-title-inner {
+  font-family: var(--headerFont);
+  font-weight: 600;
+}
+.center > article .callout-content {
+  padding: 0 var(--site-space-4) var(--site-space-4);
+}
+.center > article .callout-content p:last-child {
+  margin-bottom: 0;
+}
+// -----------------------------------------------------------------------------
+// LISTS
+// -----------------------------------------------------------------------------
+.center > article ul,
+.center > article ol {
+  padding-left: 1.5rem;
+}
+.center > article li::marker {
+  color: var(--site-primary);
+}
+.center > article li > ul,
+.center > article li > ol {
+  margin-top: 0.35rem;
+  margin-bottom: 0.5rem;
+}
+// -----------------------------------------------------------------------------
+// TABLES
+// -----------------------------------------------------------------------------
+.center > article .table-container {
+  margin: var(--site-space-6) 0;
+  border-top: 1px solid var(--site-border);
+  border-bottom: 1px solid var(--site-border);
+}
+.center > article .table-container table {
+  width: 100%;
+  font-size: 0.94rem;
+}
+.center > article .table-container th {
+  font-family: var(--headerFont);
+  font-weight: 600;
+  color: var(--site-heading);
+  text-align: left;
+}
+.center > article .table-container td,
+.center > article .table-container th {
+  padding: 0.7rem 0.75rem;
+}
+// -----------------------------------------------------------------------------
+// INLINE CODE
+// -----------------------------------------------------------------------------
+.center > article code {
+  padding: 0.1em 0.3em;
+  background: var(--site-surface);
+  border: 1px solid var(--site-border);
+  color: var(--site-heading);
+  font-family: var(--codeFont);
+  font-size: 0.88em;
+}
+// Don't apply inline-code styling to fenced code blocks.
+.center > article pre code {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+// -----------------------------------------------------------------------------
+// CODE BLOCKS
+// -----------------------------------------------------------------------------
+.center > article pre {
+  margin: var(--site-space-6) 0;
+  border: 1px solid var(--site-border);
+  border-radius: var(--site-radius-md);
+}
+// -----------------------------------------------------------------------------
+// IMAGES
+// -----------------------------------------------------------------------------
+.center > article img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: var(--site-space-6) auto;
+  border-radius: var(--site-radius-sm);
+}
+// Image captions generated from:
+// <p><img ... /><em>Caption</em></p>
+.center > article p > img + em {
+  display: block;
+  margin-top: calc(var(--site-space-6) * -0.7);
+  margin-bottom: var(--site-space-6);
+  color: var(--site-muted);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  text-align: center;
+}
+// -----------------------------------------------------------------------------
+// HORIZONTAL RULES
+// -----------------------------------------------------------------------------
+.center > article hr {
+  width: 35%;
+  margin: var(--site-space-8) auto;
+}
+// -----------------------------------------------------------------------------
+// EMPHASIS
+// -----------------------------------------------------------------------------
+.center > article strong {
+  color: var(--site-heading);
+  font-weight: 600;
+}
+.center > article em {
+  color: inherit;
+}
+// -----------------------------------------------------------------------------
+// INTERNAL / EXTERNAL LINKS
+// -----------------------------------------------------------------------------
+.center > article a.internal {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.center > article a.external {
+  text-underline-offset: 3px;
+}
+.center > article a.external:hover,
+.center > article a.internal:hover {
+  color: var(--site-primary);
+}
+// -----------------------------------------------------------------------------
+// FOOTNOTES
+// -----------------------------------------------------------------------------
+.center > article .footnotes {
+  margin-top: var(--site-space-8);
+  padding-top: var(--site-space-5);
+  border-top: 1px solid var(--site-border);
+  color: var(--site-muted);
+  font-size: 0.88rem;
+}
+.center > article .footnotes h2 {
+  margin-top: 0;
+  font-family: var(--headerFont);
+  font-size: 1rem;
+  letter-spacing: 0;
+}
+.center > article .footnotes p {
+  font-size: 0.88rem;
+}
+// -----------------------------------------------------------------------------
+// MOBILE
+// -----------------------------------------------------------------------------
+@media all and ($mobile) {
+  .center > article blockquote:not(.callout) {
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: var(--site-space-4);
+    padding-right: var(--site-space-3);
+  }
+  .center > article .callout {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .center > article .table-container {
+    margin-left: calc(var(--site-space-3) * -1);
+    margin-right: calc(var(--site-space-3) * -1);
+    padding-left: var(--site-space-3);
+    padding-right: var(--site-space-3);
+  }
+  .center > article pre {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .center > article img {
+    margin-top: var(--site-space-5);
+    margin-bottom: var(--site-space-5);
+  }
+  .center > article p > img + em {
+    margin-bottom: var(--site-space-5);
+  }
+  .center > article hr {
+    width: 50%;
+    margin-top: var(--site-space-7);
+    margin-bottom: var(--site-space-7);
+  }
+}
