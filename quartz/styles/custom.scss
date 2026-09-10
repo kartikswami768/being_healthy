@@ -655,3 +655,138 @@ footer {
     padding-top: var(--site-space-4);
   }
 }
+
+// -----------------------------------------------------------------------------
+// ARTICLE EXPERIENCE — PASS 1
+// Article header and reading entry point
+// -----------------------------------------------------------------------------
+
+// Keep the article itself visually calm.
+.center > article {
+  color: var(--site-text);
+}
+
+// -----------------------------------------------------------------------------
+// Article title
+// -----------------------------------------------------------------------------
+
+.article-title {
+  max-width: 18ch;
+  margin-bottom: var(--site-space-4);
+}
+
+// -----------------------------------------------------------------------------
+// Article metadata
+// -----------------------------------------------------------------------------
+
+.content-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.65rem;
+
+  margin-top: 0;
+  margin-bottom: var(--site-space-6);
+
+  color: var(--site-muted);
+  font-family: var(--codeFont);
+  font-size: 0.72rem;
+  line-height: 1.5;
+  letter-spacing: 0.015em;
+}
+
+// -----------------------------------------------------------------------------
+// Breadcrumbs
+// -----------------------------------------------------------------------------
+
+.breadcrumb-container {
+  margin-bottom: var(--site-space-3);
+}
+
+.breadcrumb-container a {
+  text-decoration: none;
+}
+
+.breadcrumb-container a:hover {
+  color: var(--site-heading);
+}
+
+// -----------------------------------------------------------------------------
+// Article introduction
+// -----------------------------------------------------------------------------
+
+.center > article > p:first-of-type {
+  margin-top: var(--site-space-5);
+}
+
+// -----------------------------------------------------------------------------
+// Headings inside articles
+// -----------------------------------------------------------------------------
+
+.center > article h2 {
+  position: relative;
+  padding-top: var(--site-space-3);
+}
+
+.center > article h3 {
+  position: relative;
+}
+
+// Don't let headings become visually heavier than the title.
+.center > article h2,
+.center > article h3 {
+  font-weight: 600;
+}
+
+// -----------------------------------------------------------------------------
+// Reading rhythm
+// -----------------------------------------------------------------------------
+
+.center > article p {
+  margin-top: 0;
+  margin-bottom: 1.15em;
+}
+
+.center > article ul,
+.center > article ol {
+  margin-top: 0.5em;
+  margin-bottom: 1.35em;
+}
+
+.center > article li {
+  margin-bottom: 0.35em;
+}
+
+// -----------------------------------------------------------------------------
+// Internal links
+// -----------------------------------------------------------------------------
+
+.center > article a.internal {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition:
+    color var(--site-transition),
+    background-color var(--site-transition);
+}
+
+.center > article a.internal:hover {
+  background: var(--site-highlight);
+}
+
+// -----------------------------------------------------------------------------
+// Mobile
+// -----------------------------------------------------------------------------
+
+@media all and ($mobile) {
+  .article-title {
+    max-width: none;
+  }
+
+  .content-meta {
+    margin-bottom: var(--site-space-5);
+  }
+
+  .center > article h2 {
+    padding-top: var(--site-space-2);
+  }
+}
