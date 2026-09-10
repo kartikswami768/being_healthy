@@ -160,7 +160,7 @@ plugins:
   - source: "@quartz-community/explorer"
     enabled: true
 		options:
-			folderDefaultState: collapsed
+			folderDefaultState: open
 			useSavedState: true
     layout:
       position: left
