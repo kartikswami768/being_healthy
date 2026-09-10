@@ -1,3 +1,206 @@
 @use "./variables.scss" as *;
 
-// put your custom CSS here!
+// -----------------------------------------------------------------------------
+// Notes on Being Human — design foundation
+// -----------------------------------------------------------------------------
+// Quartz owns base.scss. This file is our visual override layer.
+// Keep structural/layout changes out of here for now.
+
+// -----------------------------------------------------------------------------
+// DESIGN TOKENS
+// -----------------------------------------------------------------------------
+
+:root {
+  // Semantic colours
+  --site-canvas: var(--light);
+  --site-surface: color-mix(in srgb, var(--light) 94%, var(--dark) 6%);
+  --site-text: var(--darkgray);
+  --site-heading: var(--dark);
+  --site-muted: color-mix(in srgb, var(--darkgray) 68%, var(--light) 32%);
+  --site-border: var(--lightgray);
+  --site-primary: var(--secondary);
+  --site-accent: var(--tertiary);
+  --site-highlight: var(--highlight);
+
+  // Spacing scale
+  --site-space-1: 0.25rem;  // 4px
+  --site-space-2: 0.5rem;   // 8px
+  --site-space-3: 0.75rem;  // 12px
+  --site-space-4: 1rem;     // 16px
+  --site-space-5: 1.5rem;   // 24px
+  --site-space-6: 2rem;     // 32px
+  --site-space-7: 3rem;     // 48px
+  --site-space-8: 4rem;     // 64px
+  --site-space-9: 6rem;     // 96px
+  --site-space-10: 8rem;    // 128px
+
+  // Shape
+  --site-radius-sm: 4px;
+  --site-radius-md: 6px;
+  --site-radius-lg: 8px;
+
+  // Motion
+  --site-transition: 180ms ease-out;
+
+  // Reading width
+  --site-content-measure: 72ch;
+}
+
+// -----------------------------------------------------------------------------
+// TYPOGRAPHY
+// -----------------------------------------------------------------------------
+
+body {
+  color: var(--site-text);
+  line-height: 1.7;
+  text-rendering: optimizeLegibility;
+}
+
+.center > article {
+  max-width: var(--site-content-measure);
+}
+
+.center p,
+.center li {
+  font-size: 1.05rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--site-heading);
+  letter-spacing: -0.018em;
+  line-height: 1.18;
+}
+
+h1 {
+  font-size: clamp(2.35rem, 5vw, 3.15rem);
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  margin-top: 2.75rem;
+  margin-bottom: 1.25rem;
+}
+
+h2 {
+  font-size: clamp(1.7rem, 3vw, 2.05rem);
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+}
+
+h3 {
+  font-size: clamp(1.3rem, 2vw, 1.5rem);
+  margin-top: 2.25rem;
+  margin-bottom: 0.8rem;
+}
+
+h4,
+h5,
+h6 {
+  margin-top: 1.75rem;
+  margin-bottom: 0.7rem;
+}
+
+// -----------------------------------------------------------------------------
+// LINKS & INTERACTION
+// -----------------------------------------------------------------------------
+
+a {
+  transition:
+    color var(--site-transition),
+    background-color var(--site-transition),
+    border-color var(--site-transition);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--site-primary);
+  outline-offset: 3px;
+}
+
+a.internal {
+  border-radius: var(--site-radius-sm);
+}
+
+// -----------------------------------------------------------------------------
+// EDITORIAL ELEMENTS
+// -----------------------------------------------------------------------------
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--site-border);
+  margin: var(--site-space-7) 0;
+}
+
+blockquote {
+  border-left-width: 2px;
+  padding-left: 1.25rem;
+  color: var(--site-muted);
+}
+
+code {
+  border-radius: var(--site-radius-sm);
+}
+
+pre {
+  border-radius: var(--site-radius-md);
+}
+
+table {
+  border-collapse: collapse;
+}
+
+table th,
+table td {
+  border-bottom: 1px solid var(--site-border);
+}
+
+// -----------------------------------------------------------------------------
+// SELECTION & MOTION
+// -----------------------------------------------------------------------------
+
+::selection {
+  background: var(--site-highlight);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// MOBILE
+// -----------------------------------------------------------------------------
+
+@media all and ($mobile) {
+  .center > article {
+    max-width: none;
+  }
+
+  .center p,
+  .center li {
+    font-size: 1rem;
+  }
+
+  h1 {
+    margin-top: 1.5rem;
+  }
+
+  h2 {
+    margin-top: 2.5rem;
+  }
+}
