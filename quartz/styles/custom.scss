@@ -204,3 +204,192 @@ table td {
     margin-top: 2.5rem;
   }
 }
+
+
+// -----------------------------------------------------------------------------
+// QUARTZ CHROME — PHASE 1B
+// -----------------------------------------------------------------------------
+
+// Keep the left and right rails visually subordinate to the article.
+.left,
+.right {
+  color: var(--site-muted);
+  font-size: 0.92rem;
+}
+
+// -----------------------------------------------------------------------------
+// PROFILE
+// -----------------------------------------------------------------------------
+
+.profile {
+  text-align: left;
+  margin-bottom: var(--site-space-7);
+  padding-bottom: var(--site-space-5);
+  border-bottom: 1px solid var(--site-border);
+}
+
+.profile img {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  margin-bottom: var(--site-space-3);
+}
+
+.profile-name {
+  margin-top: 0;
+  color: var(--site-heading);
+  font-family: var(--headerFont);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+// -----------------------------------------------------------------------------
+// PAGE TITLE / SITE TITLE
+// -----------------------------------------------------------------------------
+
+.page-title {
+  font-family: var(--headerFont);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+// -----------------------------------------------------------------------------
+// EXPLORER
+// -----------------------------------------------------------------------------
+
+.explorer {
+  border-top: 1px solid var(--site-border);
+  padding-top: var(--site-space-4);
+}
+
+.explorer button {
+  font-family: var(--headerFont);
+  font-weight: 600;
+}
+
+.explorer .folder-button,
+.explorer .file-button {
+  transition:
+    color var(--site-transition),
+    background-color var(--site-transition);
+}
+
+// -----------------------------------------------------------------------------
+// TOOLBAR
+// -----------------------------------------------------------------------------
+
+.toolbar {
+  gap: 0.35rem;
+}
+
+.toolbar button,
+.toolbar a {
+  min-width: 36px;
+  min-height: 36px;
+  border-radius: var(--site-radius-md);
+  transition:
+    color var(--site-transition),
+    background-color var(--site-transition);
+}
+
+.toolbar button:hover,
+.toolbar a:hover {
+  background: var(--site-highlight);
+}
+
+// -----------------------------------------------------------------------------
+// SEARCH
+// -----------------------------------------------------------------------------
+
+.search {
+  border-radius: var(--site-radius-md);
+}
+
+.search input {
+  border-radius: var(--site-radius-md);
+}
+
+// -----------------------------------------------------------------------------
+// RIGHT RAIL
+// -----------------------------------------------------------------------------
+
+.right {
+  line-height: 1.5;
+}
+
+.right h3,
+.right h4 {
+  font-family: var(--headerFont);
+  color: var(--site-heading);
+}
+
+// -----------------------------------------------------------------------------
+// BREADCRUMBS
+// -----------------------------------------------------------------------------
+
+.breadcrumb-container {
+  font-family: var(--bodyFont);
+  font-size: 0.82rem;
+  color: var(--site-muted);
+  margin-bottom: var(--site-space-4);
+}
+
+.breadcrumb-container a {
+  color: var(--site-muted);
+}
+
+// -----------------------------------------------------------------------------
+// CONTENT META
+// -----------------------------------------------------------------------------
+
+.content-meta {
+  font-family: var(--codeFont);
+  font-size: 0.72rem;
+  letter-spacing: 0.01em;
+  color: var(--site-muted);
+}
+
+// -----------------------------------------------------------------------------
+// FOOTER
+// -----------------------------------------------------------------------------
+
+footer {
+  border-top: 1px solid var(--site-border);
+  margin-top: var(--site-space-9);
+  padding-top: var(--site-space-5);
+  color: var(--site-muted);
+  font-size: 0.85rem;
+}
+
+// -----------------------------------------------------------------------------
+// DESKTOP RAIL SPACING
+// -----------------------------------------------------------------------------
+
+@media all and ($desktop) {
+  .left,
+  .right {
+    padding-top: var(--site-space-4);
+  }
+}
+
+// -----------------------------------------------------------------------------
+// MOBILE CHROME
+// -----------------------------------------------------------------------------
+
+@media all and ($mobile) {
+  .profile {
+    text-align: left;
+    margin-bottom: var(--site-space-5);
+    padding-bottom: var(--site-space-4);
+  }
+
+  .profile img {
+    width: 56px;
+    height: 56px;
+  }
+
+  footer {
+    margin-top: var(--site-space-8);
+  }
+}
