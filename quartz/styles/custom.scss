@@ -393,3 +393,265 @@ footer {
     margin-top: var(--site-space-8);
   }
 }
+
+// -----------------------------------------------------------------------------
+// QUARTZ CHROME — PASS 2
+// Information architecture and contextual tools
+// -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+// LEFT RAIL — NOTEBOOK INDEX
+// -----------------------------------------------------------------------------
+
+.left {
+  font-size: 0.9rem;
+}
+
+.left .explorer {
+  margin-top: var(--site-space-4);
+}
+
+.left .explorer .title-container {
+  margin-bottom: var(--site-space-3);
+}
+
+.left .explorer .title-container .title {
+  font-family: var(--headerFont);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--site-muted);
+}
+
+.left .explorer-content {
+  line-height: 1.5;
+}
+
+.left .explorer-content a {
+  color: var(--site-muted);
+  transition:
+    color var(--site-transition),
+    background-color var(--site-transition);
+}
+
+.left .explorer-content a:hover {
+  color: var(--site-heading);
+  background: var(--site-highlight);
+}
+
+.left .explorer-content .folder-title {
+  color: var(--site-heading);
+  font-weight: 600;
+}
+
+// Don't make every tree item look like a button.
+.left .explorer-content li {
+  margin: 0.1rem 0;
+}
+
+// -----------------------------------------------------------------------------
+// RIGHT RAIL — CONTEXT, NOT COMPETITION
+// -----------------------------------------------------------------------------
+
+.right {
+  font-size: 0.88rem;
+}
+
+.right .toc,
+.right .backlinks,
+.right .graph {
+  margin-bottom: var(--site-space-7);
+}
+
+// Section headings in the right rail.
+.right .toc > h3,
+.right .backlinks > h3,
+.right .graph > h3 {
+  font-family: var(--headerFont);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--site-muted);
+  margin-bottom: var(--site-space-3);
+}
+
+// -----------------------------------------------------------------------------
+// TABLE OF CONTENTS
+// -----------------------------------------------------------------------------
+
+.right .toc {
+  padding-left: var(--site-space-3);
+  border-left: 1px solid var(--site-border);
+}
+
+.right .toc a {
+  color: var(--site-muted);
+  transition:
+    color var(--site-transition),
+    border-color var(--site-transition);
+}
+
+.right .toc a:hover {
+  color: var(--site-heading);
+}
+
+// -----------------------------------------------------------------------------
+// BACKLINKS
+// -----------------------------------------------------------------------------
+
+.right .backlinks {
+  padding-top: var(--site-space-4);
+  border-top: 1px solid var(--site-border);
+}
+
+.right .backlinks a {
+  color: var(--site-muted);
+}
+
+.right .backlinks a:hover {
+  color: var(--site-primary);
+}
+
+// -----------------------------------------------------------------------------
+// GRAPH
+// -----------------------------------------------------------------------------
+
+.right .graph {
+  padding-top: var(--site-space-4);
+  border-top: 1px solid var(--site-border);
+}
+
+.right .graph > div {
+  opacity: 0.78;
+}
+
+// -----------------------------------------------------------------------------
+// TOOLBAR — QUIET UTILITIES
+// -----------------------------------------------------------------------------
+
+.toolbar {
+  display: flex;
+  align-items: center;
+}
+
+.toolbar button,
+.toolbar a {
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  min-height: 34px;
+  padding: 0;
+  border-radius: var(--site-radius-md);
+}
+
+.toolbar button:hover,
+.toolbar a:hover {
+  background: var(--site-highlight);
+}
+
+// -----------------------------------------------------------------------------
+// SEARCH — MORE EDITORIAL, LESS APPLICATION-LIKE
+// -----------------------------------------------------------------------------
+
+.search {
+  min-height: 34px;
+}
+
+.search input {
+  min-height: 34px;
+  border: 1px solid var(--site-border);
+  background: transparent;
+  transition:
+    border-color var(--site-transition),
+    background-color var(--site-transition);
+}
+
+.search input:focus {
+  border-color: var(--site-primary);
+  background: var(--site-surface);
+}
+
+// -----------------------------------------------------------------------------
+// PAGE TITLE / SITE IDENTITY
+// -----------------------------------------------------------------------------
+
+.page-title {
+  font-size: 1.05rem;
+  line-height: 1.2;
+}
+
+.page-title a {
+  color: var(--site-heading);
+}
+
+// -----------------------------------------------------------------------------
+// BREADCRUMBS — SMALL NAVIGATIONAL CONTEXT
+// -----------------------------------------------------------------------------
+
+.breadcrumb-container {
+  opacity: 0.85;
+}
+
+// -----------------------------------------------------------------------------
+// DESKTOP — GIVE THE ARTICLE VISUAL PRIORITY
+// -----------------------------------------------------------------------------
+
+@media all and ($desktop) {
+  .left {
+    padding-right: var(--site-space-5);
+  }
+
+  .right {
+    padding-left: var(--site-space-5);
+  }
+
+  .center {
+    min-width: 0;
+  }
+
+  .center > article {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// TABLET
+// -----------------------------------------------------------------------------
+
+@media all and ($tablet) {
+  .right {
+    padding-left: var(--site-space-4);
+  }
+}
+
+// -----------------------------------------------------------------------------
+// MOBILE
+// -----------------------------------------------------------------------------
+
+@media all and ($mobile) {
+  .left {
+    font-size: 0.88rem;
+  }
+
+  // Keep the notebook/navigation tools visually secondary on small screens.
+  .left .explorer {
+    border-top: 1px solid var(--site-border);
+    padding-top: var(--site-space-4);
+  }
+
+  .right .toc,
+  .right .backlinks,
+  .right .graph {
+    margin-top: var(--site-space-6);
+  }
+
+  .right .toc {
+    border-left: 0;
+    border-top: 1px solid var(--site-border);
+    padding-left: 0;
+    padding-top: var(--site-space-4);
+  }
+}
