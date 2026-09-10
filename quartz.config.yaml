@@ -159,6 +159,9 @@ plugins:
     enabled: true
   - source: "@quartz-community/explorer"
     enabled: true
+		options:
+			folderDefaultState: collapsed
+			useSavedState: true
     layout:
       position: left
       priority: 50
@@ -177,6 +180,8 @@ plugins:
         grow: true
   - source: "@quartz-community/backlinks"
     enabled: true
+		options:
+			hideWhenEmpty: true
     layout:
       position: right
       priority: 50
