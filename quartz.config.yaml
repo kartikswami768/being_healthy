@@ -180,8 +180,8 @@ plugins:
         grow: true
   - source: "@quartz-community/backlinks"
     enabled: true
-		options:
-			hideWhenEmpty: true
+    options:
+      hideWhenEmpty: true
     layout:
       position: right
       priority: 50
