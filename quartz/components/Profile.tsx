@@ -4,27 +4,24 @@ const Profile: QuartzComponent = () => {
   return (
     <div class="profile">
       <img src="/me.jpg" alt="Dr. Kartik Swami" />
-      <div class="profile-name">Dr. Kartik Swami</div>
+
+      <div class="profile-name">
+        Dr. Kartik Swami
+      </div>
+
+      <div class="profile-role">
+        Medicine · Writing · Being Human
+      </div>
     </div>
   )
 }
 
 Profile.css = `
-.profile {
-  text-align: center;
-  margin-bottom: 1.5rem;
-}
-
-.profile img {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.profile-name {
-  margin-top: 0.6rem;
-  font-weight: 600;
+.profile-role {
+  margin-top: 0.3rem;
+  color: var(--site-muted);
+  font-size: 0.82rem;
+  line-height: 1.4;
 }
 `
 
