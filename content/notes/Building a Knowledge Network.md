@@ -19,3 +19,7 @@ The folders organise the writing. The links connect it.
 That distinction matters: the folder tells us where a page lives; the links tell us how the ideas relate.
 
 For now, the most useful rule is simple: when another piece genuinely helps the reader understand the current one, link to it.
+
+Related writing:
+
+- [[Understanding the Economics of Calories]]
