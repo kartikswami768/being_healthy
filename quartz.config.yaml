@@ -230,6 +230,12 @@ plugins:
     layout:
       position: afterBody
       priority: 30
+  - source: "./quartz/components/ExplorerToggle"
+    enabled: true
+    layout:
+      position: left
+      priority: 1
+      display: tablet
   - source: "@quartz-community/page-title"
     enabled: true
     layout:
