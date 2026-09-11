@@ -67,17 +67,21 @@ const StartHere: QuartzComponent = ({ allFiles, fileData }) => {
 
 StartHere.css = `
 .homepage-start-here {
-  margin-top: var(--site-space-7);
-  padding-top: var(--site-space-5);
+  margin-top: var(--site-space-8);
+  padding-top: var(--site-space-6);
+  padding-bottom: var(--site-space-5);
   border-top: 1px solid var(--site-border);
+  border-bottom: 1px solid var(--site-border);
 }
 
 .homepage-start-here h2 {
   margin-top: 0;
+  margin-bottom: var(--site-space-5);
 }
 
 .homepage-start-here-entry h3 {
   margin-top: 0;
+  font-size: clamp(1.45rem, 2.5vw, 1.8rem);
 }
 
 .homepage-start-here-entry p {
@@ -88,6 +92,9 @@ StartHere.css = `
 .homepage-start-here-read {
   display: inline-block;
   margin-top: var(--site-space-2);
+  color: var(--site-primary);
+  font-family: var(--headerFont);
+  font-weight: 600;
 }
 `
 
