@@ -210,6 +210,11 @@ plugins:
     layout:
       position: afterBody
       priority: 20
+  - source: "./quartz/plugins/navigation"
+    enabled: true
+    layout:
+      position: header
+      priority: 10
   - source: "@quartz-community/page-title"
     enabled: true
     layout:

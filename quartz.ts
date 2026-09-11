@@ -1,7 +1,17 @@
 import { loadQuartzConfig, loadQuartzLayout } from "./quartz/plugins/loader/config-loader"
 import { componentRegistry } from "./quartz/components/registry"
+import Navigation from "./quartz/components/Navigation"
 import Profile from "./quartz/components/Profile"
 import StartHere from "./quartz/components/StartHere"
+
+componentRegistry.register("navigation", Navigation, "local", {
+  name: "navigation",
+  displayName: "Navigation",
+  description: "Displays the primary site navigation.",
+  version: "1.0.0",
+  defaultPosition: "header",
+  defaultPriority: 10,
+})
 
 componentRegistry.register("profile", Profile, "local", {
   name: "profile",
