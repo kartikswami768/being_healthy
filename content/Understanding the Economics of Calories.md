@@ -9,7 +9,7 @@ tags:
   - exercise
   - energy-balance
 related:
-  - [[Building a Knowledge Network]]
+  - "[[Building a Knowledge Network]]"
 draft: false
 ---
 
@@ -108,8 +108,8 @@ Let's look at the weekly time breakdown:
 <div style="background-color: var(--site-surface); padding: 15px; border-radius: 8px; border-left: 4px solid var(--site-primary); margin-bottom: 10px;">
 
 - **Total Hours in a Week**: `168 Hours`
-- **Sleep (8 hrs/day)**: `-56 Hours` &rarr; `112 Hours Left`
-- **Exercise (1 hr/day, 6 days/wk)**: `-6 Hours` &rarr; <span style="color: var(--site-primary); font-weight: bold;">106 Hours Left</span>
+- **Sleep (8 hrs/day)**: `-56 Hours` → `112 Hours Left`
+- **Exercise (1 hr/day, 6 days/wk)**: `-6 Hours` → <span style="color: var(--site-primary); font-weight: bold;">106 Hours Left</span>
 
 </div>
 
