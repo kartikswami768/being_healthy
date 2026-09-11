@@ -43,6 +43,9 @@ const notebookMark = (options: NotebookMarkOptions = {}) => {
 
 .notebook-mark--bracket {
   width: 1rem;
+  margin-top: var(--site-space-3);
+  margin-bottom: var(--site-space-1);
+  margin-left: -0.15rem;
 }
 
 .notebook-mark svg {
@@ -69,6 +72,7 @@ const notebookMark = (options: NotebookMarkOptions = {}) => {
 
   .notebook-mark--bracket {
     width: 0.9rem;
+    margin-top: var(--site-space-2);
   }
 }
 `

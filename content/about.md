@@ -2,8 +2,6 @@
 title: About
 ---
 
-# About
-
 I am Dr. Kartik Swami, a doctor interested in medicine, health, physiology, psychology, and the broader question of what it means to be human.
 
 ## Why I write

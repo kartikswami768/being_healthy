@@ -3,8 +3,6 @@ title: Notes on Being Human
 description: A thoughtful medical notebook about health, the body, the mind, and being human.
 ---
 
-# Notes on Being Human
-
 A place for thinking carefully about health, the body, the mind, and the strange experience of being human.
 
 This writing comes from a doctor interested in understanding medicine beyond memorising facts. The aim is to explain things clearly while taking evidence seriously, and to leave room for the uncertainty that good medicine sometimes requires.
