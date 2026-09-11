@@ -215,6 +215,11 @@ plugins:
     layout:
       position: header
       priority: 10
+  - source: "./quartz/plugins/blog-list"
+    enabled: true
+    layout:
+      position: afterBody
+      priority: 30
   - source: "@quartz-community/page-title"
     enabled: true
     layout:

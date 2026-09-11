@@ -1,8 +1,18 @@
 import { loadQuartzConfig, loadQuartzLayout } from "./quartz/plugins/loader/config-loader"
 import { componentRegistry } from "./quartz/components/registry"
+import BlogList from "./quartz/components/BlogList"
 import Navigation from "./quartz/components/Navigation"
 import Profile from "./quartz/components/Profile"
 import StartHere from "./quartz/components/StartHere"
+
+componentRegistry.register("blog-list", BlogList, "local", {
+  name: "blog-list",
+  displayName: "Blog List",
+  description: "Displays public writing grouped by type on the blog page.",
+  version: "1.0.0",
+  defaultPosition: "afterBody",
+  defaultPriority: 30,
+})
 
 componentRegistry.register("navigation", Navigation, "local", {
   name: "navigation",
