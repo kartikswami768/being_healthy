@@ -8,6 +8,8 @@ tags:
   - metabolism
   - exercise
   - energy-balance
+related:
+  - [[Building a Knowledge Network]]
 draft: false
 ---
 
