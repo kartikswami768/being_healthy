@@ -64,6 +64,9 @@ const StartHere: QuartzComponent = ({ allFiles, fileData }) => {
           Read
         </a>
       </div>
+      <p class="homepage-start-here-network">
+        The writing is meant to grow as a connected set of ideas. <a class="internal internal-link" href={resolveRelative(fileData.slug as FullSlug, "notes/Building a Knowledge Network" as FullSlug)}>See how the network works.</a>
+      </p>
     </section>
   )
 }
@@ -98,6 +101,13 @@ StartHere.css = `
   color: var(--site-primary);
   font-family: var(--headerFont);
   font-weight: 600;
+}
+
+.homepage-start-here-network {
+  max-width: 65ch;
+  margin: var(--site-space-6) 0 0;
+  color: var(--site-muted);
+  font-size: 0.92rem;
 }
 `
 
