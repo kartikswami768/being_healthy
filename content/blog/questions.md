@@ -1,7 +1,4 @@
 ---
 title: Everyday Questions
+description: Questions about health, the body, food, exercise, habits, and things people encounter in ordinary life.
 ---
-
-# Everyday Questions
-
-Questions about health, the body, food, exercise, habits, and things people encounter in ordinary life.
