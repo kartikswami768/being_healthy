@@ -20,6 +20,14 @@ That distinction matters: the folder tells us where a page lives; the links tell
 
 For now, the most useful rule is simple: when another piece genuinely helps the reader understand the current one, link to it.
 
+## As the network grows
+
+Not every page needs to link to everything else. A useful connection should give the reader a reason to continue: a concept explained elsewhere, a related question, a case that adds context, or an idea that naturally follows from the current piece.
+
+The network should therefore grow through writing itself. New links should appear because the relationship is useful, not because the site needs to satisfy a quota.
+
+The practical rule is simple: **link when it helps; leave it alone when it does not.**
+
 Related writing:
 
 - [[Understanding the Economics of Calories]]
