@@ -1,8 +1,11 @@
 import { FullSlug, resolveRelative } from "../util/path"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 
+const writingTypes = new Set(["question", "essay", "case", "note"])
+
 function isPublicWriting(page: QuartzComponentProps["allFiles"][number]): boolean {
   const frontmatter = page.frontmatter as Record<string, unknown> | undefined
+  const type = String(frontmatter?.type ?? "")
   const tags = Array.isArray(frontmatter?.tags) ? frontmatter.tags : []
   const slug = String(page.slug ?? "")
   const filePath = String(page.filePath ?? "")
@@ -12,6 +15,7 @@ function isPublicWriting(page: QuartzComponentProps["allFiles"][number]): boolea
     tags.some((tag) => /^(test|testing|showcase)$/i.test(String(tag)))
 
   return (
+    writingTypes.has(type) &&
     slug !== "index" &&
     !slug.startsWith("tags/") &&
     !slug.endsWith("/index") &&
@@ -22,17 +26,16 @@ function isPublicWriting(page: QuartzComponentProps["allFiles"][number]): boolea
   )
 }
 
-function getDateValue(page: QuartzComponentProps["allFiles"][number]): number {
-  const defaultDateType = String(page.defaultDateType ?? "")
-  const dates = page.dates as Record<string, Date> | undefined
-  return dates?.[defaultDateType]?.getTime() ?? 0
+function getPublishedDate(page: QuartzComponentProps["allFiles"][number]): number {
+  const dates = page.dates as { published?: Date } | undefined
+  return dates?.published?.getTime() ?? 0
 }
 
 const StartHere: QuartzComponent = ({ allFiles, fileData }) => {
   if (fileData.slug !== "index") return null
 
   const page = [...allFiles].filter(isPublicWriting).sort((first, second) => {
-    const dateDifference = getDateValue(second) - getDateValue(first)
+    const dateDifference = getPublishedDate(second) - getPublishedDate(first)
     if (dateDifference !== 0) return dateDifference
 
     const firstTitle = String(first.frontmatter?.title ?? "")
