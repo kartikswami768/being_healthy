@@ -3,11 +3,13 @@ import { Date as DateComponent } from "./Date"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 
 const writingTypes = [
-  { key: "question", title: "Everyday Questions" },
-  { key: "essay", title: "Essays" },
-  { key: "case", title: "Case Stories" },
-  { key: "note", title: "Notes & Observations" },
+  { key: "question", title: "Everyday Questions", slug: "questions" },
+  { key: "essay", title: "Essays", slug: "essays" },
+  { key: "case", title: "Case Stories", slug: "cases" },
+  { key: "note", title: "Notes & Observations", slug: "notes" },
 ] as const
+
+const blogPreviewCount = 5
 
 type BlogPage = QuartzComponentProps["allFiles"][number]
 
@@ -52,6 +54,30 @@ function sortByPublishedDate(first: BlogPage, second: BlogPage): number {
   return firstTitle.localeCompare(secondTitle)
 }
 
+function renderItem(page: BlogPage, from: FullSlug) {
+  const frontmatter = getFrontmatter(page)
+  const title = String(frontmatter.title ?? "Untitled")
+  const description = String(frontmatter.description ?? page.description ?? "").trim()
+  const publishedDate = getPublishedDate(page)
+  const href = resolveRelative(from, page.slug as FullSlug)
+
+  return (
+    <li class="blog-list-item" key={page.slug as string}>
+      <h3>
+        <a class="internal internal-link" href={href}>
+          {title}
+        </a>
+      </h3>
+      {description && <p class="blog-list-description">{description}</p>}
+      {publishedDate && (
+        <p class="blog-list-date">
+          <DateComponent date={publishedDate} locale={"en-US"} />
+        </p>
+      )}
+    </li>
+  )
+}
+
 const BlogList: QuartzComponent = ({ allFiles, fileData }) => {
   if (fileData.slug !== "blog") return null
 
@@ -61,37 +87,30 @@ const BlogList: QuartzComponent = ({ allFiles, fileData }) => {
     <div class="blog-list" aria-label="Writing by type">
       {writingTypes.map((writingType) => {
         const typePages = pages.filter((page) => getFrontmatter(page).type === writingType.key)
+        const previewPages = typePages.slice(0, blogPreviewCount)
+        const hasArchive = typePages.length > blogPreviewCount
+        const archiveHref = resolveRelative(fileData.slug as FullSlug, `blog/${writingType.slug}` as FullSlug)
 
         if (typePages.length === 0) return null
 
         return (
-          <section class="blog-list-section" aria-labelledby={`blog-${writingType.key}`}>
-            <h2 id={`blog-${writingType.key}`}>{writingType.title}</h2>
+          <section class="blog-list-section" aria-labelledby={`blog-${writingType.key}`} key={writingType.key}>
+            <div class="blog-list-section-heading">
+              <h2 id={`blog-${writingType.key}`}>{writingType.title}</h2>
+              {hasArchive && (
+                <a class="blog-list-archive-link internal internal-link" href={archiveHref}>
+                  Browse all
+                </a>
+              )}
+            </div>
             <ul class="blog-list-items">
-              {typePages.map((page) => {
-                const frontmatter = getFrontmatter(page)
-                const title = String(frontmatter.title ?? "Untitled")
-                const description = String(frontmatter.description ?? page.description ?? "").trim()
-                const publishedDate = getPublishedDate(page)
-                const href = resolveRelative(fileData.slug as FullSlug, page.slug as FullSlug)
-
-                return (
-                  <li class="blog-list-item">
-                    <h3>
-                      <a class="internal internal-link" href={href}>
-                        {title}
-                      </a>
-                    </h3>
-                    {description && <p class="blog-list-description">{description}</p>}
-                    {publishedDate && (
-                      <p class="blog-list-date">
-                        <DateComponent date={publishedDate} locale={"en-US"} />
-                      </p>
-                    )}
-                  </li>
-                )
-              })}
+              {previewPages.map((page) => renderItem(page, fileData.slug as FullSlug))}
             </ul>
+            {hasArchive && (
+              <p class="blog-list-more">
+                Showing the {Math.min(blogPreviewCount, typePages.length)} most recent pieces.
+              </p>
+            )}
           </section>
         )
       })}
@@ -115,8 +134,25 @@ BlogList.css = `
   margin-top: 0;
 }
 
+.blog-list-section-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--site-space-4);
+}
+
 .blog-list-section h2 {
   margin-top: 0;
+}
+
+.blog-list-archive-link,
+.blog-list-more {
+  color: var(--site-muted);
+  font-size: 0.9rem;
+}
+
+.blog-list-archive-link {
+  white-space: nowrap;
 }
 
 .blog-list-items {
@@ -143,6 +179,18 @@ BlogList.css = `
   color: var(--site-muted);
   font-family: var(--codeFont);
   font-size: 0.72rem;
+}
+
+.blog-list-more {
+  margin: var(--site-space-2) 0 0;
+}
+
+@media all and (max-width: 600px) {
+  .blog-list-section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: var(--site-space-1);
+  }
 }
 `
 
