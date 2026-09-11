@@ -20,6 +20,21 @@ When we talk about daily calorie burn, we are looking at your **Total Daily Ener
 3. **EAT**: Exercise Activity Thermogenesis
 4. **TEF**: Thermic Effect of Food
 
+<figure class="energy-balance-diagram" aria-labelledby="energy-balance-title">
+<figcaption id="energy-balance-title">A simple way to read the relationship between food energy and daily energy expenditure.</figcaption>
+<div class="energy-balance-flow">
+<div class="energy-balance-step"><strong>Energy intake</strong><span>Energy entering through food and drink</span></div>
+<div class="energy-balance-arrow" aria-hidden="true"><svg viewBox="0 0 24 28" role="presentation"><path d="M12 1v23m-7-7 7 7 7-7" /></svg></div>
+<div class="energy-balance-step"><strong>Energy available</strong><span>Energy remaining after digestion and processing</span></div>
+<div class="energy-balance-arrow" aria-hidden="true"><svg viewBox="0 0 24 28" role="presentation"><path d="M12 1v23m-7-7 7 7 7-7" /></svg></div>
+<div class="energy-balance-step"><strong>Energy expenditure</strong><span>BMR, NEAT, EAT, and TEF</span></div>
+<div class="energy-balance-arrow" aria-hidden="true"><svg viewBox="0 0 24 28" role="presentation"><path d="M12 1v23m-7-7 7 7 7-7" /></svg></div>
+<div class="energy-balance-step energy-balance-step--quiet"><strong>Energy balance</strong><span>The relationship between available energy and expenditure</span></div>
+<div class="energy-balance-arrow" aria-hidden="true"><svg viewBox="0 0 24 28" role="presentation"><path d="M12 1v23m-7-7 7 7 7-7" /></svg></div>
+<div class="energy-balance-step"><strong>Change in stored body energy</strong></div>
+</div>
+</figure>
+
 ---
 
 ## Basal Metabolic Rate (BMR)
