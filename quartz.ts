@@ -2,6 +2,7 @@ import { loadQuartzConfig, loadQuartzLayout } from "./quartz/plugins/loader/conf
 import { componentRegistry } from "./quartz/components/registry"
 import BlogList from "./quartz/components/BlogList"
 import Navigation from "./quartz/components/Navigation"
+import NotebookMark from "./quartz/components/NotebookMark"
 import Profile from "./quartz/components/Profile"
 import StartHere from "./quartz/components/StartHere"
 
@@ -21,6 +22,15 @@ componentRegistry.register("navigation", Navigation, "local", {
   version: "1.0.0",
   defaultPosition: "header",
   defaultPriority: 10,
+})
+
+componentRegistry.register("notebook-mark", NotebookMark, "local", {
+  name: "notebook-mark",
+  displayName: "Notebook Mark",
+  description: "Displays a small notebook-style decorative mark.",
+  version: "1.0.0",
+  defaultPosition: "afterBody",
+  defaultPriority: 15,
 })
 
 componentRegistry.register("profile", Profile, "local", {

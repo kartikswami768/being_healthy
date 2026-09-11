@@ -215,6 +215,11 @@ plugins:
     layout:
       position: header
       priority: 10
+  - source: "./quartz/plugins/notebook-mark"
+    enabled: true
+    layout:
+      position: afterBody
+      priority: 15
   - source: "./quartz/plugins/blog-list"
     enabled: true
     layout:
