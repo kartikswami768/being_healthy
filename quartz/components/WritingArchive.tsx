@@ -10,7 +10,6 @@ const writingTypes = [
 ] as const
 
 type WritingPage = QuartzComponentProps["allFiles"][number]
-
 type WritingType = (typeof writingTypes)[number]
 
 function getFrontmatter(page: WritingPage): Record<string, unknown> {
@@ -63,9 +62,15 @@ const WritingArchive: QuartzComponent = ({ allFiles, fileData }) => {
     .filter((page) => getFrontmatter(page).type === writingType.key)
     .sort(sortByPublishedDate)
 
+  const otherArchives = writingTypes.filter((entry) => entry.key !== writingType.key)
+
   return (
     <div class="writing-archive" aria-label={`${writingType.title} archive`}>
       <p class="writing-archive-description">{writingType.description}</p>
+      <p class="writing-archive-count">
+        {pages.length === 1 ? "1 piece" : `${pages.length} pieces`}
+      </p>
+
       {pages.length > 0 ? (
         <ul class="writing-archive-items">
           {pages.map((page) => {
@@ -95,6 +100,19 @@ const WritingArchive: QuartzComponent = ({ allFiles, fileData }) => {
       ) : (
         <p class="writing-archive-empty">There is nothing here yet.</p>
       )}
+
+      <nav class="writing-archive-navigation" aria-label="Other writing types">
+        <span>More writing</span>
+        {otherArchives.map((entry) => (
+          <a
+            class="writing-archive-navigation-link internal internal-link"
+            href={resolveRelative(fileData.slug as FullSlug, `blog/${entry.slug}` as FullSlug)}
+            key={entry.key}
+          >
+            {entry.title}
+          </a>
+        ))}
+      </nav>
     </div>
   )
 }
@@ -108,6 +126,15 @@ WritingArchive.css = `
 .writing-archive-description {
   max-width: 65ch;
   color: var(--site-muted);
+}
+
+.writing-archive-count {
+  margin: var(--site-space-2) 0 0;
+  color: var(--site-muted);
+  font-family: var(--codeFont);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .writing-archive-items {
@@ -141,6 +168,22 @@ WritingArchive.css = `
 .writing-archive-empty {
   margin-top: var(--site-space-7);
   color: var(--site-muted);
+}
+
+.writing-archive-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--site-space-3) var(--site-space-4);
+  margin-top: var(--site-space-8);
+  padding-top: var(--site-space-5);
+  border-top: 1px solid var(--site-border);
+  color: var(--site-muted);
+  font-size: 0.9rem;
+}
+
+.writing-archive-navigation-link {
+  color: var(--site-heading);
 }
 `
 
