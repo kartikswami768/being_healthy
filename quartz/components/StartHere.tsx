@@ -4,6 +4,7 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 
 const writingTypes = new Set(["question", "essay", "case", "note"])
 const homepageRecentCount = 3
+const startHereTag = "start-here"
 
 type WritingPage = QuartzComponentProps["allFiles"][number]
 
@@ -48,70 +49,86 @@ function sortByPublishedDate(first: WritingPage, second: WritingPage): number {
   return firstTitle.localeCompare(secondTitle)
 }
 
+function isStartHere(page: WritingPage): boolean {
+  const tags = getFrontmatter(page).tags
+  return Array.isArray(tags) && tags.some((tag) => String(tag).toLowerCase() === startHereTag)
+}
+
 const StartHere: QuartzComponent = ({ allFiles, fileData }) => {
   if (fileData.slug !== "index") return null
 
   const pages = [...allFiles].filter(isPublicWriting).sort(sortByPublishedDate)
-  const startPage = pages[0]
-  if (!startPage) return null
-
-  const startFrontmatter = getFrontmatter(startPage)
-  const startTitle = String(startFrontmatter.title ?? "Untitled")
-  const startDescription = String(startFrontmatter.description ?? startPage.description ?? "").trim()
-  const startHref = resolveRelative(fileData.slug as FullSlug, startPage.slug as FullSlug)
-  const recentPages = pages.slice(0, homepageRecentCount)
+  const startPage = pages.find(isStartHere)
+  const recentPages = pages.slice(0, homepageRecentCount).filter((page) => page.slug !== startPage?.slug)
 
   return (
     <section class="homepage-start-here" aria-labelledby="homepage-start-here-title">
-      <div class="homepage-start-here-primary">
-        <h2 id="homepage-start-here-title">Start here</h2>
-        <div class="homepage-start-here-entry">
-          <h3>
-            <a class="internal internal-link" href={startHref}>
-              {startTitle}
-            </a>
-          </h3>
-          {startDescription && <p>{startDescription}</p>}
-          <a class="homepage-start-here-read internal internal-link" href={startHref}>
-            Read
-          </a>
-        </div>
-      </div>
+      {startPage ? (
+        <div class="homepage-start-here-primary">
+          <div class="homepage-section-heading">
+            <h2 id="homepage-start-here-title">Start here</h2>
+          </div>
+          <div class="homepage-start-here-entry">
+            {(() => {
+              const frontmatter = getFrontmatter(startPage)
+              const title = String(frontmatter.title ?? "Untitled")
+              const description = String(frontmatter.description ?? startPage.description ?? "").trim()
+              const href = resolveRelative(fileData.slug as FullSlug, startPage.slug as FullSlug)
 
-      <div class="homepage-recent" aria-labelledby="homepage-recent-title">
-        <div class="homepage-section-heading">
-          <h2 id="homepage-recent-title">Recent writing</h2>
-          <a class="homepage-section-link internal internal-link" href={resolveRelative(fileData.slug as FullSlug, "blog" as FullSlug)}>
-            Browse all
-          </a>
-        </div>
-        <ol class="homepage-recent-list">
-          {recentPages.map((page) => {
-            const frontmatter = getFrontmatter(page)
-            const title = String(frontmatter.title ?? "Untitled")
-            const description = String(frontmatter.description ?? page.description ?? "").trim()
-            const publishedDate = (page.dates as { published?: Date } | undefined)?.published
-            const href = resolveRelative(fileData.slug as FullSlug, page.slug as FullSlug)
-
-            return (
-              <li class="homepage-recent-item" key={page.slug as string}>
-                <div>
+              return (
+                <>
                   <h3>
                     <a class="internal internal-link" href={href}>
                       {title}
                     </a>
                   </h3>
                   {description && <p>{description}</p>}
-                </div>
-                {publishedDate && <DateComponent date={publishedDate} locale={"en-US"} />}
-              </li>
-            )
-          })}
-        </ol>
-      </div>
+                  <a class="homepage-start-here-read internal internal-link" href={href}>
+                    Read
+                  </a>
+                </>
+              )
+            })()}
+          </div>
+        </div>
+      ) : null}
+
+      {recentPages.length > 0 && (
+        <div class="homepage-recent" aria-labelledby="homepage-recent-title">
+          <div class="homepage-section-heading">
+            <h2 id="homepage-recent-title">Recent writing</h2>
+            <a class="homepage-section-link internal internal-link" href={resolveRelative(fileData.slug as FullSlug, "blog" as FullSlug)}>
+              Browse all
+            </a>
+          </div>
+          <ol class="homepage-recent-list">
+            {recentPages.map((page) => {
+              const frontmatter = getFrontmatter(page)
+              const title = String(frontmatter.title ?? "Untitled")
+              const description = String(frontmatter.description ?? page.description ?? "").trim()
+              const publishedDate = (page.dates as { published?: Date } | undefined)?.published
+              const href = resolveRelative(fileData.slug as FullSlug, page.slug as FullSlug)
+
+              return (
+                <li class="homepage-recent-item" key={page.slug as string}>
+                  <div>
+                    <h3>
+                      <a class="internal internal-link" href={href}>
+                        {title}
+                      </a>
+                    </h3>
+                    {description && <p>{description}</p>}
+                  </div>
+                  {publishedDate && <DateComponent date={publishedDate} locale={"en-US"} />}
+                </li>
+              )
+            })}
+          </ol>
+        </div>
+      )}
 
       <p class="homepage-start-here-network">
-        The writing is meant to grow as a connected set of ideas. <a class="internal internal-link" href={resolveRelative(fileData.slug as FullSlug, "notes/Building a Knowledge Network" as FullSlug)}>See how the network works.</a>
+        The writing is meant to grow as a connected set of ideas. <a class="internal internal-link" href={resolveRelative(fileData.slug as FullSlug, "notes/building-a-knowledge-network" as FullSlug)}>See how the network works.</a>
       </p>
     </section>
   )
@@ -119,20 +136,20 @@ const StartHere: QuartzComponent = ({ allFiles, fileData }) => {
 
 StartHere.css = `
 .homepage-start-here {
-  margin-top: var(--site-space-8);
-  padding-top: var(--site-space-6);
+  margin-top: var(--site-space-7);
+  padding-top: var(--site-space-5);
   padding-bottom: var(--site-space-5);
   border-top: 1px solid var(--site-border);
   border-bottom: 1px solid var(--site-border);
 }
 
 .homepage-start-here-primary {
-  padding-bottom: var(--site-space-6);
+  padding-bottom: var(--site-space-5);
 }
 
 .homepage-start-here h2 {
   margin-top: 0;
-  margin-bottom: var(--site-space-5);
+  margin-bottom: var(--site-space-4);
 }
 
 .homepage-start-here-entry h3 {
@@ -154,7 +171,7 @@ StartHere.css = `
 }
 
 .homepage-recent {
-  padding-top: var(--site-space-6);
+  padding-top: var(--site-space-5);
   border-top: 1px solid var(--site-border);
 }
 
@@ -204,7 +221,7 @@ StartHere.css = `
 
 .homepage-start-here-network {
   max-width: 65ch;
-  margin: var(--site-space-6) 0 0;
+  margin: var(--site-space-5) 0 0;
   color: var(--site-muted);
   font-size: 0.92rem;
 }
