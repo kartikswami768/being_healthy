@@ -1,6 +1,7 @@
 import { loadQuartzConfig, loadQuartzLayout } from "./quartz/plugins/loader/config-loader"
 import { componentRegistry } from "./quartz/components/registry"
 import BlogList from "./quartz/components/BlogList"
+import ExplorerToggle from "./quartz/components/ExplorerToggle"
 import Navigation from "./quartz/components/Navigation"
 import NotebookMark from "./quartz/components/NotebookMark"
 import Profile from "./quartz/components/Profile"
@@ -14,6 +15,15 @@ componentRegistry.register("blog-list", BlogList, "local", {
   version: "1.0.0",
   defaultPosition: "afterBody",
   defaultPriority: 30,
+})
+
+componentRegistry.register("explorer-toggle", ExplorerToggle, "local", {
+  name: "explorer-toggle",
+  displayName: "Explorer Toggle",
+  description: "Provides a persistent way to reopen the notebook explorer on tablet layouts.",
+  version: "1.0.0",
+  defaultPosition: "left",
+  defaultPriority: 1,
 })
 
 componentRegistry.register("navigation", Navigation, "local", {
@@ -46,7 +56,7 @@ componentRegistry.register("profile", Profile, "local", {
 componentRegistry.register("start-here", StartHere, "local", {
   name: "start-here",
   displayName: "Start Here",
-  description: "Displays the first public piece of writing on the homepage.",
+  description: "Displays the explicitly marked starting point and recent writing on the homepage.",
   version: "1.0.0",
   defaultPosition: "afterBody",
   defaultPriority: 20,
