@@ -5,13 +5,9 @@ const Profile: QuartzComponent = () => {
     <div class="profile">
       <img src="/me.jpg" alt="Dr. Kartik Swami" />
 
-      <div class="profile-name">
-        Dr. Kartik Swami
-      </div>
+      <div class="profile-name">Dr. Kartik Swami</div>
 
-      <div class="profile-role">
-        Medicine · Writing · Being Human
-      </div>
+      <div class="profile-role">Medicine · Writing · Being Human</div>
     </div>
   )
 }
@@ -22,6 +18,12 @@ Profile.css = `
   color: var(--site-muted);
   font-size: 0.82rem;
   line-height: 1.4;
+}
+
+.profile-name {
+  color: var(--site-heading);
+  font-family: var(--headerFont);
+  font-weight: 600;
 }
 `
 

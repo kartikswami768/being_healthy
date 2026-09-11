@@ -23,16 +23,16 @@
   --site-highlight: var(--highlight);
 
   // Spacing scale
-  --site-space-1: 0.25rem;  // 4px
-  --site-space-2: 0.5rem;   // 8px
-  --site-space-3: 0.75rem;  // 12px
-  --site-space-4: 1rem;     // 16px
-  --site-space-5: 1.5rem;   // 24px
-  --site-space-6: 2rem;     // 32px
-  --site-space-7: 3rem;     // 48px
-  --site-space-8: 4rem;     // 64px
-  --site-space-9: 6rem;     // 96px
-  --site-space-10: 8rem;    // 128px
+  --site-space-1: 0.25rem; // 4px
+  --site-space-2: 0.5rem; // 8px
+  --site-space-3: 0.75rem; // 12px
+  --site-space-4: 1rem; // 16px
+  --site-space-5: 1.5rem; // 24px
+  --site-space-6: 2rem; // 32px
+  --site-space-7: 3rem; // 48px
+  --site-space-8: 4rem; // 64px
+  --site-space-9: 6rem; // 96px
+  --site-space-10: 8rem; // 128px
 
   // Shape
   --site-radius-sm: 4px;
@@ -205,7 +205,6 @@ table td {
   }
 }
 
-
 // -----------------------------------------------------------------------------
 // QUARTZ CHROME — PHASE 1B
 // -----------------------------------------------------------------------------
@@ -223,8 +222,8 @@ table td {
 
 .profile {
   text-align: left;
-  margin-bottom: var(--site-space-7);
-  padding-bottom: var(--site-space-5);
+  margin-top: var(--site-space-8);
+  padding-top: var(--site-space-4);
   border-bottom: 1px solid var(--site-border);
 }
 
@@ -239,7 +238,7 @@ table td {
   margin-top: 0;
   color: var(--site-heading);
   font-family: var(--headerFont);
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 600;
   letter-spacing: -0.01em;
 }
@@ -356,8 +355,8 @@ table td {
 
 footer {
   border-top: 1px solid var(--site-border);
-  margin-top: var(--site-space-9);
-  padding-top: var(--site-space-5);
+  margin-top: var(--site-space-8);
+  padding-top: var(--site-space-4);
   color: var(--site-muted);
   font-size: 0.85rem;
 }
@@ -461,7 +460,7 @@ footer {
 .right .toc,
 .right .backlinks,
 .right .graph {
-  margin-bottom: var(--site-space-7);
+  margin-bottom: var(--site-space-6);
 }
 
 // Section headings in the right rail.
