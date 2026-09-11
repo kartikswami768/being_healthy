@@ -1,6 +1,7 @@
 import { loadQuartzConfig, loadQuartzLayout } from "./quartz/plugins/loader/config-loader"
 import { componentRegistry } from "./quartz/components/registry"
 import Profile from "./quartz/components/Profile"
+import StartHere from "./quartz/components/StartHere"
 
 componentRegistry.register("profile", Profile, "local", {
   name: "profile",
@@ -9,6 +10,15 @@ componentRegistry.register("profile", Profile, "local", {
   version: "1.0.0",
   defaultPosition: "left",
   defaultPriority: 5,
+})
+
+componentRegistry.register("start-here", StartHere, "local", {
+  name: "start-here",
+  displayName: "Start Here",
+  description: "Displays the first public piece of writing on the homepage.",
+  version: "1.0.0",
+  defaultPosition: "afterBody",
+  defaultPriority: 20,
 })
 
 const config = await loadQuartzConfig()

@@ -1,30 +1,17 @@
 ---
-title: Welcome
+title: Notes on Being Human
+description: A thoughtful medical notebook about health, the body, the mind, and being human.
 ---
 
 # Notes on Being Human
 
-A place for thinking about health, the body, the mind, and the strange experience of being human.
+A place for thinking carefully about health, the body, the mind, and the strange experience of being human.
 
-This is a collection of notes, observations, and things I find worth understanding.
+This writing comes from a doctor interested in understanding medicine beyond memorising facts. The aim is to explain things clearly while taking evidence seriously, and to leave room for the uncertainty that good medicine sometimes requires.
 
 ## What you'll find here
 
-- **Health** — the body, disease, prevention, and the things we do to stay healthy.
-- **Nutrition** — food, metabolism, diets, and what actually matters.
-- **Mind** — mental health, behaviour, habits, and how our minds work.
-- **Being Human** — the less measurable parts of life: experiences, observations, and questions.
-
-I don't want this to be a collection of absolute answers.
-
-Medicine changes. Evidence changes. And sometimes, the more you learn about something, the less certain you become.
-
-So these are **notes, not commandments**.
-
-I'll try to separate what we know from what we think we know—and occasionally from what I simply find interesting.
-
-## Start exploring
-
-You can browse the notes using the navigation, or start with the latest posts.
-
-> *Understand the body. Question the mind. Stay curious.*
+- **Everyday Questions** — questions about health, the body, food, exercise, habits, and things people encounter in ordinary life.
+- **Essays** — longer explorations of health, medicine, psychology, behaviour, and ideas that deserve more than a quick answer.
+- **Case Stories** — interesting medical cases and the reasoning behind them: what makes them puzzling, instructive, or memorable.
+- **Notes & Observations** — shorter thoughts, observations, and pieces of learning that do not need to become a full essay.
