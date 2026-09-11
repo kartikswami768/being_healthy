@@ -225,6 +225,11 @@ plugins:
     layout:
       position: afterBody
       priority: 30
+  - source: "./quartz/plugins/writing-archive"
+    enabled: true
+    layout:
+      position: afterBody
+      priority: 30
   - source: "@quartz-community/page-title"
     enabled: true
     layout:

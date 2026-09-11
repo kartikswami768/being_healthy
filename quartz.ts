@@ -5,11 +5,12 @@ import Navigation from "./quartz/components/Navigation"
 import NotebookMark from "./quartz/components/NotebookMark"
 import Profile from "./quartz/components/Profile"
 import StartHere from "./quartz/components/StartHere"
+import WritingArchive from "./quartz/components/WritingArchive"
 
 componentRegistry.register("blog-list", BlogList, "local", {
   name: "blog-list",
   displayName: "Blog List",
-  description: "Displays public writing grouped by type on the blog page.",
+  description: "Displays recent public writing grouped by type on the blog page.",
   version: "1.0.0",
   defaultPosition: "afterBody",
   defaultPriority: 30,
@@ -49,6 +50,15 @@ componentRegistry.register("start-here", StartHere, "local", {
   version: "1.0.0",
   defaultPosition: "afterBody",
   defaultPriority: 20,
+})
+
+componentRegistry.register("writing-archive", WritingArchive, "local", {
+  name: "writing-archive",
+  displayName: "Writing Archive",
+  description: "Displays a complete archive for one writing type.",
+  version: "1.0.0",
+  defaultPosition: "afterBody",
+  defaultPriority: 30,
 })
 
 const config = await loadQuartzConfig()
