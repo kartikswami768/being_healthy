@@ -47,8 +47,8 @@ This is the amount of energy our body needs to maintain our body structure.
 
 Our body contains two main dynamic tissues that can grow or shrink considerably during our lifetime:
 
-- <mark style="background-color: rgba(76, 175, 80, 0.25); color: inherit; padding: 2px 4px; border-radius: 4px;">Muscle Tissue</mark>: The more metabolically active tissue per kilogram.
-- <mark style="background-color: rgba(244, 67, 54, 0.25); color: inherit; padding: 2px 4px; border-radius: 4px;">Adipose Tissue</mark>: The less metabolically active tissue per kilogram.
+- <mark style="background-color: var(--site-highlight); color: inherit; padding: 2px 4px; border-radius: 4px;">Muscle Tissue</mark>: The more metabolically active tissue per kilogram.
+- <mark style="background-color: var(--site-highlight); color: inherit; padding: 2px 4px; border-radius: 4px;">Adipose Tissue</mark>: The less metabolically active tissue per kilogram.
 
 Here, the muscle tissue is the **luxury component** of your body. It raises the value of parts of your car and thus its maintenance cost.
 
@@ -67,11 +67,11 @@ Among the major macros, **protein has the highest thermic effect** (almost twice
 
 ### Macronutrient Breakdown
 
-| Macro             | Estimated TEF                                                    |
-| :---------------- | :--------------------------------------------------------------- |
-| **Protein**       | <span style="color: #4CAF50; font-weight: bold;">20 – 30%</span> |
-| **Carbohydrates** | <span style="color: #FF9800; font-weight: bold;">5 – 10%</span>  |
-| **Fats**          | <span style="color: #F44336; font-weight: bold;">0 – 3%</span>   |
+| Macro             | Estimated TEF                                                                |
+| :---------------- | :--------------------------------------------------------------------------- |
+| **Protein**       | <span style="color: var(--site-heading); font-weight: bold;">20 – 30%</span> |
+| **Carbohydrates** | <span style="color: var(--site-heading); font-weight: bold;">5 – 10%</span>  |
+| **Fats**          | <span style="color: var(--site-heading); font-weight: bold;">0 – 3%</span>   |
 
 ### Protein Energy Stages
 
@@ -103,11 +103,11 @@ Among the major macros, **protein has the highest thermic effect** (almost twice
 
 Let's look at the weekly time breakdown:
 
-<div style="background-color: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 8px; border-left: 4px solid #2196F3; margin-bottom: 10px;">
+<div style="background-color: var(--site-surface); padding: 15px; border-radius: 8px; border-left: 4px solid var(--site-primary); margin-bottom: 10px;">
 
 - **Total Hours in a Week**: `168 Hours`
 - **Sleep (8 hrs/day)**: `-56 Hours` &rarr; `112 Hours Left`
-- **Exercise (1 hr/day, 6 days/wk)**: `-6 Hours` &rarr; <span style="color: #2196F3; font-weight: bold;">106 Hours Left</span>
+- **Exercise (1 hr/day, 6 days/wk)**: `-6 Hours` &rarr; <span style="color: var(--site-primary); font-weight: bold;">106 Hours Left</span>
 
 </div>
 
