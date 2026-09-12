@@ -97,7 +97,10 @@ const StartHere: QuartzComponent = ({ allFiles, fileData }) => {
         <div class="homepage-recent" aria-labelledby="homepage-recent-title">
           <div class="homepage-section-heading">
             <h2 id="homepage-recent-title">Recent writing</h2>
-            <a class="homepage-section-link internal internal-link" href={resolveRelative(fileData.slug as FullSlug, "blog" as FullSlug)}>
+            <a
+              class="homepage-section-link internal internal-link"
+              href={resolveRelative(fileData.slug as FullSlug, "blog" as FullSlug)}
+            >
               Browse all
             </a>
           </div>
@@ -128,7 +131,12 @@ const StartHere: QuartzComponent = ({ allFiles, fileData }) => {
       )}
 
       <p class="homepage-start-here-network">
-        The writing is meant to grow as a connected set of ideas. <a class="internal internal-link" href={resolveRelative(fileData.slug as FullSlug, "notes/building-a-knowledge-network" as FullSlug)}>See how the network works.</a>
+        The writing is meant to grow as a connected set of ideas. <a
+          class="internal internal-link"
+          href={resolveRelative(fileData.slug as FullSlug, "notes/building-a-knowledge-network" as FullSlug)}
+        >
+          See how the network works.
+        </a>
       </p>
     </section>
   )
