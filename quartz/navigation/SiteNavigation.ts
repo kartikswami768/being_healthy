@@ -25,22 +25,7 @@ function isPublicWriting(file: QuartzPluginData): boolean {
   const slug = String(file.slug ?? "")
   const frontmatter = file.frontmatter as Record<string, any> | undefined
   const type = frontmatter?.type
-  const tags = Array.isArray(frontmatter?.tags) ? frontmatter.tags : []
 
-  return (
-    Boolean(slug) &&
-    !frontmatter?.draft &&
-    !frontmatter?.unlisted &&
-    writingTypes.some((entry) => entry.type === type) &&
-    !slug.startsWith("blog/") ||
-    false
-  )
-}
-
-function isPublicWritingCorrected(file: QuartzPluginData): boolean {
-  const slug = String(file.slug ?? "")
-  const frontmatter = file.frontmatter as Record<string, any> | undefined
-  const type = frontmatter?.type
   return (
     Boolean(slug) &&
     !frontmatter?.draft &&
@@ -74,7 +59,7 @@ export function buildSiteNavigation(
   currentSlug = "",
 ): SiteNavigation {
   const current = String(currentSlug).replace(/^\//, "")
-  const files = allFiles.filter(isPublicWritingCorrected)
+  const files = allFiles.filter(isPublicWriting)
 
   const primary: NavigationLink[] = [
     { label: "Home", href: "/", current: current === "index" },
@@ -119,8 +104,4 @@ export function buildSiteNavigation(
     }))
 
   return { primary, writing, topics: topicLinks, startHere, recent }
-}
-
-export function isPublicWritingFile(file: QuartzPluginData): boolean {
-  return isPublicWritingCorrected(file)
 }
