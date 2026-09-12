@@ -25,6 +25,16 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: ${{ github.event.workflow_run.id }}
 
+      - name: Write Wrangler configuration
+        run: |
+          cat > build/wrangler.toml <<'EOF'
+          name = "being-healthy-preview"
+          compatibility_date = "2026-09-11"
+
+          [assets]
+          directory = "./"
+          EOF
+
       - name: Install Wrangler
         run: npm install --global wrangler
 
