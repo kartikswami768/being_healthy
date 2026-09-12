@@ -32,18 +32,37 @@ const MobileHeader: QuartzComponent = (props: MobileHeaderProps) => {
 
 MobileHeader.css = `
 .mobile-header {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  align-items: center;
+}
+
+.mobile-header-profile,
+.mobile-header-utilities,
+.mobile-header-divider {
   display: none;
+}
+
+.mobile-header-toolbar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+}
+
+.mobile-header-toolbar > .primary-navigation {
+  margin-left: auto;
 }
 
 @media all and (max-width: 800px) {
   .mobile-header {
-    display: flex;
     flex-direction: column;
-    width: 100%;
     gap: 1.25rem;
   }
 
   .mobile-header-profile {
+    display: block;
     width: 100%;
   }
 
@@ -58,11 +77,7 @@ MobileHeader.css = `
   }
 
   .mobile-header-toolbar {
-    display: flex;
-    align-items: center;
-    width: 100%;
     gap: 1rem;
-    min-width: 0;
   }
 
   .mobile-header-utilities {
@@ -72,6 +87,7 @@ MobileHeader.css = `
   }
 
   .mobile-header-divider {
+    display: block;
     width: 1px;
     height: 1.5rem;
     flex: 0 0 auto;
