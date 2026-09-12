@@ -78,6 +78,7 @@ MobileHeader.css = `
 
   .mobile-header-toolbar {
     gap: 0.75rem;
+    justify-content: flex-start;
   }
 
   .mobile-header-utilities {
@@ -99,8 +100,8 @@ MobileHeader.css = `
     width: auto;
     min-width: 0;
     margin-left: 0;
-    justify-content: flex-end;
-    flex: 1 1 auto;
+    justify-content: flex-start;
+    flex: 0 0 auto;
   }
 
   .mobile-header-toolbar .primary-navigation-links {
