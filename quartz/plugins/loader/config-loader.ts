@@ -251,7 +251,10 @@ export async function loadQuartzConfig(
     const manifest = manifests.get(sourceKey(entry.source))
     const category = manifest?.category
     const processingCategories = ["transformer", "filter", "emitter", "pageType"] as const
-    const categoryMap: Record<string, { entry: PluginJsonEntry; manifest: PluginManifest | undefined }[]> = {
+    const categoryMap: Record<
+      string,
+      { entry: PluginJsonEntry; manifest: PluginManifest | undefined }[]
+    > = {
       transformer: transformers,
       filter: filters,
       emitter: emitters,
@@ -596,18 +599,33 @@ export function buildLayoutForEntries(
       const tsOverrides = componentRegistry.getOptionOverrides(name)
       const opts = { ...entry.options, ...tsOverrides }
       const optsArg = Object.keys(opts).length > 0 ? opts : undefined
-      component = componentRegistry.instantiate(reg.component as QuartzComponentConstructor, optsArg)
+      component = componentRegistry.instantiate(
+        reg.component as QuartzComponentConstructor,
+        optsArg,
+      )
     } else component = reg.component as QuartzComponent
-    if (layout.display && layout.display !== "all") component = applyDisplayWrapper(component, layout.display)
+    if (layout.display && layout.display !== "all")
+      component = applyDisplayWrapper(component, layout.display)
     if (layout.condition) component = applyConditionWrapper(component, layout.condition)
     const posArray = positions[layout.position]
-    if (posArray) posArray.push({ component, priority: layout.priority, group: layout.group, groupOptions: layout.groupOptions })
+    if (posArray)
+      posArray.push({
+        component,
+        priority: layout.priority,
+        group: layout.group,
+        groupOptions: layout.groupOptions,
+      })
   }
   for (const entry of entries) {
     if (!entry.enabled || entry.layout) continue
     const name = extractPluginName(entry.source)
-    const registered = componentRegistry.get(name) ?? componentRegistry.get(`${formatSourceDisplay(entry.source)}/${name}`)
-    const pascalName = name.split("-").map((s) => s.charAt(0).toUpperCase() + s.slice(1)).join("")
+    const registered =
+      componentRegistry.get(name) ??
+      componentRegistry.get(`${formatSourceDisplay(entry.source)}/${name}`)
+    const pascalName = name
+      .split("-")
+      .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+      .join("")
     const reg = registered ?? componentRegistry.get(pascalName)
     if (!reg) continue
     const layoutDefaults = reg.manifest
@@ -620,7 +638,10 @@ export function buildLayoutForEntries(
       const tsOverrides = componentRegistry.getOptionOverrides(name)
       const opts = { ...entry.options, ...tsOverrides }
       const optsArg = Object.keys(opts).length > 0 ? opts : undefined
-      component = componentRegistry.instantiate(reg.component as QuartzComponentConstructor, optsArg)
+      component = componentRegistry.instantiate(
+        reg.component as QuartzComponentConstructor,
+        optsArg,
+      )
     } else component = reg.component as QuartzComponent
     posArray.push({ component, priority: layoutDefaults?.defaultPriority ?? 50 })
   }
@@ -656,7 +677,15 @@ export function buildLayoutForEntries(
           align: m.groupOptions?.align,
           justify: m.groupOptions?.justify,
         }))
-        entries.push({ priority: item.priority, component: Flex({ components: flexComponents, direction: groupConfig.direction ?? "row", wrap: groupConfig.wrap, gap: groupConfig.gap ?? "1rem" }) as QuartzComponent })
+        entries.push({
+          priority: item.priority,
+          component: Flex({
+            components: flexComponents,
+            direction: groupConfig.direction ?? "row",
+            wrap: groupConfig.wrap,
+            gap: groupConfig.gap ?? "1rem",
+          }) as QuartzComponent,
+        })
       } else entries.push({ priority: item.priority, component: item.component })
     }
     entries.sort((a, b) => a.priority - b.priority)
