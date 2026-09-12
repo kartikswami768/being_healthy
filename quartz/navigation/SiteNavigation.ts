@@ -1,4 +1,5 @@
 import type { QuartzPluginData } from "../plugins/vfile"
+import { writingTypes } from "./WritingTypes"
 
 export type NavigationLink = {
   label: string
@@ -13,13 +14,6 @@ export type SiteNavigation = {
   recent: NavigationLink[]
 }
 
-const writingTypes = [
-  { type: "essay", label: "Essays", href: "/blog/essays" },
-  { type: "question", label: "Questions", href: "/blog/questions" },
-  { type: "case", label: "Cases", href: "/blog/cases" },
-  { type: "note", label: "Notes", href: "/blog/notes" },
-]
-
 function isPublicWriting(file: QuartzPluginData): boolean {
   const slug = String(file.slug ?? "")
   const frontmatter = file.frontmatter as Record<string, any> | undefined
@@ -29,7 +23,7 @@ function isPublicWriting(file: QuartzPluginData): boolean {
     Boolean(slug) &&
     !frontmatter?.draft &&
     !frontmatter?.unlisted &&
-    writingTypes.some((entry) => entry.type === type) &&
+    writingTypes.some((entry) => entry.key === type) &&
     slug !== "index" &&
     !slug.startsWith("blog/")
   )
@@ -66,9 +60,11 @@ export function buildSiteNavigation(
     { label: "About", href: "/about", current: current === "about" || current === "about/index" },
   ]
 
-  const writing: NavigationLink[] = writingTypes
-    .filter(({ type }) => files.some((file) => (file.frontmatter as any)?.type === type))
-    .map(({ label, href }) => ({ label, href, current: current === href.slice(1) }))
+  const writing: NavigationLink[] = writingTypes.map(({ title, slug }) => ({
+    label: title,
+    href: `/blog/${slug}`,
+    current: current === `blog/${slug}`,
+  }))
 
   const recent = [...files]
     .sort((a, b) => dateFor(b) - dateFor(a))
