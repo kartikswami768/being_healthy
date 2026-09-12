@@ -89,17 +89,10 @@ function localComponent(name: string) {
 
 const existingHeader = loadedLayout.defaults.header ?? []
 const existingLeft = loadedLayout.defaults.left ?? []
-const navigation = localComponent("navigation")
 const mobileHeader = localComponent("mobile-header")
 const profile = localComponent("profile")
 
-const mobileSidebar = existingLeft.filter((component) => component !== profile)
-
-loadedLayout.defaults.header = [
-  mobileHeader,
-  ...existingHeader.filter((component) => component !== navigation),
-]
-
-loadedLayout.defaults.left = [profile, ...mobileSidebar]
+loadedLayout.defaults.header = [mobileHeader, ...existingHeader]
+loadedLayout.defaults.left = [profile, ...existingLeft.filter((component) => component !== profile)]
 
 export const layout = loadedLayout
