@@ -7,7 +7,6 @@ on:
 
 jobs:
   build-preview:
-    if: ${{ github.repository == 'jackyzha0/quartz' }}
     runs-on: ubuntu-latest
     name: Build Preview
     steps:
@@ -36,7 +35,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-plugins-
 
-      - run: npm install
+      - name: Install dependencies
+        run: npm install
 
       - name: Install Quartz plugins
         run: npx quartz plugin install
@@ -44,8 +44,8 @@ jobs:
       - name: Check types and style
         run: npm run check
 
-      - name: Build Quartz
-        run: npx quartz build -d docs -v
+      - name: Build site
+        run: npx quartz build
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v7
