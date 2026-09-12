@@ -10,6 +10,10 @@ export interface ComponentManifest {
   homepage?: string
   defaultPosition?: string
   defaultPriority?: number
+  /** Explicitly opt this local component into automatic page layout assembly. */
+  layoutManaged?: boolean
+  /** Role used when composing the dedicated mobile header. */
+  mobileHeaderRole?: "profile" | "navigation"
 }
 
 export interface RegisteredComponent {
