@@ -15,6 +15,7 @@ componentRegistry.register("blog-list", BlogList, "local", {
   version: "1.0.0",
   defaultPosition: "afterBody",
   defaultPriority: 30,
+  layoutManaged: true,
 })
 
 componentRegistry.register("mobile-header", MobileHeader, "local", {
@@ -64,6 +65,7 @@ componentRegistry.register("start-here", StartHere, "local", {
   version: "1.0.0",
   defaultPosition: "afterBody",
   defaultPriority: 20,
+  layoutManaged: true,
 })
 
 componentRegistry.register("writing-archive", WritingArchive, "local", {
@@ -73,6 +75,7 @@ componentRegistry.register("writing-archive", WritingArchive, "local", {
   version: "1.0.0",
   defaultPosition: "afterBody",
   defaultPriority: 30,
+  layoutManaged: true,
 })
 
 export default await loadQuartzConfig()
