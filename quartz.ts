@@ -1,4 +1,4 @@
-import { loadQuartzConfig } from "./quartz/plugins/loader/config-loader"
+import { loadQuartzConfig, loadQuartzLayout } from "./quartz/plugins/loader/config-loader"
 import { componentRegistry } from "./quartz/components/registry"
 import BlogList from "./quartz/components/BlogList"
 import MobileHeader from "./quartz/components/MobileHeader"
@@ -76,3 +76,4 @@ componentRegistry.register("writing-archive", WritingArchive, "local", {
 })
 
 export default await loadQuartzConfig()
+export const layout = await loadQuartzLayout()
