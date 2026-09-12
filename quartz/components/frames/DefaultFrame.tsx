@@ -19,6 +19,9 @@ export const DefaultFrame: PageFrame = {
     right,
     footer,
   }: PageFrameProps) {
+    const mobileHeader = header.find((component) => component === header[0])
+    const mobileSidebar = left.filter((component) => component !== left[0])
+
     return (
       <>
         <div class="left sidebar" aria-label="Notebook sidebar">
@@ -31,8 +34,12 @@ export const DefaultFrame: PageFrame = {
         <div class="center">
           <div class="page-header">
             <Header {...componentData}>
-              {header.map((HeaderComponent) => (
-                <HeaderComponent {...componentData} />
+              {header.map((HeaderComponent, index) => (
+                <HeaderComponent {...componentData}>
+                  {index === 0 && mobileSidebar.map((BodyComponent) => (
+                    <BodyComponent {...componentData} />
+                  ))}
+                </HeaderComponent>
               ))}
             </Header>
             <div class="popover-hint">
