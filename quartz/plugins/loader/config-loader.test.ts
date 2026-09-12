@@ -1,9 +1,9 @@
-import test, { describe, afterEach } from "node:test"
+import test, { afterEach, describe } from "node:test"
 import assert from "node:assert"
 import { buildLayoutForEntries } from "./config-loader"
 import { componentRegistry } from "../../components/registry"
 import type { QuartzComponent, QuartzComponentConstructor } from "../../components/types"
-import { PluginJsonEntry, LayoutPosition } from "./types"
+import { LayoutPosition, PluginJsonEntry } from "./types"
 
 const makeComponent = (name: string): QuartzComponent => {
   const c = (() => null) as unknown as QuartzComponent
@@ -15,10 +15,7 @@ const makeConstructor = (name: string): QuartzComponentConstructor => {
   return () => makeComponent(name)
 }
 
-function makeEntry(
-  source: string,
-  layout?: { position: LayoutPosition; priority: number },
-): PluginJsonEntry {
+function makeEntry(source: string, layout?: { position: LayoutPosition; priority: number }): PluginJsonEntry {
   return {
     source,
     enabled: true,
@@ -160,7 +157,12 @@ describe("buildLayoutForEntries with display wrappers", () => {
     const component = makeComponent("Wrapped")
     componentRegistry.register("wrapped-plugin", component, "test-source")
     const result = buildLayoutForEntries(
-      [{ ...makeEntry("wrapped-plugin", { position: "left", priority: 10 }), layout: { position: "left", priority: 10, display: "mobile-only" } }],
+      [
+        {
+          ...makeEntry("wrapped-plugin", { position: "left", priority: 10 }),
+          layout: { position: "left", priority: 10, display: "mobile-only" },
+        },
+      ],
       {},
     )
     assert.strictEqual(result.left?.length, 1)
@@ -171,7 +173,12 @@ describe("buildLayoutForEntries with display wrappers", () => {
     const component = makeComponent("Wrapped")
     componentRegistry.register("wrapped-plugin", component, "test-source")
     const result = buildLayoutForEntries(
-      [{ ...makeEntry("wrapped-plugin", { position: "left", priority: 10 }), layout: { position: "left", priority: 10, display: "desktop-only" } }],
+      [
+        {
+          ...makeEntry("wrapped-plugin", { position: "left", priority: 10 }),
+          layout: { position: "left", priority: 10, display: "desktop-only" },
+        },
+      ],
       {},
     )
     assert.strictEqual(result.left?.length, 1)
@@ -182,7 +189,12 @@ describe("buildLayoutForEntries with display wrappers", () => {
     const component = makeComponent("Wrapped")
     componentRegistry.register("wrapped-plugin", component, "test-source")
     const result = buildLayoutForEntries(
-      [{ ...makeEntry("wrapped-plugin", { position: "left", priority: 10 }), layout: { position: "left", priority: 10, display: "tablet" } }],
+      [
+        {
+          ...makeEntry("wrapped-plugin", { position: "left", priority: 10 }),
+          layout: { position: "left", priority: 10, display: "tablet" },
+        },
+      ],
       {},
     )
     assert.strictEqual(result.left?.length, 1)
