@@ -75,9 +75,7 @@ export interface GlobalConfiguration {
   /**
    * Allow to translate the date in the language of your choice.
    * Also used for UI translation (default: en-US)
-   * Need to be formatted following BCP 47: https://en.wikipedia.org/wiki/IETF_language_tag
-   * The first part is the language (en) and the second part is the script/region (US)
-   * Language Codes: https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes
+   * Need to be formatted following BCP 47: https://en.wikipedia.org/wiki/IETF_language-tag
    * Region Codes: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
    */
   locale: ValidLocale
@@ -98,6 +96,8 @@ export interface FullPageLayout {
   left: QuartzComponent[]
   right: QuartzComponent[]
   footer: QuartzComponent[]
+  /** Components captured for the mobile header before grouped layout wrappers are created. */
+  mobileHeader?: QuartzComponent[]
   /** Page frame name (e.g. "default", "full-width", "minimal"). Defaults to "default". */
   frame?: string
 }
