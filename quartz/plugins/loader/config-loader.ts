@@ -573,6 +573,7 @@ export function buildLayoutForEntries(
       priority: number
       group?: string
       groupOptions?: PluginLayoutDeclaration["groupOptions"]
+      mobileHeader?: boolean
     }[]
   > = {
     header: [],
@@ -616,6 +617,7 @@ export function buildLayoutForEntries(
         priority: layout.priority,
         group: layout.group,
         groupOptions: layout.groupOptions,
+        mobileHeader: layout.mobileHeader,
       })
   }
   for (const entry of entries) {
@@ -649,8 +651,8 @@ export function buildLayoutForEntries(
   }
   const profile = positions.left.find((item) => item.name === "profile")?.component
   const navigation = positions.header.find((item) => item.name === "navigation")?.component
-  const sidebar = positions.left
-    .filter((item) => item.group === "toolbar")
+  const utilities = positions.left
+    .filter((item) => item.mobileHeader)
     .sort((a, b) => a.priority - b.priority)
     .map((item) => item.component)
   const buildPosition = (items: typeof positions.header): QuartzComponent[] => {
@@ -698,7 +700,7 @@ export function buildLayoutForEntries(
   return {
     header: buildPosition(positions.header),
     left: buildPosition(positions.left),
-    mobileHeader: { profile, navigation, sidebar },
+    mobileHeader: { profile, navigation, utilities },
     right: buildPosition(positions.right),
     beforeBody: buildPosition(positions.beforeBody),
     afterBody: buildPosition(positions.afterBody),
