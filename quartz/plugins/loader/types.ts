@@ -86,6 +86,8 @@ export interface PluginLayoutDeclaration {
   priority: number
   display?: LayoutDisplay
   condition?: string
+  /** Explicitly include this component in the mobile header utility row. */
+  mobileHeader?: boolean
   group?: string
   groupOptions?: {
     grow?: boolean
