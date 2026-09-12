@@ -10,17 +10,6 @@ const Navigation: QuartzComponent = ({ fileData }) => {
 
   return (
     <nav class="primary-navigation" aria-label="Primary">
-      <button
-        class="mobile-explorer-trigger"
-        type="button"
-        aria-controls="notebook-explorer"
-        aria-expanded="false"
-      >
-        <span class="mobile-explorer-trigger-icon" aria-hidden="true">
-          ☰
-        </span>
-        <span>Notebook</span>
-      </button>
       <div class="primary-navigation-links">
         {links.map((link) => (
           <a
@@ -72,39 +61,11 @@ Navigation.css = `
   text-underline-offset: 0.35rem;
 }
 
-.mobile-explorer-trigger {
-  display: none;
-  align-items: center;
-  gap: var(--site-space-2);
-  padding: var(--site-space-2) var(--site-space-3);
-  border: 1px solid var(--site-border);
-  border-radius: var(--site-radius-md);
-  background: transparent;
-  color: var(--site-heading);
-  font-family: var(--headerFont);
-  font-size: 0.88rem;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.mobile-explorer-trigger-icon {
-  font-size: 1rem;
-  line-height: 1;
-}
-
 @media all and (max-width: 800px) {
   .primary-navigation {
     width: 100%;
     margin-left: 0;
-    justify-content: space-between;
-  }
-
-  .mobile-explorer-trigger {
-    display: inline-flex;
-  }
-
-  .primary-navigation-links {
-    gap: var(--site-space-3) var(--site-space-4);
+    justify-content: flex-end;
   }
 
   .primary-navigation-link {
