@@ -89,7 +89,6 @@ function localComponent(name: string) {
 }
 
 const existingHeader = loadedLayout.defaults.header ?? []
-const existingLeft = loadedLayout.defaults.left ?? []
 const mobileHeaderComponent = localComponent("mobile-header")
 const mobileHeader = ((props) =>
   mobileHeaderComponent({
