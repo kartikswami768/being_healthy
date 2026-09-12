@@ -87,34 +87,53 @@ function localComponent(name: string) {
   return componentRegistry.instantiate(registered.component as any)
 }
 
-loadedLayout.defaults.header = [
+const header = [
   localComponent("navigation"),
   ...(loadedLayout.defaults.header ?? []),
 ]
+const left = [localComponent("profile"), ...(loadedLayout.defaults.left ?? [])]
 
-loadedLayout.defaults.left = [localComponent("profile"), ...(loadedLayout.defaults.left ?? [])]
-
-const header = loadedLayout.defaults.header ?? []
-const left = loadedLayout.defaults.left ?? []
-
-loadedLayout.defaults.header = [
-  componentRegistry.instantiate((({ ...props }: any) => {
-    const HeaderStack = (headerProps: any) => (
-      <div class="site-header-stack">
-        {header.map((Component: any) => (
+const HeaderStack: any = (headerProps: any) => (
+  <div class="site-header-stack">
+    <div class="desktop-header-content">
+      {header.map((Component: any) => (
+        <Component {...headerProps} />
+      ))}
+    </div>
+    <div class="mobile-header-content">
+      {header.map((Component: any) => (
+        <Component {...headerProps} />
+      ))}
+      <div class="mobile-header-sidebar">
+        {left.map((Component: any) => (
           <Component {...headerProps} />
         ))}
-        <div class="mobile-header-sidebar">
-          {left.map((Component: any) => (
-            <Component {...headerProps} />
-          ))}
-        </div>
       </div>
-    )
-    return HeaderStack(props)
-  }) as any),
-]
+    </div>
+  </div>
+)
 
-loadedLayout.defaults.left = []
+HeaderStack.css = `
+.mobile-header-content {
+  display: none;
+}
+
+@media all and (max-width: 800px) {
+  .desktop-header-content {
+    display: none;
+  }
+
+  .mobile-header-content {
+    display: contents;
+  }
+
+  .mobile-header-sidebar {
+    display: block;
+  }
+}
+`
+
+loadedLayout.defaults.header = [HeaderStack]
+loadedLayout.defaults.left = loadedLayout.defaults.left ?? []
 
 export const layout = loadedLayout
