@@ -1,5 +1,6 @@
 import { loadQuartzConfig, loadQuartzLayout } from "./quartz/plugins/loader/config-loader"
 import { componentRegistry } from "./quartz/components/registry"
+import { componentRegistry as _componentRegistry } from "./quartz/components/registry"
 import * as builtinPlugins from "./quartz/plugins"
 import BlogList from "./quartz/components/BlogList"
 import MobileHeader from "./quartz/components/MobileHeader"
@@ -8,7 +9,7 @@ import NotebookMark from "./quartz/components/NotebookMark"
 import Profile from "./quartz/components/Profile"
 import StartHere from "./quartz/components/StartHere"
 import WritingArchive from "./quartz/components/WritingArchive"
-import type { QuartzComponent } from "./quartz/components/types"
+import type { QuartzComponent, QuartzComponentConstructor } from "./quartz/components/types"
 
 componentRegistry.register("blog-list", BlogList, "local", {
   name: "blog-list",
@@ -79,16 +80,31 @@ const layout = await loadQuartzLayout()
 const profile = componentRegistry.instantiate(Profile)
 const navigation = componentRegistry.instantiate(Navigation)
 const mobileHeaderComponent = componentRegistry.instantiate(MobileHeader)
-const sidebar = layout.defaults.mobileHeader?.sidebar ?? []
+
+const instantiateRegistered = (name: string): QuartzComponent | undefined => {
+  const registered = componentRegistry.get(name)
+  if (!registered) return undefined
+  if (typeof registered.component === "function") {
+    return componentRegistry.instantiate(
+      registered.component as QuartzComponentConstructor,
+      componentRegistry.getOptionOverrides(name),
+    )
+  }
+  return registered.component
+}
+
+const mobileUtilities = [instantiateRegistered("search"), instantiateRegistered("darkmode")].filter(
+  (component): component is QuartzComponent => component !== undefined,
+)
 
 const mobileHeader = ((props) =>
   mobileHeaderComponent({
     ...props,
-    mobileHeader: { profile, navigation, sidebar },
+    mobileHeader: { profile, navigation, sidebar: mobileUtilities },
   })) as QuartzComponent
 Object.assign(mobileHeader, mobileHeaderComponent)
 
-layout.defaults.mobileHeader = { profile, navigation, sidebar }
+layout.defaults.mobileHeader = { profile, navigation, sidebar: mobileUtilities }
 layout.defaults.left = [profile, ...(layout.defaults.left ?? [])]
 layout.defaults.header = [mobileHeader, navigation, ...(layout.defaults.header ?? [])]
 
