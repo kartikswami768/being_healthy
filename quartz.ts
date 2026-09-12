@@ -93,17 +93,8 @@ loadedLayout.defaults.header = [
 ]
 
 loadedLayout.defaults.left = [
-  localComponent("explorer-toggle"),
   localComponent("profile"),
   ...(loadedLayout.defaults.left ?? []),
-]
-
-loadedLayout.defaults.afterBody = [
-  localComponent("notebook-mark"),
-  localComponent("start-here"),
-  localComponent("blog-list"),
-  localComponent("writing-archive"),
-  ...(loadedLayout.defaults.afterBody ?? []),
 ]
 
 export const layout = loadedLayout
