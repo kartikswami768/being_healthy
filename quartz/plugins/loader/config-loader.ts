@@ -200,8 +200,8 @@ async function readManifestFromPackageJson(source: PluginSource): Promise<Plugin
   }
 }
 
-async function getManifest(source: PluginSource): Promise<PluginManifest | null> {
-  return (await readManifestFromPackageJson(source)) ?? (await resolvePluginManifest(source))
+async function getManifest(source: PluginSource): Promise<PluginManifest | undefined> {
+  return (await readManifestFromPackageJson(source)) ?? (await resolvePluginManifest(source)) ?? undefined
 }
 
 export async function loadQuartzConfig(configOverrides?: Partial<GlobalConfiguration>): Promise<QuartzConfig> {
@@ -341,7 +341,7 @@ export async function loadQuartzConfig(configOverrides?: Partial<GlobalConfigura
   return { configuration, plugins }
 }
 
-type ProcessingCategory = "transformer" | "filter" | "emitter" | "pageType"
+ type ProcessingCategory = "transformer" | "filter" | "emitter" | "pageType"
 
 function validateCategory(instance: Record<string, unknown>, expected: ProcessingCategory): boolean {
   switch (expected) {
@@ -393,7 +393,8 @@ function detectCategoryFromModule(module: unknown): ProcessingCategory | null {
 function applyDisplayWrapper(component: QuartzComponent, display: "mobile-only" | "desktop-only" | "tablet"): QuartzComponent {
   if (display === "mobile-only") return MobileOnly(component) as QuartzComponent
   if (display === "desktop-only") return DesktopOnly(component) as QuartzComponent
-  const tabletOnly = (props: QuartzComponentProps) => `<div class="tablet-only">${String(props.children ?? "")}</div>`
+  const tabletOnly = (props: QuartzComponentProps) =>
+    `<div class="tablet-only">${String(props.children ?? "")}</div>`
   return ((props: QuartzComponentProps) => tabletOnly(props)) as unknown as QuartzComponent
 }
 
@@ -422,7 +423,6 @@ export async function loadQuartzLayout(layoutOverrides?: {
   const layoutConfig = json.layout ?? {}
   const defaultLayout = buildLayoutForEntries(enabledWithLayout, layoutConfig)
   const byPageType: Record<string, Partial<FullPageLayout>> = {}
-
   if (layoutConfig.byPageType) {
     for (const [pageType, override] of Object.entries(layoutConfig.byPageType)) {
       let filteredEntries = enabledWithLayout
@@ -444,7 +444,6 @@ export async function loadQuartzLayout(layoutOverrides?: {
       byPageType[pageType] = ptLayout
     }
   }
-
   const HeadModule = await import("../../components/Head")
   const head = HeadModule.default()
   defaultLayout.head = head
@@ -456,7 +455,6 @@ export async function loadQuartzLayout(layoutOverrides?: {
     if (!pt.header) pt.header = defaultLayout.header
     if (!pt.footer) pt.footer = defaultLayout.footer
   }
-
   const mergedDefaults = { ...defaultLayout, ...layoutOverrides?.defaults }
   const mergedByPageType = { ...byPageType }
   if (layoutOverrides?.byPageType) {
@@ -469,14 +467,8 @@ export async function loadQuartzLayout(layoutOverrides?: {
 
 export function buildLayoutForEntries(entries: PluginJsonEntry[], layoutConfig: LayoutConfig): Partial<FullPageLayout> {
   const positions: Record<string, { component: QuartzComponent; priority: number; group?: string; groupOptions?: PluginLayoutDeclaration["groupOptions"] }[]> = {
-    header: [],
-    left: [],
-    right: [],
-    beforeBody: [],
-    afterBody: [],
-    footer: [],
+    header: [], left: [], right: [], beforeBody: [], afterBody: [], footer: [],
   }
-
   for (const entry of entries) {
     if (!entry.layout) continue
     const layout = entry.layout
@@ -485,22 +477,18 @@ export function buildLayoutForEntries(entries: PluginJsonEntry[], layoutConfig: 
     const pascalName = name.split("-").map((s) => s.charAt(0).toUpperCase() + s.slice(1)).join("")
     const reg = registered ?? componentRegistry.get(pascalName)
     if (!reg) continue
-
     let component: QuartzComponent
     if (typeof reg.component === "function" && !("displayName" in reg.component)) {
       const tsOverrides = componentRegistry.getOptionOverrides(name)
       const opts = { ...entry.options, ...tsOverrides }
       const optsArg = Object.keys(opts).length > 0 ? opts : undefined
       component = componentRegistry.instantiate(reg.component as QuartzComponentConstructor, optsArg)
-    } else {
-      component = reg.component as QuartzComponent
-    }
+    } else component = reg.component as QuartzComponent
     if (layout.display && layout.display !== "all") component = applyDisplayWrapper(component, layout.display)
     if (layout.condition) component = applyConditionWrapper(component, layout.condition)
     const posArray = positions[layout.position]
     if (posArray) posArray.push({ component, priority: layout.priority, group: layout.group, groupOptions: layout.groupOptions })
   }
-
   for (const entry of entries) {
     if (!entry.enabled || entry.layout) continue
     const name = extractPluginName(entry.source)
@@ -508,25 +496,20 @@ export function buildLayoutForEntries(entries: PluginJsonEntry[], layoutConfig: 
     const pascalName = name.split("-").map((s) => s.charAt(0).toUpperCase() + s.slice(1)).join("")
     const reg = registered ?? componentRegistry.get(pascalName)
     if (!reg) continue
-
     const layoutDefaults = reg.manifest
     const defaultPosition = layoutDefaults?.defaultPosition
     if (!defaultPosition) continue
     const posArray = positions[defaultPosition]
     if (!posArray) continue
-
     let component: QuartzComponent
     if (typeof reg.component === "function" && !("displayName" in reg.component)) {
       const tsOverrides = componentRegistry.getOptionOverrides(name)
       const opts = { ...entry.options, ...tsOverrides }
       const optsArg = Object.keys(opts).length > 0 ? opts : undefined
       component = componentRegistry.instantiate(reg.component as QuartzComponentConstructor, optsArg)
-    } else {
-      component = reg.component as QuartzComponent
-    }
+    } else component = reg.component as QuartzComponent
     posArray.push({ component, priority: layoutDefaults?.defaultPriority ?? 50 })
   }
-
   const buildPosition = (items: typeof positions.header): QuartzComponent[] => {
     const sorted = [...items].sort((a, b) => a.priority - b.priority)
     const groups = new Map<string, typeof sorted>()
@@ -537,7 +520,6 @@ export function buildLayoutForEntries(entries: PluginJsonEntry[], layoutConfig: 
         else groups.set(item.group, [item])
       }
     }
-
     const entries: { priority: number; component: QuartzComponent }[] = []
     const processedGroups = new Set<string>()
     for (const item of sorted) {
@@ -547,32 +529,13 @@ export function buildLayoutForEntries(entries: PluginJsonEntry[], layoutConfig: 
         const members = groups.get(item.group)
         if (!members) continue
         const groupConfig = layoutConfig.groups?.[item.group] ?? {}
-        const flexComponents = members.map((m) => ({
-          Component: m.component,
-          grow: m.groupOptions?.grow,
-          shrink: m.groupOptions?.shrink,
-          basis: m.groupOptions?.basis,
-          order: m.groupOptions?.order,
-          align: m.groupOptions?.align,
-          justify: m.groupOptions?.justify,
-        }))
-        entries.push({
-          priority: item.priority,
-          component: Flex({
-            components: flexComponents,
-            direction: groupConfig.direction ?? "row",
-            wrap: groupConfig.wrap,
-            gap: groupConfig.gap ?? "1rem",
-          }) as QuartzComponent,
-        })
-      } else {
-        entries.push({ priority: item.priority, component: item.component })
-      }
+        const flexComponents = members.map((m) => ({ Component: m.component, grow: m.groupOptions?.grow, shrink: m.groupOptions?.shrink, basis: m.groupOptions?.basis, order: m.groupOptions?.order, align: m.groupOptions?.align, justify: m.groupOptions?.justify }))
+        entries.push({ priority: item.priority, component: Flex({ components: flexComponents, direction: groupConfig.direction ?? "row", wrap: groupConfig.wrap, gap: groupConfig.gap ?? "1rem" }) as QuartzComponent })
+      } else entries.push({ priority: item.priority, component: item.component })
     }
     entries.sort((a, b) => a.priority - b.priority)
     return entries.map((e) => e.component)
   }
-
   return {
     header: buildPosition(positions.header),
     left: buildPosition(positions.left),
