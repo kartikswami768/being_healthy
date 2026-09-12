@@ -235,7 +235,7 @@ plugins:
     enabled: true
     options:
       links:
-        GitHub: https://github.com/jackyzha0/quartz
+        GitHub: https://github.com/kartikswami768/being_healthy
         Discord Community: https://discord.gg/cRFFHYye7t
     layout:
       position: footer
