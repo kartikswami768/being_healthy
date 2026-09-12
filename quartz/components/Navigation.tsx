@@ -10,8 +10,15 @@ const Navigation: QuartzComponent = ({ fileData }) => {
 
   return (
     <nav class="primary-navigation" aria-label="Primary">
-      <button class="mobile-explorer-trigger" type="button" aria-controls="notebook-explorer" aria-expanded="false">
-        <span class="mobile-explorer-trigger-icon" aria-hidden="true">☰</span>
+      <button
+        class="mobile-explorer-trigger"
+        type="button"
+        aria-controls="notebook-explorer"
+        aria-expanded="false"
+      >
+        <span class="mobile-explorer-trigger-icon" aria-hidden="true">
+          ☰
+        </span>
         <span>Notebook</span>
       </button>
       <div class="primary-navigation-links">
