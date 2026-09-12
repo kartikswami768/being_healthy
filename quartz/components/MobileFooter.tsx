@@ -48,21 +48,22 @@ MobileFooter.css = `
     display: block;
     width: 100%;
     margin-top: 3rem;
-    padding-top: 2rem;
+    padding-top: 1.75rem;
     border-top: 1px solid var(--lightgray);
   }
 
   .mobile-footer-group {
-    margin-bottom: 1.4rem;
+    margin-bottom: 1.25rem;
   }
 
   .mobile-footer-group:last-child {
     margin-bottom: 0;
   }
 
-  .mobile-footer-group h2 {
+  .mobile-site-footer .mobile-footer-group h2 {
     margin: 0 0 0.4rem;
     color: var(--site-muted);
+    font-family: var(--bodyFont);
     font-size: 0.68rem;
     font-weight: 700;
     letter-spacing: 0.1em;
@@ -74,7 +75,7 @@ MobileFooter.css = `
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.15rem 0.45rem;
+    gap: 0.1rem 0.4rem;
   }
 
   .mobile-footer-link-wrap {
@@ -82,15 +83,17 @@ MobileFooter.css = `
     align-items: center;
   }
 
-  .mobile-footer-links a {
+  .mobile-site-footer .mobile-footer-links a {
     color: var(--darkgray);
-    font-size: 0.84rem;
+    font-family: var(--bodyFont);
+    font-size: 0.82rem;
+    font-weight: 500;
     line-height: 1.5;
     text-decoration: none;
   }
 
-  .mobile-footer-links a:hover,
-  .mobile-footer-links a[aria-current="page"] {
+  .mobile-site-footer .mobile-footer-links a:hover,
+  .mobile-site-footer .mobile-footer-links a[aria-current="page"] {
     color: var(--secondary);
   }
 
