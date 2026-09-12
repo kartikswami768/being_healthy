@@ -7,7 +7,8 @@ const Profile: QuartzComponent = () => {
 
       <div class="profile-name">Dr. Kartik Swami</div>
 
-      <div class="profile-role">Medicine · Writing · Being Human</div>
+      <div class="profile-role">MBBS · Maulana Azad Medical College</div>
+      <div class="profile-role profile-role-secondary">Medicine · Writing · Being Human</div>
     </div>
   )
 }
@@ -18,6 +19,10 @@ Profile.css = `
   color: var(--site-muted);
   font-size: 0.82rem;
   line-height: 1.4;
+}
+
+.profile-role-secondary {
+  margin-top: 0.1rem;
 }
 
 .profile-name {
