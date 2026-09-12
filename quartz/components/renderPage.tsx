@@ -10,7 +10,7 @@ import {
 import { FullSlug, RelativeURL, joinSegments, normalizeHastElement } from "../util/path"
 import { clone } from "../util/clone"
 import { Root, Element, ElementContent } from "hast"
-import { GlobalConfiguration } from "../cfg"
+import { FullPageLayout, GlobalConfiguration } from "../cfg"
 import { i18n } from "../i18n"
 import { styleText } from "util"
 import { resolveFrame } from "./frames"
@@ -118,10 +118,6 @@ export function renderTranscludes(
   componentData: QuartzComponentProps,
   visited: Set<FullSlug>,
 ) {
-  // Walk the tree manually instead of using visit() so we can track the
-  // ancestor chain for cycle detection. visit() runs the callback before
-  // descending into replaced children, so a Set-based guard there falsely
-  // rejects sibling transclusions of the same target.
   function walk(node: Element | Root) {
     const children = (node as Root).children ?? []
     for (let i = 0; i < children.length; i++) {
@@ -183,7 +179,6 @@ export function renderTranscludes(
 
       let blockRef = el.properties.dataBlock as string | undefined
       if (blockRef?.startsWith("#^")) {
-        // block transclude
         blockRef = blockRef.slice("#^".length)
         let blockNode = page.blocks?.[blockRef]
         if (blockNode) {
@@ -212,49 +207,53 @@ export function renderTranscludes(
           ]
         }
       } else if (blockRef?.startsWith("#") && page.htmlAst) {
-        // header transclude
         blockRef = blockRef.slice(1)
         let startIdx = undefined
         let startDepth = undefined
         let endIdx = undefined
         for (const [i, htmlEl] of page.htmlAst.children.entries()) {
-          if (!(htmlEl.type === "element" && htmlEl.tagName.match(headerRegex))) continue
-          const depth = Number(htmlEl.tagName.substring(1))
-
-          if (startIdx === undefined || startDepth === undefined) {
-            if (htmlEl.properties?.id === blockRef) {
-              startIdx = i
-              startDepth = depth
-            }
-          } else if (depth <= startDepth) {
-            endIdx = i
+          if (htmlEl.type !== "element") continue
+          const tag = htmlEl.tagName.toLowerCase()
+          if (!headerRegex.test(tag)) continue
+          const text = htmlEl.children
+            .filter((c): c is ElementContent & { type: "text" } => c.type === "text")
+            .map((c) => c.value)
+            .join("")
+          if (text.trim() === blockRef) {
+            startIdx = i
+            startDepth = Number(tag.slice(1))
             break
           }
         }
-
-        if (startIdx === undefined) {
-          visited.delete(transcludeTarget)
-          continue
-        }
-
-        el.children = [
-          ...(page.htmlAst.children.slice(startIdx, endIdx) as ElementContent[]).map((c) =>
-            normalizeHastElement(c as Element, slug, transcludeTarget),
-          ),
-          {
-            type: "element",
-            tagName: "a",
-            properties: {
-              href: inner.properties?.href,
-              class: ["internal", "internal-link", "transclude-src"],
+        if (startIdx !== undefined && startDepth !== undefined) {
+          for (let i = startIdx + 1; i < page.htmlAst.children.length; i++) {
+            const child = page.htmlAst.children[i]
+            if (child.type !== "element") continue
+            const tag = child.tagName.toLowerCase()
+            if (!headerRegex.test(tag)) continue
+            const depth = Number(tag.slice(1))
+            if (depth <= startDepth) {
+              endIdx = i
+              break
+            }
+          }
+          const section = page.htmlAst.children.slice(startIdx, endIdx)
+          el.children = [
+            ...(section as ElementContent[]).map((c) => normalizeHastElement(c as Element, slug, transcludeTarget)),
+            {
+              type: "element",
+              tagName: "a",
+              properties: {
+                href: inner.properties?.href,
+                class: ["internal", "internal-link", "transclude-src"],
+              },
+              children: [
+                { type: "text", value: i18n(cfg.locale).components.transcludes.linkToOriginal },
+              ],
             },
-            children: [
-              { type: "text", value: i18n(cfg.locale).components.transcludes.linkToOriginal },
-            ],
-          },
-        ]
-      } else if (page.htmlAst) {
-        // page transclude
+          ]
+        }
+      } else {
         el.children = [
           {
             type: "element",
@@ -271,9 +270,9 @@ export function renderTranscludes(
               },
             ],
           },
-          ...(page.htmlAst.children as ElementContent[]).map((c) =>
+          ...(page.htmlAst?.children as ElementContent[] | undefined)?.map((c) =>
             normalizeHastElement(c as Element, slug, transcludeTarget),
-          ),
+          ) ?? [],
           {
             type: "element",
             tagName: "a",
@@ -288,8 +287,6 @@ export function renderTranscludes(
         ]
       }
 
-      // Recurse into the replaced children to resolve nested transclusions,
-      // then remove from visited so sibling embeds of the same target work.
       walk(el)
       visited.delete(transcludeTarget)
     }
@@ -306,20 +303,16 @@ export function renderPage(
   pageResources: StaticResources,
   treeTransforms?: TreeTransform[],
 ): string {
-  // make a deep copy of the tree so we don't remove the transclusion references
-  // for the file cached in contentMap in build.ts
   const root = clone(componentData.tree) as Root
   const visited = new Set<FullSlug>([slug])
   renderTranscludes(root, cfg, slug, componentData, visited)
 
-  // Run plugin-provided tree transforms (e.g. resolving inline bases codeblocks)
   if (treeTransforms) {
     for (const transform of treeTransforms) {
       transform(root, slug, componentData)
     }
   }
 
-  // set componentData.tree to the edited html that has transclusions rendered
   componentData.tree = root
 
   const {
@@ -331,19 +324,26 @@ export function renderPage(
     left,
     right,
     footer,
+    mobileHeader,
     frame: frameName,
   } = components
+
   const Body = BodyConstructor()
   const frame = resolveFrame(frameName)
 
   const lang = componentData.fileData.frontmatter?.lang ?? cfg.locale?.split("-")[0] ?? "en"
   const direction = i18n(cfg.locale).direction ?? "ltr"
-  // During local dev (--serve), the dev server serves from root without the
-  // baseUrl subpath, so basePath must be empty to avoid broken links.
   const basePath =
     componentData.ctx.argv.serve || !cfg.baseUrl
       ? ""
       : new URL(`https://${cfg.baseUrl}`).pathname.replace(/\/$/, "")
+
+  const renderComponent = (Component: QuartzComponent) =>
+    Component({
+      ...componentData,
+      mobileHeader,
+    })
+
   const doc = (
     <html lang={lang} dir={direction}>
       <Head {...componentData} />
@@ -355,7 +355,7 @@ export function renderPage(
               frame.render({
                 componentData,
                 head: Head,
-                header,
+                header: header.map((HeaderComponent) => ((props) => renderComponent(HeaderComponent)) as QuartzComponent),
                 beforeBody,
                 pageBody: Content,
                 afterBody,
