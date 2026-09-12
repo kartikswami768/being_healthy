@@ -217,3 +217,20 @@ plugins:
       position: left
       priority: 35
       group: toolbar
+  - source: "@quartz-community/note-properties"
+    enabled: false
+    options:
+      includeAll: false
+      includedProperties:
+        - description
+        - tags
+        - aliases
+      excludedProperties: []
+      hidePropertiesView: false
+      delimiters: ---
+      language: yaml
+    order: 5
+    layout:
+      position: beforeBody
+      priority: 15
+      display: all
