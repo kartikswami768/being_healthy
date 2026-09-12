@@ -77,6 +77,7 @@ Navigation.css = `
   font-family: var(--headerFont);
   font-size: 0.88rem;
   font-weight: 600;
+  cursor: pointer;
 }
 
 .mobile-explorer-trigger-icon {
