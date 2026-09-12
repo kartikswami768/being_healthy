@@ -58,7 +58,7 @@ MobileHeader.css = `
 @media all and (max-width: 800px) {
   .mobile-header {
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 1rem;
   }
 
   .mobile-header-profile {
@@ -77,12 +77,13 @@ MobileHeader.css = `
   }
 
   .mobile-header-toolbar {
-    gap: 1rem;
+    gap: 0.75rem;
   }
 
   .mobile-header-utilities {
     display: flex;
     align-items: center;
+    gap: 0.4rem;
     flex: 0 0 auto;
   }
 
@@ -104,7 +105,7 @@ MobileHeader.css = `
 
   .mobile-header-toolbar .primary-navigation-links {
     flex-wrap: nowrap;
-    gap: 1rem;
+    gap: 0.9rem;
   }
 
   .mobile-header-toolbar .primary-navigation-link {
@@ -114,11 +115,15 @@ MobileHeader.css = `
 
 @media all and (max-width: 340px) {
   .mobile-header-toolbar {
-    gap: 0.65rem;
+    gap: 0.55rem;
+  }
+
+  .mobile-header-utilities {
+    gap: 0.3rem;
   }
 
   .mobile-header-toolbar .primary-navigation-links {
-    gap: 0.65rem;
+    gap: 0.55rem;
   }
 }
 `
