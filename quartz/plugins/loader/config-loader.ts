@@ -341,21 +341,27 @@ export async function loadQuartzConfig(configOverrides?: Partial<GlobalConfigura
   return { configuration, plugins }
 }
 
- type ProcessingCategory = "transformer" | "filter" | "emitter" | "pageType"
+type ProcessingCategory = "transformer" | "filter" | "emitter" | "pageType"
 
 function validateCategory(instance: Record<string, unknown>, expected: ProcessingCategory): boolean {
   switch (expected) {
-    case "pageType": return "match" in instance && "body" in instance && "layout" in instance
-    case "emitter": return "emit" in instance
-    case "filter": return "shouldPublish" in instance
-    case "transformer": return "textTransform" in instance || "markdownPlugins" in instance || "htmlPlugins" in instance
+    case "pageType":
+      return "match" in instance && "body" in instance && "layout" in instance
+    case "emitter":
+      return "emit" in instance
+    case "filter":
+      return "shouldPublish" in instance
+    case "transformer":
+      return "textTransform" in instance || "markdownPlugins" in instance || "htmlPlugins" in instance
   }
 }
 
 function findFactory(module: Record<string, unknown>, expectedCategory?: ProcessingCategory): Function | null {
   if (typeof module.default === "function") return module.default as Function
   if (typeof module.plugin === "function") return module.plugin as Function
-  const exportedFunctions = Object.entries(module).filter(([key, value]) => typeof value === "function" && !key.startsWith("__"))
+  const exportedFunctions = Object.entries(module).filter(
+    ([key, value]) => typeof value === "function" && !key.startsWith("__"),
+  )
   if (exportedFunctions.length === 1) return exportedFunctions[0][1] as Function
   if (exportedFunctions.length > 1 && expectedCategory) {
     for (const [, fn] of exportedFunctions) {
@@ -393,8 +399,7 @@ function detectCategoryFromModule(module: unknown): ProcessingCategory | null {
 function applyDisplayWrapper(component: QuartzComponent, display: "mobile-only" | "desktop-only" | "tablet"): QuartzComponent {
   if (display === "mobile-only") return MobileOnly(component) as QuartzComponent
   if (display === "desktop-only") return DesktopOnly(component) as QuartzComponent
-  const tabletOnly = (props: QuartzComponentProps) =>
-    `<div class="tablet-only">${String(props.children ?? "")}</div>`
+  const tabletOnly = (props: QuartzComponentProps) => `<div class="tablet-only">${String(props.children ?? "")}</div>`
   return ((props: QuartzComponentProps) => tabletOnly(props)) as unknown as QuartzComponent
 }
 
@@ -466,15 +471,31 @@ export async function loadQuartzLayout(layoutOverrides?: {
 }
 
 export function buildLayoutForEntries(entries: PluginJsonEntry[], layoutConfig: LayoutConfig): Partial<FullPageLayout> {
-  const positions: Record<string, { component: QuartzComponent; priority: number; group?: string; groupOptions?: PluginLayoutDeclaration["groupOptions"] }[]> = {
-    header: [], left: [], right: [], beforeBody: [], afterBody: [], footer: [],
+  const positions: Record<
+    string,
+    {
+      component: QuartzComponent
+      priority: number
+      group?: string
+      groupOptions?: PluginLayoutDeclaration["groupOptions"]
+    }[]
+  > = {
+    header: [],
+    left: [],
+    right: [],
+    beforeBody: [],
+    afterBody: [],
+    footer: [],
   }
   for (const entry of entries) {
     if (!entry.layout) continue
     const layout = entry.layout
     const name = extractPluginName(entry.source)
     const registered = componentRegistry.get(name) ?? componentRegistry.get(`${formatSourceDisplay(entry.source)}/${name}`)
-    const pascalName = name.split("-").map((s) => s.charAt(0).toUpperCase() + s.slice(1)).join("")
+    const pascalName = name
+      .split("-")
+      .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+      .join("")
     const reg = registered ?? componentRegistry.get(pascalName)
     if (!reg) continue
     let component: QuartzComponent
@@ -493,7 +514,10 @@ export function buildLayoutForEntries(entries: PluginJsonEntry[], layoutConfig: 
     if (!entry.enabled || entry.layout) continue
     const name = extractPluginName(entry.source)
     const registered = componentRegistry.get(name) ?? componentRegistry.get(`${formatSourceDisplay(entry.source)}/${name}`)
-    const pascalName = name.split("-").map((s) => s.charAt(0).toUpperCase() + s.slice(1)).join("")
+    const pascalName = name
+      .split("-")
+      .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+      .join("")
     const reg = registered ?? componentRegistry.get(pascalName)
     if (!reg) continue
     const layoutDefaults = reg.manifest
@@ -529,8 +553,24 @@ export function buildLayoutForEntries(entries: PluginJsonEntry[], layoutConfig: 
         const members = groups.get(item.group)
         if (!members) continue
         const groupConfig = layoutConfig.groups?.[item.group] ?? {}
-        const flexComponents = members.map((m) => ({ Component: m.component, grow: m.groupOptions?.grow, shrink: m.groupOptions?.shrink, basis: m.groupOptions?.basis, order: m.groupOptions?.order, align: m.groupOptions?.align, justify: m.groupOptions?.justify }))
-        entries.push({ priority: item.priority, component: Flex({ components: flexComponents, direction: groupConfig.direction ?? "row", wrap: groupConfig.wrap, gap: groupConfig.gap ?? "1rem" }) as QuartzComponent })
+        const flexComponents = members.map((m) => ({
+          Component: m.component,
+          grow: m.groupOptions?.grow,
+          shrink: m.groupOptions?.shrink,
+          basis: m.groupOptions?.basis,
+          order: m.groupOptions?.order,
+          align: m.groupOptions?.align,
+          justify: m.groupOptions?.justify,
+        }))
+        entries.push({
+          priority: item.priority,
+          component: Flex({
+            components: flexComponents,
+            direction: groupConfig.direction ?? "row",
+            wrap: groupConfig.wrap,
+            gap: groupConfig.gap ?? "1rem",
+          }) as QuartzComponent,
+        })
       } else entries.push({ priority: item.priority, component: item.component })
     }
     entries.sort((a, b) => a.priority - b.priority)
