@@ -28,7 +28,6 @@ const DesktopSidebar: QuartzComponent = ({ allFiles, fileData }: QuartzComponent
       <div class="site-sidebar-scroll">
         <LinkGroup title="Explore" links={navigation.primary} />
         <LinkGroup title="Writing" links={navigation.writing} />
-        <LinkGroup title="Topics" links={navigation.topics} />
         <LinkGroup title="Recent" links={navigation.recent} />
       </div>
     </aside>
