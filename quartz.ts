@@ -92,9 +92,6 @@ loadedLayout.defaults.header = [
   ...(loadedLayout.defaults.header ?? []),
 ]
 
-loadedLayout.defaults.left = [
-  localComponent("profile"),
-  ...(loadedLayout.defaults.left ?? []),
-]
+loadedLayout.defaults.left = [localComponent("profile"), ...(loadedLayout.defaults.left ?? [])]
 
 export const layout = loadedLayout
