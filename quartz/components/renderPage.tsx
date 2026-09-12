@@ -239,7 +239,9 @@ export function renderTranscludes(
           }
           const section = page.htmlAst.children.slice(startIdx, endIdx)
           el.children = [
-            ...(section as ElementContent[]).map((c) => normalizeHastElement(c as Element, slug, transcludeTarget)),
+            ...(section as ElementContent[]).map((c) =>
+              normalizeHastElement(c as Element, slug, transcludeTarget),
+            ),
             {
               type: "element",
               tagName: "a",
@@ -270,9 +272,9 @@ export function renderTranscludes(
               },
             ],
           },
-          ...(page.htmlAst?.children as ElementContent[] | undefined)?.map((c) =>
+          ...((page.htmlAst?.children as ElementContent[] | undefined)?.map((c) =>
             normalizeHastElement(c as Element, slug, transcludeTarget),
-          ) ?? [],
+          ) ?? []),
           {
             type: "element",
             tagName: "a",
