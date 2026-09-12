@@ -87,7 +87,6 @@ export interface PluginLayoutDeclaration {
   display?: LayoutDisplay
   condition?: string
   group?: string
-  mobileHeader?: boolean
   groupOptions?: {
     grow?: boolean
     shrink?: boolean
