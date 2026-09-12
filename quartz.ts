@@ -94,4 +94,27 @@ loadedLayout.defaults.header = [
 
 loadedLayout.defaults.left = [localComponent("profile"), ...(loadedLayout.defaults.left ?? [])]
 
+const header = loadedLayout.defaults.header ?? []
+const left = loadedLayout.defaults.left ?? []
+
+loadedLayout.defaults.header = [
+  componentRegistry.instantiate((({ ...props }: any) => {
+    const HeaderStack = (headerProps: any) => (
+      <div class="site-header-stack">
+        {header.map((Component: any) => (
+          <Component {...headerProps} />
+        ))}
+        <div class="mobile-header-sidebar">
+          {left.map((Component: any) => (
+            <Component {...headerProps} />
+          ))}
+        </div>
+      </div>
+    )
+    return HeaderStack(props)
+  }) as any),
+]
+
+loadedLayout.defaults.left = []
+
 export const layout = loadedLayout
