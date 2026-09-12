@@ -5,7 +5,7 @@ import { styleText } from "util"
 import { fileURLToPath } from "node:url"
 import { QuartzConfig, GlobalConfiguration, FullPageLayout } from "../../cfg"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../../components/types"
-import { PluginTypes } from "../types"
+import { PluginTypes, QuartzTransformerPluginInstance, QuartzFilterPluginInstance, QuartzEmitterPluginInstance, PageTypePluginEntry } from "../types"
 import {
   PluginManifest,
   PluginJsonEntry,
@@ -13,12 +13,9 @@ import {
   QuartzPluginsJson,
   LayoutConfig,
   PluginLayoutDeclaration,
-  FlexGroupConfig,
 } from "./types"
 import {
   parsePluginSource,
-  installPlugin,
-  installNativeDeps,
   getPluginEntryPoint,
   toFileUrl,
   isLocalSource,
@@ -89,7 +86,7 @@ interface DependencyValidationResult {
   warnings: string[]
 }
 
-function validateDependencies(entries: PluginJsonEntry[], manifests: Map<string, PluginManifest>): DependencyValidationResult {
+function validateDependencies(entries: PluginJsonEntry[], manifests: Map<string, PluginManifest | undefined>): DependencyValidationResult {
   const errors: string[] = []
   const warnings: string[] = []
   const sourceToEntry = new Map<string, PluginJsonEntry>()
@@ -211,7 +208,7 @@ export async function loadQuartzConfig(configOverrides?: Partial<GlobalConfigura
   const enabledEntries = entries.filter((e) => e.enabled)
   const manifests = new Map<string, PluginManifest | undefined>()
   for (const entry of enabledEntries) manifests.set(sourceKey(entry.source), await getManifest(entry.source))
-  const dependencyValidation = validateDependencies(entries, manifests as Map<string, PluginManifest>)
+  const dependencyValidation = validateDependencies(entries, manifests)
   if (dependencyValidation.errors.length) throw new Error(dependencyValidation.errors.join("\n"))
   if (dependencyValidation.warnings.length) dependencyValidation.warnings.forEach((warning) => console.warn(styleText("yellow", "⚠") + " " + warning))
 
@@ -268,8 +265,8 @@ export async function loadQuartzConfig(configOverrides?: Partial<GlobalConfigura
   filters.sort(sortByOrder)
   emitters.sort(sortByOrder)
   pageTypes.sort(sortByOrder)
-  const instantiate = async (items: { entry: PluginJsonEntry; manifest: PluginManifest | undefined }[], expectedCategory: ProcessingCategory) => {
-    const instances: unknown[] = []
+  const instantiate = async <T>(items: { entry: PluginJsonEntry; manifest: PluginManifest | undefined }[], expectedCategory: ProcessingCategory): Promise<T[]> => {
+    const instances: T[] = []
     for (const { entry, manifest } of items) {
       try {
         const spec = parsePluginSource(entry.source)
@@ -288,7 +285,7 @@ export async function loadQuartzConfig(configOverrides?: Partial<GlobalConfigura
         const instance = factory(Object.keys(options).length > 0 ? options : undefined)
         if (!instance || typeof instance !== "object") continue
         if (!validateCategory(instance, expectedCategory)) continue
-        instances.push(instance)
+        instances.push(instance as T)
       } catch (err) {
         console.error(styleText("red", "✗") + ` Failed to instantiate plugin "${extractPluginName(entry.source)}": ${err instanceof Error ? err.message : String(err)}`)
       }
@@ -296,14 +293,14 @@ export async function loadQuartzConfig(configOverrides?: Partial<GlobalConfigura
     return instances
   }
   const builtinPlugins = await import("../index")
-  const builtinTransformers: unknown[] = []
-  const builtinEmitters = [builtinPlugins.ComponentResources(), builtinPlugins.Assets(), builtinPlugins.Static()]
-  const builtinPageTypes = [builtinPlugins.PageTypes.NotFoundPageType()]
+  const builtinTransformers: QuartzTransformerPluginInstance[] = []
+  const builtinEmitters: QuartzEmitterPluginInstance[] = [builtinPlugins.ComponentResources(), builtinPlugins.Assets(), builtinPlugins.Static()]
+  const builtinPageTypes: PageTypePluginEntry[] = [builtinPlugins.PageTypes.NotFoundPageType()]
   const plugins: PluginTypes = {
-    transformers: [...builtinTransformers, ...(await instantiate(transformers, "transformer"))],
-    filters: await instantiate(filters, "filter"),
-    emitters: [...builtinEmitters, ...(await instantiate(emitters, "emitter"))],
-    pageTypes: [...(await instantiate(pageTypes, "pageType")), ...builtinPageTypes],
+    transformers: [...builtinTransformers, ...(await instantiate<QuartzTransformerPluginInstance>(transformers, "transformer"))],
+    filters: await instantiate<QuartzFilterPluginInstance>(filters, "filter"),
+    emitters: [...builtinEmitters, ...(await instantiate<QuartzEmitterPluginInstance>(emitters, "emitter"))],
+    pageTypes: [...(await instantiate<PageTypePluginEntry>(pageTypes, "pageType")), ...builtinPageTypes],
   }
   const layout = await loadQuartzLayout()
   plugins.emitters.push(builtinPlugins.PageTypes.PageTypeDispatcher({ defaults: layout.defaults, byPageType: layout.byPageType }))
@@ -401,7 +398,9 @@ export async function loadQuartzLayout(layoutOverrides?: {
         for (const [pos, components] of Object.entries(override.positions)) {
           if (Array.isArray(components) && components.length === 0) {
             const key = pos as keyof Pick<FullPageLayout, "header" | "left" | "right" | "beforeBody" | "afterBody" | "footer">
-            if (key in ptLayout) ;(ptLayout as Record<string, unknown>)[key] = []
+            if (key in ptLayout) {
+              ;(ptLayout as Record<string, unknown>)[key] = []
+            }
           }
         }
       }
