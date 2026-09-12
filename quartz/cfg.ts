@@ -100,7 +100,7 @@ export interface FullPageLayout {
   mobileHeader?: {
     profile?: QuartzComponent
     navigation?: QuartzComponent
-    sidebar: QuartzComponent[]
+    utilities: QuartzComponent[]
   }
   /** Page frame name (e.g. "default", "full-width", "minimal"). Defaults to "default". */
   frame?: string
