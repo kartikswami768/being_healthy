@@ -28,7 +28,6 @@ const DesktopSidebar: QuartzComponent = ({ allFiles, fileData }: QuartzComponent
       <div class="site-sidebar-scroll">
         <LinkGroup title="Explore" links={navigation.primary} />
         <LinkGroup title="Writing" links={navigation.writing} />
-        <LinkGroup title="Recent" links={navigation.recent} />
       </div>
     </aside>
   )
@@ -57,38 +56,45 @@ DesktopSidebar.css = `
   }
 
   .site-sidebar-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.35rem;
   }
 
-  .site-sidebar-group h2 {
+  .site-sidebar-group:last-child {
+    margin-bottom: 0;
+  }
+
+  .site-sidebar .site-sidebar-group h2 {
     margin: 0 0 0.5rem;
     color: var(--site-muted);
+    font-family: var(--bodyFont);
     font-size: 0.68rem;
     font-weight: 700;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.11em;
     line-height: 1.3;
     text-transform: uppercase;
   }
 
-  .site-sidebar-group ul {
+  .site-sidebar .site-sidebar-group ul {
     display: grid;
-    gap: 0.28rem;
+    gap: 0.22rem;
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
-  .site-sidebar-group a {
+  .site-sidebar .site-sidebar-group a {
     display: block;
-    padding: 0.22rem 0;
+    padding: 0.16rem 0;
     color: var(--darkgray);
+    font-family: var(--bodyFont);
     font-size: 0.84rem;
+    font-weight: 500;
     line-height: 1.35;
     text-decoration: none;
   }
 
-  .site-sidebar-group a:hover,
-  .site-sidebar-group a[aria-current="page"] {
+  .site-sidebar .site-sidebar-group a:hover,
+  .site-sidebar .site-sidebar-group a[aria-current="page"] {
     color: var(--secondary);
   }
 }
