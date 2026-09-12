@@ -1,10 +1,11 @@
 import fs from "fs"
 import path from "path"
 import YAML from "yaml"
+import { h, type ComponentChildren } from "preact"
 import { styleText } from "util"
 import { fileURLToPath } from "node:url"
 import { QuartzConfig, GlobalConfiguration, FullPageLayout } from "../../cfg"
-import { QuartzComponent, QuartzComponentConstructor } from "../../components/types"
+import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../../components/types"
 import { PluginTypes } from "../types"
 import {
   PluginManifest,
@@ -17,8 +18,6 @@ import {
 } from "./types"
 import {
   parsePluginSource,
-  installPlugin,
-  installNativeDeps,
   getPluginEntryPoint,
   toFileUrl,
   isLocalSource,
@@ -218,9 +217,12 @@ export async function loadQuartzConfig(configOverrides?: Partial<GlobalConfigura
   }
   const entries = json.plugins ?? []
   const enabledEntries = entries.filter((e) => e.enabled)
-  const manifests = new Map<string, PluginManifest | undefined>()
-  for (const entry of enabledEntries) manifests.set(sourceKey(entry.source), await getManifest(entry.source))
-  const dependencyValidation = validateDependencies(entries, manifests as Map<string, PluginManifest>)
+  const manifests = new Map<string, PluginManifest>()
+  for (const entry of enabledEntries) {
+    const manifest = await getManifest(entry.source)
+    if (manifest) manifests.set(sourceKey(entry.source), manifest)
+  }
+  const dependencyValidation = validateDependencies(entries, manifests)
   if (dependencyValidation.errors.length) throw new Error(dependencyValidation.errors.join("\n"))
   if (dependencyValidation.warnings.length) dependencyValidation.warnings.forEach((warning) => console.warn(styleText("yellow", "⚠") + " " + warning))
 
@@ -287,7 +289,7 @@ export async function loadQuartzConfig(configOverrides?: Partial<GlobalConfigura
         else module = await import(toFileUrl(getPluginEntryPoint(spec.name)))
         if (manifest?.components && Object.keys(manifest.components).length > 0) await loadComponentsFromPackage(spec.name, manifest)
         if (manifest?.frames && Object.keys(manifest.frames).length > 0) await loadFramesFromPackage(spec.name, manifest)
-        const factory = findFactory(module, expectedCategory)
+        const factory = findFactory(module)
         if (!factory) {
           console.warn(styleText("yellow", "⚠") + ` Plugin "${extractPluginName(entry.source)}" has no factory function for category "${expectedCategory}".`)
           continue
@@ -328,7 +330,7 @@ function validateCategory(instance: Record<string, unknown>, expected: Processin
     case "transformer": return "textTransform" in instance || "markdownPlugins" in instance || "htmlPlugins" in instance
   }
 }
-function findFactory(module: Record<string, unknown>, expectedCategory?: ProcessingCategory): Function | null {
+function findFactory(module: Record<string, unknown>): Function | null {
   if (typeof module.default === "function") return module.default as Function
   if (typeof module.plugin === "function") return module.plugin as Function
   const functions = Object.values(module).filter((value) => typeof value === "function") as Function[]
@@ -379,7 +381,9 @@ export async function loadQuartzLayout(layoutOverrides?: { defaults?: Partial<Fu
         for (const [pos, components] of Object.entries(override.positions)) {
           if (Array.isArray(components) && components.length === 0) {
             const key = pos as keyof Pick<FullPageLayout, "header" | "left" | "right" | "beforeBody" | "afterBody" | "footer">
-            if (key in ptLayout) ;(ptLayout as Record<string, unknown>)[key] = []
+            if (key in ptLayout) {
+              ;(ptLayout as Record<string, unknown>)[key] = []
+            }
           }
         }
       }
@@ -480,14 +484,11 @@ export function resolveGroups(items: { component: QuartzComponent; priority: num
 function applyDisplayWrapper(component: QuartzComponent, display: "mobile-only" | "desktop-only" | "tablet"): QuartzComponent {
   if (display === "mobile-only") return MobileOnly(component) as QuartzComponent
   if (display === "desktop-only") return DesktopOnly(component) as QuartzComponent
-  const TabletOnly = (props: { children?: unknown }) => (
-    <div class="tablet-only">{props.children}</div>
-  )
-  return ((component as unknown) && ((props: QuartzComponentProps) => (
-    <TabletOnly>
-      {component(props)}
-    </TabletOnly>
-  ))) as unknown as QuartzComponent
+  const TabletOnly = (props: { children?: ComponentChildren }) =>
+    h("div", { class: "tablet-only" }, props.children)
+  return ((component as unknown) && ((props: QuartzComponentProps) =>
+    TabletOnly({ children: component(props) })
+  )) as unknown as QuartzComponent
 }
 
 function applyConditionWrapper(component: QuartzComponent, conditionName: string): QuartzComponent {
