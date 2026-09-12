@@ -104,14 +104,14 @@ function validateDependencies(entries: PluginJsonEntry[], manifests: Map<string,
       const depEntry = sourceToEntry.get(dep)
       const depName = extractPluginName(dep)
       if (!depEntry) {
-        errors.push(`Plugin \"${pluginName}\" requires \"${depName}\". Run: npx quartz plugin add ${dep}`)
+        errors.push(`Plugin "${pluginName}" requires "${depName}". Run: npx quartz plugin add ${dep}`)
         continue
       }
-      if (!depEntry.enabled) warnings.push(`Plugin \"${pluginName}\" depends on \"${depName}\" which is disabled. \"${pluginName}\" may not function correctly.`)
+      if (!depEntry.enabled) warnings.push(`Plugin "${pluginName}" depends on "${depName}" which is disabled. "${pluginName}" may not function correctly.`)
       const depManifest = manifests.get(dep)
       const depOrder = depEntry.order ?? depManifest?.defaultOrder ?? 50
       if (pluginOrder < depOrder) {
-        errors.push(`Plugin \"${pluginName}\" (order: ${pluginOrder}) depends on \"${depName}\" (order: ${depOrder}), but \"${pluginName}\" is configured to run first. Either increase \"${pluginName}\"'s order above ${depOrder} or decrease \"${depName}\"'s order below ${pluginOrder}.`)
+        errors.push(`Plugin "${pluginName}" (order: ${pluginOrder}) depends on "${depName}" (order: ${depOrder}), but "${pluginName}" is configured to run first. Either increase "${pluginName}"'s order above ${depOrder} or decrease "${depName}"'s order below ${pluginOrder}.`)
       }
     }
   }
@@ -252,13 +252,13 @@ export async function loadQuartzConfig(configOverrides?: Partial<GlobalConfigura
           else if (manifest?.components && Object.keys(manifest.components).length > 0) {
             await loadComponentsFromPackage(gitSpec.name, manifest)
             if (manifest?.frames && Object.keys(manifest.frames).length > 0) await loadFramesFromPackage(gitSpec.name, manifest)
-          } else console.warn(styleText("yellow", "⚠") + ` Could not determine category for plugin \"${extractPluginName(entry.source)}\". Skipping.`)
+          } else console.warn(styleText("yellow", "⚠") + ` Could not determine category for plugin "${extractPluginName(entry.source)}". Skipping.`)
         } catch {
           const hasComponents = manifest?.components && Object.keys(manifest.components).length > 0
           const hasFrames = manifest?.frames && Object.keys(manifest.frames).length > 0
           if (hasComponents) await loadComponentsFromPackage(gitSpec.name, manifest)
           if (hasFrames) await loadFramesFromPackage(gitSpec.name, manifest)
-          if (!hasComponents && !hasFrames) console.warn(styleText("yellow", "⚠") + ` Could not load plugin \"${extractPluginName(entry.source)}\" to detect category. Skipping.`)
+          if (!hasComponents && !hasFrames) console.warn(styleText("yellow", "⚠") + ` Could not load plugin "${extractPluginName(entry.source)}" to detect category. Skipping.`)
         }
       }
     }
@@ -280,7 +280,7 @@ export async function loadQuartzConfig(configOverrides?: Partial<GlobalConfigura
         if (manifest?.frames && Object.keys(manifest.frames).length > 0) await loadFramesFromPackage(spec.name, manifest)
         const factory = findFactory(module, expectedCategory)
         if (!factory) {
-          console.warn(styleText("yellow", "⚠") + ` Plugin \"${extractPluginName(entry.source)}\" has no factory function for category \"${expectedCategory}\".`)
+          console.warn(styleText("yellow", "⚠") + ` Plugin "${extractPluginName(entry.source)}" has no factory function for category "${expectedCategory}".`)
           continue
         }
         const pluginOverrides = componentRegistry.getOptionOverrides(spec.name)
@@ -290,7 +290,7 @@ export async function loadQuartzConfig(configOverrides?: Partial<GlobalConfigura
         if (!validateCategory(instance, expectedCategory)) continue
         instances.push(instance)
       } catch (err) {
-        console.error(styleText("red", "✗") + ` Failed to instantiate plugin \"${extractPluginName(entry.source)}\": ${err instanceof Error ? err.message : String(err)}`)
+        console.error(styleText("red", "✗") + ` Failed to instantiate plugin "${extractPluginName(entry.source)}": ${err instanceof Error ? err.message : String(err)}`)
       }
     }
     return instances
@@ -360,19 +360,15 @@ function detectCategoryFromModule(module: unknown): ProcessingCategory | null {
 function applyDisplayWrapper(component: QuartzComponent, display: "mobile-only" | "desktop-only" | "tablet"): QuartzComponent {
   if (display === "mobile-only") return MobileOnly(component) as QuartzComponent
   if (display === "desktop-only") return DesktopOnly(component) as QuartzComponent
-  const tabletOnly = (props: QuartzComponentProps): JSX.Element => (
-    <div class="tablet-only">{props.children}</div>
-  )
-  const wrapped = (props: QuartzComponentProps) => tabletOnly(props)
-  return ((props: QuartzComponentProps) => (
-    <wrapped>{component(props)}</wrapped>
-  )) as unknown as QuartzComponent
+  const tabletOnly = (props: QuartzComponentProps) =>
+    `<div class="tablet-only">${String(props.children ?? "")}</div>`
+  return ((props: QuartzComponentProps) => tabletOnly(props)) as unknown as QuartzComponent
 }
 
 function applyConditionWrapper(component: QuartzComponent, conditionName: string): QuartzComponent {
   const predicate = getCondition(conditionName)
   if (!predicate) {
-    console.warn(styleText("yellow", "⚠") + ` Unknown condition \"${conditionName}\". Component will always render.`)
+    console.warn(styleText("yellow", "⚠") + ` Unknown condition "${conditionName}". Component will always render.`)
     return component
   }
   return ConditionalRender({ component, condition: predicate }) as QuartzComponent
@@ -405,7 +401,7 @@ export async function loadQuartzLayout(layoutOverrides?: {
         for (const [pos, components] of Object.entries(override.positions)) {
           if (Array.isArray(components) && components.length === 0) {
             const key = pos as keyof Pick<FullPageLayout, "header" | "left" | "right" | "beforeBody" | "afterBody" | "footer">
-            if (key in ptLayout) (ptLayout as Record<string, unknown>)[key] = []
+            if (key in ptLayout) ;(ptLayout as Record<string, unknown>)[key] = []
           }
         }
       }
@@ -450,10 +446,9 @@ export function buildLayoutForEntries(entries: PluginJsonEntry[], layoutConfig: 
     if (typeof reg.component === "function" && !("displayName" in reg.component)) {
       const tsOverrides = componentRegistry.getOptionOverrides(name)
       const opts = { ...entry.options, ...tsOverrides }
-      component = componentRegistry.instantiate(reg.component as QuartzComponentConstructor, Object.keys(opts).length > 0 ? opts : undefined)
-    } else {
-      component = reg.component as QuartzComponent
-    }
+      const optsArg = Object.keys(opts).length > 0 ? opts : undefined
+      component = componentRegistry.instantiate(reg.component as QuartzComponentConstructor, optsArg)
+    } else component = reg.component as QuartzComponent
     if (layout.display && layout.display !== "all") component = applyDisplayWrapper(component, layout.display)
     if (layout.condition) component = applyConditionWrapper(component, layout.condition)
     const posArray = positions[layout.position]
@@ -475,10 +470,9 @@ export function buildLayoutForEntries(entries: PluginJsonEntry[], layoutConfig: 
     if (typeof reg.component === "function" && !("displayName" in reg.component)) {
       const tsOverrides = componentRegistry.getOptionOverrides(name)
       const opts = { ...entry.options, ...tsOverrides }
-      component = componentRegistry.instantiate(reg.component as QuartzComponentConstructor, Object.keys(opts).length > 0 ? opts : undefined)
-    } else {
-      component = reg.component as QuartzComponent
-    }
+      const optsArg = Object.keys(opts).length > 0 ? opts : undefined
+      component = componentRegistry.instantiate(reg.component as QuartzComponentConstructor, optsArg)
+    } else component = reg.component as QuartzComponent
     posArray.push({ component, priority: layoutDefaults?.defaultPriority ?? 50 })
   }
   const buildPosition = (items: typeof positions.header): QuartzComponent[] => {
