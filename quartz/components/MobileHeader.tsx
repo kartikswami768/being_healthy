@@ -2,11 +2,20 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 import Navigation from "./Navigation"
 import Profile from "./Profile"
 
-const MobileHeader: QuartzComponent = (props: QuartzComponentProps) => {
+type MobileHeaderProps = QuartzComponentProps & {
+  children?: QuartzComponentProps["children"]
+}
+
+const MobileHeader: QuartzComponent = (props: MobileHeaderProps) => {
+  const { children } = props
+
   return (
     <div class="mobile-header">
-      <Navigation {...props} />
-      <Profile {...props} />
+      <div class="mobile-header-main">
+        <Profile {...props} />
+        <Navigation {...props} />
+      </div>
+      {children && <div class="mobile-header-sidebar">{children}</div>}
     </div>
   )
 }
@@ -20,7 +29,24 @@ MobileHeader.css = `
   .mobile-header {
     display: flex;
     flex-direction: column;
-    gap: var(--site-space-4);
+    width: 100%;
+    gap: 1rem;
+  }
+
+  .mobile-header-main {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .mobile-header-sidebar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.2rem;
     width: 100%;
   }
 }
