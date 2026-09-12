@@ -20,7 +20,7 @@ componentRegistry.register("blog-list", BlogList, "local", {
 componentRegistry.register("mobile-header", MobileHeader, "local", {
   name: "mobile-header",
   displayName: "Mobile Header",
-  description: "Displays the primary navigation and profile inside the mobile header.",
+  description: "Displays the primary navigation, profile, and mobile sidebar controls.",
   version: "1.0.0",
   defaultPosition: "header",
   defaultPriority: 5,
@@ -93,11 +93,13 @@ const navigation = localComponent("navigation")
 const mobileHeader = localComponent("mobile-header")
 const profile = localComponent("profile")
 
+const mobileSidebar = existingLeft.filter((component) => component !== profile)
+
 loadedLayout.defaults.header = [
   mobileHeader,
   ...existingHeader.filter((component) => component !== navigation),
 ]
 
-loadedLayout.defaults.left = [profile, ...existingLeft.filter((component) => component !== profile)]
+loadedLayout.defaults.left = [profile, ...mobileSidebar]
 
 export const layout = loadedLayout
