@@ -7,7 +7,7 @@ type MobileHeaderProps = QuartzComponentProps & {
 
 const MobileHeader: QuartzComponent = (props: MobileHeaderProps) => {
   const { mobileHeader } = props
-  const sidebar = mobileHeader?.sidebar ?? []
+  const utilities = mobileHeader?.sidebar ?? []
 
   return (
     <div class="mobile-header">
@@ -17,7 +17,7 @@ const MobileHeader: QuartzComponent = (props: MobileHeaderProps) => {
 
       <div class="mobile-header-toolbar">
         <div class="mobile-header-utilities">
-          {sidebar.map((Component) => (
+          {utilities.map((Component) => (
             <Component {...props} />
           ))}
         </div>
@@ -69,10 +69,6 @@ MobileHeader.css = `
     display: flex;
     align-items: center;
     flex: 0 0 auto;
-  }
-
-  .mobile-header-utilities .readermode {
-    display: none !important;
   }
 
   .mobile-header-divider {
