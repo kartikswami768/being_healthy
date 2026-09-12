@@ -15,14 +15,18 @@ const makeConstructor = (name: string): QuartzComponentConstructor => {
   return () => makeComponent(name)
 }
 
-const makeEntry = (source: string, priority: number): PluginJsonEntry => ({
+const makeEntry = (
+  source: string,
+  priority: number,
+  mobileHeader = true,
+): PluginJsonEntry => ({
   source,
   enabled: true,
   options: {},
   layout: {
     position: "left",
     priority,
-    mobileHeader: true,
+    mobileHeader,
   },
 })
 
@@ -37,6 +41,7 @@ describe("local layout composition", () => {
     const search = makeComponent("Search")
     const mobileHeader = makeConstructor("MobileHeader")
     const blogList = makeComponent("BlogList")
+    const readerMode = makeComponent("ReaderMode")
 
     componentRegistry.register("profile", profile, "local", {
       name: "profile",
@@ -71,14 +76,62 @@ describe("local layout composition", () => {
       version: "1",
     })
     componentRegistry.register("search", search, "test-source")
+    componentRegistry.register("reader-mode", readerMode, "test-source")
 
-    const result = buildLayoutForEntries([makeEntry("search", 20)], {})
+    const result = buildLayoutForEntries(
+      [makeEntry("search", 20), makeEntry("reader-mode", 35, false)],
+      {},
+    )
 
-    assert.deepStrictEqual(result.left, [profile, search])
+    assert.deepStrictEqual(result.left, [profile, search, readerMode])
     assert.strictEqual(result.header?.length, 1)
     assert.strictEqual(result.left?.includes(blogList), false)
     assert.strictEqual(result.mobileHeader?.profile, profile)
     assert.strictEqual(result.mobileHeader?.navigation, navigation)
     assert.deepStrictEqual(result.mobileHeader?.utilities, [search])
+  })
+
+  test("sorts mobile-header utilities by layout priority", () => {
+    const profile = makeComponent("Profile")
+    const navigation = makeComponent("Navigation")
+    const mobileHeader = makeConstructor("MobileHeader")
+    const darkMode = makeComponent("DarkMode")
+    const search = makeComponent("Search")
+
+    componentRegistry.register("profile", profile, "local", {
+      name: "profile",
+      displayName: "Profile",
+      description: "",
+      version: "1",
+      defaultPosition: "left",
+      defaultPriority: 5,
+      layoutManaged: true,
+      mobileHeaderRole: "profile",
+    })
+    componentRegistry.register("navigation", navigation, "local", {
+      name: "navigation",
+      displayName: "Navigation",
+      description: "",
+      version: "1",
+      mobileHeaderRole: "navigation",
+    })
+    componentRegistry.register("mobile-header", mobileHeader, "local", {
+      name: "mobile-header",
+      displayName: "Mobile Header",
+      description: "",
+      version: "1",
+      defaultPosition: "header",
+      defaultPriority: 5,
+      layoutManaged: true,
+    })
+    componentRegistry.register("darkmode", darkMode, "test-source")
+    componentRegistry.register("search", search, "test-source")
+
+    const result = buildLayoutForEntries(
+      [makeEntry("darkmode", 30), makeEntry("search", 20)],
+      {},
+    )
+
+    assert.deepStrictEqual(result.mobileHeader?.utilities, [search, darkMode])
   })
 })
