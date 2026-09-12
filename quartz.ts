@@ -1,6 +1,7 @@
 import { loadQuartzConfig, loadQuartzLayout } from "./quartz/plugins/loader/config-loader"
 import { componentRegistry } from "./quartz/components/registry"
 import BlogList from "./quartz/components/BlogList"
+import MobileHeader from "./quartz/components/MobileHeader"
 import Navigation from "./quartz/components/Navigation"
 import NotebookMark from "./quartz/components/NotebookMark"
 import Profile from "./quartz/components/Profile"
@@ -14,6 +15,15 @@ componentRegistry.register("blog-list", BlogList, "local", {
   version: "1.0.0",
   defaultPosition: "afterBody",
   defaultPriority: 30,
+})
+
+componentRegistry.register("mobile-header", MobileHeader, "local", {
+  name: "mobile-header",
+  displayName: "Mobile Header",
+  description: "Displays the primary navigation and profile inside the mobile header.",
+  version: "1.0.0",
+  defaultPosition: "header",
+  defaultPriority: 5,
 })
 
 componentRegistry.register("navigation", Navigation, "local", {
@@ -78,8 +88,10 @@ function localComponent(name: string) {
 }
 
 loadedLayout.defaults.header = [
-  localComponent("navigation"),
-  ...(loadedLayout.defaults.header ?? []),
+  localComponent("mobile-header"),
+  ...(loadedLayout.defaults.header ?? []).filter(
+    (component) => component !== localComponent("navigation"),
+  ),
 ]
 
 loadedLayout.defaults.left = [localComponent("profile"), ...(loadedLayout.defaults.left ?? [])]
