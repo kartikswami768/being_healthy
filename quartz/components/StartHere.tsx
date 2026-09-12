@@ -59,7 +59,9 @@ const StartHere: QuartzComponent = ({ allFiles, fileData }) => {
 
   const pages = [...allFiles].filter(isPublicWriting).sort(sortByPublishedDate)
   const startPage = pages.find(isStartHere)
-  const recentPages = pages.slice(0, homepageRecentCount).filter((page) => page.slug !== startPage?.slug)
+  const recentPages = pages
+    .slice(0, homepageRecentCount)
+    .filter((page) => page.slug !== startPage?.slug)
 
   return (
     <section class="homepage-start-here" aria-labelledby="homepage-start-here-title">
