@@ -77,8 +77,6 @@ function localComponent(name: string) {
   return componentRegistry.instantiate(registered.component as any)
 }
 
-const headerComponents = [localComponent("navigation"), ...(loadedLayout.defaults.header ?? [])]
-
 loadedLayout.defaults.header = [
   localComponent("navigation"),
   ...(loadedLayout.defaults.header ?? []),
