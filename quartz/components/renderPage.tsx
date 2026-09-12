@@ -338,11 +338,7 @@ export function renderPage(
       ? ""
       : new URL(`https://${cfg.baseUrl}`).pathname.replace(/\/$/, "")
 
-  const renderComponent = (Component: QuartzComponent) =>
-    Component({
-      ...componentData,
-      mobileHeader,
-    })
+  componentData.mobileHeader = mobileHeader
 
   const doc = (
     <html lang={lang} dir={direction}>
@@ -355,7 +351,7 @@ export function renderPage(
               frame.render({
                 componentData,
                 head: Head,
-                header: header.map((HeaderComponent) => ((props) => renderComponent(HeaderComponent)) as QuartzComponent),
+                header,
                 beforeBody,
                 pageBody: Content,
                 afterBody,
