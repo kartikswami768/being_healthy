@@ -1,43 +1,68 @@
 ---
 title: About
+description: About Dr. Kartik Swami, and why Notes on Being Human exists.
 ---
 
-I am Dr. Kartik Swami, a doctor interested in medicine, health, physiology, psychology, and the broader question of what it means to be human.
+![Dr. Kartik Swami](/me.jpg)
 
-## Why I write
+I’m Kartik. I’m a doctor and an MBBS graduate from Maulana Azad Medical College in Delhi.
 
-Medicine often reaches people as isolated facts, recommendations, diagnoses, or rules. I started [writing here](/blog) to slow that process down and think through things properly: what is happening in the body, why it happens, what the evidence tells us, and where that evidence remains uncertain.
+I’m interested in medicine, health, physiology, psychology, behaviour, and the ordinary details through which people experience all of them. I also tend to study by connecting things rather than keeping every subject in its own box. A question about the body can lead to physiology, then behaviour, then psychology, and sometimes to a much bigger question about how people actually live.
 
-I want to make health and medicine understandable without flattening their complexity. Simple questions can have complicated answers, and understanding the path between the two is often more useful than memorising another rule.
+## Why I started writing
 
-## What you'll find here
+Medical training gives you a huge amount of information. It also teaches you how quickly a neat rule becomes less neat when it meets a real person.
+
+I started **Notes on Being Human** because I wanted a place to slow things down. I like asking what is actually happening, why it happens, what the evidence says, and where the evidence is still uncertain. Sometimes the useful answer is simple. Sometimes it isn't. I would rather show that difference than make everything sound certain just because certainty reads better.
+
+The aim is not to turn medicine into a list of facts, and it is not to pretend that every question has a clean answer. I want to share things I learn in a way that is understandable, useful, and honest about what we do and do not know.
+
+## Health is not just medicine
+
+I’m also trying to take health seriously in my own life.
+
+Fitness has become one of those ongoing experiments. It has made me more interested in the basics — movement, strength, food, cardiovascular health, habits, and the gap between knowing what to do and actually doing it consistently. I’m still learning, and that is part of the point.
+
+I’ve also seen people around me deal with the less abstract side of health: problems that come with age, chronic illness, physical limitations, mental health, and the everyday difficulty of looking after yourself while life keeps happening.
+
+That is one reason I want to share what I learn. Knowledge is more useful when it can leave the notebook and help someone think a little more clearly about their own health.
+
+## What you’ll find here
 
 ### Everyday Questions
 
-Questions about the body, health, food, exercise, behaviour, and everyday experiences.
+Practical questions about health, the body, food, exercise, habits, and things people encounter in ordinary life.
 
 ### Essays
 
-Longer pieces exploring medicine, health, psychology, behaviour, and ideas that deserve more space.
+Longer explorations of medicine, health, psychology, behaviour, and ideas that need more room.
 
 ### Case Stories
 
-Interesting medical cases and the reasoning behind them.
+Interesting medical cases, the reasoning behind them, and what makes them puzzling, instructive, or memorable.
 
 ### Notes & Observations
 
-Shorter pieces, observations, and things worth thinking about that do not necessarily need to become full essays.
+Shorter thoughts, observations, and pieces of learning that do not need to become a full essay.
+
+The writing is organised into these few forms, but the ideas are not meant to stay in separate boxes. A useful question may lead to an essay. An essay may lead to a case. A small note may eventually become something larger. The folders organise the writing; the links connect the ideas.
 
 ## How I approach medicine
 
-This site is written from a medical perspective, but being a doctor does not make every statement automatically correct. I try to distinguish established evidence from interpretation, acknowledge uncertainty when it matters, avoid presenting preliminary findings as settled facts, and explain mechanisms where doing so helps.
+Being a doctor does not make everything I write automatically correct.
 
-I also try to distinguish population-level evidence from individual medical advice. The aim is not for every article to be perfectly comprehensive or definitive, but to make the reasoning visible and honest.
+I try to separate established evidence from interpretation, explain mechanisms when they help, acknowledge uncertainty when it matters, and avoid presenting preliminary findings as settled facts. I also try to distinguish population-level evidence from individual medical advice.
+
+The goal is not to make every piece exhaustive. It is to make the reasoning visible.
+
+## Outside medicine
+
+There is more to me than medicine.
+
+I like reading and writing, photography, travelling, gaming, and following Formula 1. I also love Bollywood, and I especially enjoy bhangra. I’m not equally good at every kind of dance, but bhangra is one I can actually do.
+
+These things probably influence the way I think more than they seem to. Curiosity does not stay neatly inside one subject.
 
 ## A note about medical advice
 
 This site is for education and thoughtful discussion, not individualized diagnosis or treatment. If you have a personal medical concern, consult an appropriate healthcare professional.
-
-## Outside the notes
-
-This site is not intended to contain only medicine. Health sits at the intersection of biology, psychology, behaviour, society, and ordinary human life. That is why the title is [Notes on Being Human](/).
