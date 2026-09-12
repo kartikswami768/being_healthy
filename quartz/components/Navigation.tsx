@@ -62,6 +62,10 @@ Navigation.css = `
 }
 
 @media all and (max-width: 800px) {
+  .page-header > header > .primary-navigation {
+    display: none;
+  }
+
   .primary-navigation {
     width: 100%;
     margin-left: 0;
