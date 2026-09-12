@@ -1,7 +1,7 @@
 import { JSX } from "preact"
 import { StaticResources, StringResource } from "../util/resources"
 import { QuartzPluginData } from "../plugins/vfile"
-import { GlobalConfiguration } from "../cfg"
+import { FullPageLayout, GlobalConfiguration } from "../cfg"
 import { Node } from "hast"
 import { BuildCtx } from "../util/ctx"
 
@@ -14,6 +14,7 @@ export type QuartzComponentProps = {
   tree: Node
   allFiles: QuartzPluginData[]
   displayClass?: "mobile-only" | "desktop-only"
+  mobileHeader?: FullPageLayout["mobileHeader"]
 } & JSX.IntrinsicAttributes & {
     [key: string]: any
   }
