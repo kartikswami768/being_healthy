@@ -200,42 +200,6 @@ plugins:
     layout:
       position: beforeBody
       priority: 30
-  - source: "profile"
-    enabled: true
-    layout:
-      position: left
-      priority: 5
-  - source: "start-here"
-    enabled: true
-    layout:
-      position: afterBody
-      priority: 20
-  - source: "navigation"
-    enabled: true
-    layout:
-      position: header
-      priority: 10
-  - source: "notebook-mark"
-    enabled: true
-    layout:
-      position: afterBody
-      priority: 15
-  - source: "blog-list"
-    enabled: true
-    layout:
-      position: afterBody
-      priority: 30
-  - source: "writing-archive"
-    enabled: true
-    layout:
-      position: afterBody
-      priority: 30
-  - source: "explorer-toggle"
-    enabled: true
-    layout:
-      position: left
-      priority: 1
-      display: tablet
   - source: "@quartz-community/page-title"
     enabled: true
     layout:
