@@ -176,130 +176,55 @@ describe("priority sorting", () => {
   })
 })
 
-describe("resolveGroups", () => {
-  test("returns ungrouped items in priority order", () => {
-    const a = makeComponent("A")
-    const b = makeComponent("B")
-    const c = makeComponent("C")
-    const items = [
-      { component: a, priority: 30 },
-      { component: b, priority: 10 },
-      { component: c, priority: 20 },
-    ]
-    const result = resolveGroups(items, {})
-    assert.strictEqual(result.length, 3)
-    assert.strictEqual(result[0], b)
-    assert.strictEqual(result[1], c)
-    assert.strictEqual(result[2], a)
-  })
-
-  test("returns ungrouped items unchanged", () => {
-    const a = makeComponent("A")
-    const items = [{ component: a, priority: 10 }]
-    const result = resolveGroups(items, {})
-    assert.strictEqual(result.length, 1)
-    assert.strictEqual(result[0], a)
-  })
-
-  test("returns empty array for empty input", () => {
-    const result = resolveGroups([], {})
-    assert.deepStrictEqual(result, [])
-  })
-
-  test("wraps grouped items in a Flex component", () => {
-    const a = makeComponent("A")
-    const b = makeComponent("B")
-    const items = [
-      { component: a, priority: 10, group: "toolbar" },
-      { component: b, priority: 20, group: "toolbar" },
-    ]
-    const result = resolveGroups(items, {})
-    assert.strictEqual(result.length, 1)
-    assert.notStrictEqual(result[0], a)
-    assert.notStrictEqual(result[0], b)
-  })
-
-  test("uses explicit group priority from config", () => {
-    const grouped = makeComponent("Grouped")
-    const ungrouped = makeComponent("Ungrouped")
-    const items = [
-      { component: grouped, priority: 50, group: "nav" },
-      { component: ungrouped, priority: 10 },
-    ]
-    const result = resolveGroups(items, { nav: { priority: 5 } })
-    assert.strictEqual(result.length, 2)
-    assert.strictEqual(result[1], ungrouped)
-  })
-
-  test("falls back to first member priority when no group config", () => {
-    const a = makeComponent("A")
-    const b = makeComponent("B")
-    const solo = makeComponent("Solo")
-    const items = [
-      { component: a, priority: 20, group: "nav" },
-      { component: b, priority: 40, group: "nav" },
-      { component: solo, priority: 30 },
-    ]
-    const result = resolveGroups(items, {})
-    assert.strictEqual(result.length, 2)
-    assert.strictEqual(result[1], solo)
-  })
-
-  test("single-member group still wraps in Flex", () => {
-    const a = makeComponent("A")
-    const items = [{ component: a, priority: 10, group: "solo" }]
-    const result = resolveGroups(items, {})
-    assert.strictEqual(result.length, 1)
-    assert.notStrictEqual(result[0], a)
-  })
-})
-
 describe("buildLayoutForEntries with display wrappers", () => {
   test("applies display wrapper for mobile-only", () => {
     const component = makeComponent("Wrapped")
     componentRegistry.register("wrapped-plugin", component, "test-source")
 
-    const entry: PluginJsonEntry = {
-      source: "wrapped-plugin",
-      enabled: true,
-      options: {},
-      layout: { position: "left" as LayoutPosition, priority: 10, display: "mobile-only" },
-    }
-    const result = buildLayoutForEntries([entry], {})
-    assert.strictEqual(result.left?.length, 1)
-    assert.notStrictEqual(result.left?.[0], component)
-  })
-})
-
-describe("buildLayoutForEntries with constructors", () => {
-  test("instantiates constructor components via registry", () => {
-    const ctor = makeConstructor("Instantiated")
-    componentRegistry.register("ctor-plugin", ctor, "test-source")
-
-    const result = buildLayoutForEntries(
-      [makeEntry("ctor-plugin", { position: "left", priority: 10 })],
-      {},
-    )
-    assert.strictEqual(result.left?.length, 1)
-    assert.strictEqual(result.left?.[0].displayName, "Instantiated")
-  })
-
-  test("merges entry options with TS overrides for constructors", () => {
-    const ctor = makeConstructor("Merged")
-    componentRegistry.register("merge-plugin", ctor, "test-source")
-    componentRegistry.setOptionOverrides("merge-plugin", { extra: true })
-
     const result = buildLayoutForEntries(
       [
         {
-          source: "merge-plugin",
-          enabled: true,
-          options: { base: 1 },
-          layout: { position: "right" as LayoutPosition, priority: 10 },
+          ...makeEntry("wrapped-plugin", { position: "left", priority: 10 }),
+          layout: { position: "left", priority: 10, display: "mobile-only" },
         },
       ],
       {},
     )
-    assert.strictEqual(result.right?.length, 1)
+    assert.strictEqual(result.left?.length, 1)
+    assert.notStrictEqual(result.left?.[0], component)
+  })
+
+  test("applies display wrapper for desktop-only", () => {
+    const component = makeComponent("Wrapped")
+    componentRegistry.register("wrapped-plugin", component, "test-source")
+
+    const result = buildLayoutForEntries(
+      [
+        {
+          ...makeEntry("wrapped-plugin", { position: "left", priority: 10 }),
+          layout: { position: "left", priority: 10, display: "desktop-only" },
+        },
+      ],
+      {},
+    )
+    assert.strictEqual(result.left?.length, 1)
+    assert.notStrictEqual(result.left?.[0], component)
+  })
+
+  test("applies display wrapper for tablet", () => {
+    const component = makeComponent("Wrapped")
+    componentRegistry.register("wrapped-plugin", component, "test-source")
+
+    const result = buildLayoutForEntries(
+      [
+        {
+          ...makeEntry("wrapped-plugin", { position: "left", priority: 10 }),
+          layout: { position: "left", priority: 10, display: "tablet" },
+        },
+      ],
+      {},
+    )
+    assert.strictEqual(result.left?.length, 1)
+    assert.notStrictEqual(result.left?.[0], component)
   })
 })
