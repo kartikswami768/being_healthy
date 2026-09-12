@@ -49,6 +49,12 @@ MobileHeader.css = `
     width: 100%;
   }
 
+  .mobile-header-profile .profile {
+    margin: 0;
+    padding: 0;
+    border-bottom: 0;
+  }
+
   .mobile-header-profile .profile img {
     display: none;
   }
