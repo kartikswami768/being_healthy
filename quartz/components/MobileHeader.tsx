@@ -7,7 +7,9 @@ type MobileHeaderProps = QuartzComponentProps & {
 
 const MobileHeader: QuartzComponent = (props: MobileHeaderProps) => {
   const { mobileHeader } = props
-  const sidebar = mobileHeader?.sidebar ?? []
+  // The mobile toolbar is intentionally limited to Search and Dark Mode.
+  // Reader Mode remains available in the desktop sidebar.
+  const sidebar = (mobileHeader?.sidebar ?? []).slice(0, 2)
 
   return (
     <div class="mobile-header">
