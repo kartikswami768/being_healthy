@@ -76,21 +76,22 @@ componentRegistry.register("writing-archive", WritingArchive, "local", {
 const config = await loadQuartzConfig()
 const layout = await loadQuartzLayout()
 
-const profile = componentRegistry.instantiate(Profile)
-const navigation = componentRegistry.instantiate(Navigation)
 const mobileHeaderComponent = componentRegistry.instantiate(MobileHeader)
-const mobileUtilities = layout.defaults.mobileHeader?.utilities ?? []
-
+const navigation = layout.defaults.mobileHeader?.navigation
+const mobileHeaderLayout = layout.defaults.mobileHeader
 const mobileHeader = ((props) =>
   mobileHeaderComponent({
     ...props,
-    mobileHeader: { profile, navigation, utilities: mobileUtilities },
+    mobileHeader: mobileHeaderLayout,
   })) as QuartzComponent
 Object.assign(mobileHeader, mobileHeaderComponent)
 
-layout.defaults.mobileHeader = { profile, navigation, utilities: mobileUtilities }
-layout.defaults.left = [profile, ...(layout.defaults.left ?? [])]
-layout.defaults.header = [mobileHeader, ...(layout.defaults.header ?? [])]
+const header = layout.defaults.header ?? []
+const registeredMobileHeader = componentRegistry.instantiate(MobileHeader)
+layout.defaults.header = header.filter(
+  (component) => component !== registeredMobileHeader && component !== navigation,
+)
+layout.defaults.header.unshift(mobileHeader)
 
 config.plugins.emitters = config.plugins.emitters.slice(0, -1)
 config.plugins.emitters.push(
