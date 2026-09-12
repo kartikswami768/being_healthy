@@ -176,6 +176,7 @@ plugins:
       position: left
       priority: 20
       group: toolbar
+      mobileHeader: true
       groupOptions:
         grow: true
   - source: "@quartz-community/backlinks"
@@ -211,6 +212,7 @@ plugins:
       position: left
       priority: 30
       group: toolbar
+      mobileHeader: true
   - source: "@quartz-community/reader-mode"
     enabled: true
     layout:
