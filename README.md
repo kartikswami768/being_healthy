@@ -1,17 +1,9 @@
-# Quartz v5
+# Notes on Being Human
 
-> “[One] who works with the door open gets all kinds of interruptions, but [they] also occasionally gets clues as to what the world is and what might be important.” — Richard Hamming
+A personal knowledge garden and writing site covering health, science, psychology, society, and related ideas.
 
-Quartz is a set of tools that helps you publish your [digital garden](https://jzhao.xyz/posts/networked-thought) and notes as a website for free.
+The site is built with Quartz v5 and deployed to Cloudflare Workers.
 
-🔗 Read the documentation and get started: https://quartz.jzhao.xyz/
+**Live site:** https://being-healthy.kartikswami768.workers.dev
 
-[Join the Discord Community](https://discord.gg/cRFFHYye7t)
-
-## Sponsors
-
-<p align="center">
-  <a href="https://github.com/sponsors/jackyzha0">
-    <img src="https://cdn.jsdelivr.net/gh/jackyzha0/jackyzha0/sponsorkit/sponsors.svg" />
-  </a>
-</p>
+**Repository:** https://github.com/kartikswami768/being_healthy
