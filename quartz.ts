@@ -26,6 +26,7 @@ componentRegistry.register("mobile-header", MobileHeader, "local", {
   version: "1.0.0",
   defaultPosition: "header",
   defaultPriority: 5,
+  layoutManaged: true,
 })
 
 componentRegistry.register("navigation", Navigation, "local", {
@@ -35,6 +36,7 @@ componentRegistry.register("navigation", Navigation, "local", {
   version: "1.0.0",
   defaultPosition: "header",
   defaultPriority: 10,
+  mobileHeaderRole: "navigation",
 })
 
 componentRegistry.register("notebook-mark", NotebookMark, "local", {
@@ -53,6 +55,8 @@ componentRegistry.register("profile", Profile, "local", {
   version: "1.0.0",
   defaultPosition: "left",
   defaultPriority: 5,
+  layoutManaged: true,
+  mobileHeaderRole: "profile",
 })
 
 componentRegistry.register("start-here", StartHere, "local", {
