@@ -34,11 +34,6 @@ const MobileFooter: QuartzComponent = ({ allFiles, fileData }: QuartzComponentPr
         <h2>Writing</h2>
         <InlineLinks links={navigation.writing} />
       </div>
-
-      <div class="mobile-footer-group">
-        <h2>Topics</h2>
-        <InlineLinks links={navigation.topics} />
-      </div>
     </footer>
   )
 }
