@@ -1,5 +1,6 @@
 import { JSX } from "preact"
 import { QuartzComponent, QuartzComponentProps } from "../types"
+import type { FullPageLayout } from "../../cfg"
 
 /**
  * Props passed to a PageFrame's render function.
@@ -12,6 +13,8 @@ export interface PageFrameProps {
   head: QuartzComponent
   /** Header slot components (rendered inside <header>) */
   header: QuartzComponent[]
+  /** Components captured for the mobile header before grouped wrappers are created */
+  mobileHeader?: FullPageLayout["mobileHeader"]
   /** Components rendered before the page body */
   beforeBody: QuartzComponent[]
   /** The page body component (Content) */
