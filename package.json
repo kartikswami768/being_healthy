@@ -1,15 +1,14 @@
 {
-  "name": "@jackyzha0/quartz",
-  "description": "🌱 publish your digital garden and notes as a website",
+  "name": "notes-on-being-human",
+  "description": "Notes on Being Human — essays, notes, and writing on health, science, psychology, and society.",
   "private": true,
   "version": "5.0.0",
   "type": "module",
-  "author": "jackyzha0 <j.zhao2k19@gmail.com>",
   "license": "MIT",
-  "homepage": "https://quartz.jzhao.xyz",
+  "homepage": "https://being-healthy.kartikswami768.workers.dev",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jackyzha0/quartz.git"
+    "url": "https://github.com/kartikswami768/being_healthy.git"
   },
   "scripts": {
     "quartz": "./quartz/bootstrap-cli.mjs",
@@ -26,19 +25,21 @@
     "node": ">=22"
   },
   "keywords": [
-    "site generator",
-    "ssg",
-    "digital-garden",
-    "markdown",
-    "blog",
-    "quartz"
+    "notes",
+    "essays",
+    "writing",
+    "health",
+    "science",
+    "psychology",
+    "society",
+    "digital-garden"
   ],
   "bin": {
     "quartz": "./quartz/bootstrap-cli.mjs"
   },
   "dependencies": {
     "@clack/prompts": "^0.11.0",
-    "@floating-ui/dom": "^1.7.4",
+    "@floating-ui/dom": "^1.7.0",
     "@myriaddreamin/rehype-typst": "^0.6.0",
     "@napi-rs/simple-git": "0.1.22",
     "@quartz-community/alias-redirects": "^0.1.0",
@@ -96,9 +97,9 @@
     "hast-util-from-html": "^2.0.0",
     "hast-util-to-jsx-runtime": "^2.3.6",
     "isomorphic-git": "^1.36.3",
-    "lightningcss": "^1.31.1",
+    "lightningcss": "^1.31.0",
     "micromorph": "^0.4.5",
-    "minimatch": "^10.1.1",
+    "minimatch": "^10.1.0",
     "preact": "^10.28.2",
     "preact-render-to-string": "^6.6.5",
     "pretty-bytes": "^7.1.0",
