@@ -1,6 +1,8 @@
 import { loadQuartzConfig, loadQuartzLayout } from "./quartz/plugins/loader/config-loader"
 import { componentRegistry } from "./quartz/components/registry"
 import BlogList from "./quartz/components/BlogList"
+import DesktopSidebar from "./quartz/components/DesktopSidebar"
+import MobileFooter from "./quartz/components/MobileFooter"
 import MobileHeader from "./quartz/components/MobileHeader"
 import Navigation from "./quartz/components/Navigation"
 import NotebookMark from "./quartz/components/NotebookMark"
@@ -15,6 +17,26 @@ componentRegistry.register("blog-list", BlogList, "local", {
   version: "1.0.0",
   defaultPosition: "afterBody",
   defaultPriority: 30,
+  layoutManaged: true,
+})
+
+componentRegistry.register("desktop-sidebar", DesktopSidebar, "local", {
+  name: "desktop-sidebar",
+  displayName: "Desktop Sidebar",
+  description: "Displays the shared site navigation on desktop and landscape layouts.",
+  version: "1.0.0",
+  defaultPosition: "left",
+  defaultPriority: 20,
+  layoutManaged: true,
+})
+
+componentRegistry.register("mobile-footer", MobileFooter, "local", {
+  name: "mobile-footer",
+  displayName: "Mobile Footer",
+  description: "Displays the shared site navigation in the mobile footer.",
+  version: "1.0.0",
+  defaultPosition: "footer",
+  defaultPriority: 20,
   layoutManaged: true,
 })
 
