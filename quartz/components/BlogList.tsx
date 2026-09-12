@@ -1,13 +1,7 @@
 import { FullSlug, resolveRelative } from "../util/path"
 import { Date as DateComponent } from "./Date"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
-
-const writingTypes = [
-  { key: "question", title: "Everyday Questions", slug: "questions" },
-  { key: "essay", title: "Essays", slug: "essays" },
-  { key: "case", title: "Case Stories", slug: "cases" },
-  { key: "note", title: "Notes & Observations", slug: "notes" },
-] as const
+import { writingTypes } from "../navigation/WritingTypes"
 
 const blogPreviewCount = 5
 
