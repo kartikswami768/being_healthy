@@ -73,4 +73,37 @@ componentRegistry.register("writing-archive", WritingArchive, "local", {
 
 const config = await loadQuartzConfig()
 export default config
-export const layout = await loadQuartzLayout()
+
+const loadedLayout = await loadQuartzLayout()
+
+function localComponent(name: string) {
+  const registered = componentRegistry.get(name)
+  if (!registered) throw new Error(`Local component "${name}" is not registered.`)
+
+  if (typeof registered.component !== "function") {
+    return registered.component
+  }
+
+  return componentRegistry.instantiate(registered.component as any)
+}
+
+loadedLayout.defaults.header = [
+  localComponent("navigation"),
+  ...loadedLayout.defaults.header,
+]
+
+loadedLayout.defaults.left = [
+  localComponent("explorer-toggle"),
+  localComponent("profile"),
+  ...loadedLayout.defaults.left,
+]
+
+loadedLayout.defaults.afterBody = [
+  localComponent("notebook-mark"),
+  localComponent("start-here"),
+  localComponent("blog-list"),
+  localComponent("writing-archive"),
+  ...loadedLayout.defaults.afterBody,
+]
+
+export const layout = loadedLayout
