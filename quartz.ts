@@ -7,7 +7,6 @@ import NotebookMark from "./quartz/components/NotebookMark"
 import Profile from "./quartz/components/Profile"
 import StartHere from "./quartz/components/StartHere"
 import WritingArchive from "./quartz/components/WritingArchive"
-import type { QuartzComponent } from "./quartz/components/types"
 
 componentRegistry.register("blog-list", BlogList, "local", {
   name: "blog-list",
@@ -74,29 +73,4 @@ componentRegistry.register("writing-archive", WritingArchive, "local", {
 
 const config = await loadQuartzConfig()
 export default config
-
-const loadedLayout = await loadQuartzLayout()
-
-function localComponent(name: string) {
-  const registered = componentRegistry.get(name)
-  if (!registered) throw new Error(`Local component "${name}" is not registered.`)
-
-  if (typeof registered.component !== "function") {
-    return registered.component
-  }
-
-  return componentRegistry.instantiate(registered.component as any)
-}
-
-const existingHeader = loadedLayout.defaults.header ?? []
-const mobileHeaderComponent = localComponent("mobile-header")
-const mobileHeader = ((props) =>
-  mobileHeaderComponent({
-    ...props,
-    mobileHeader: loadedLayout.defaults.mobileHeader,
-  })) as QuartzComponent
-Object.assign(mobileHeader, mobileHeaderComponent)
-
-loadedLayout.defaults.header = [mobileHeader, ...existingHeader]
-
-export const layout = loadedLayout
+export const layout = await loadQuartzLayout()
