@@ -58,18 +58,20 @@ MobileHeader.css = `
 @media all and (max-width: 800px) {
   .mobile-header {
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.75rem;
+    padding-top: 1.5rem;
   }
 
   .mobile-header-profile {
     display: block;
     width: 100%;
+    padding: 0;
   }
 
-  .mobile-header-profile .profile {
+  .mobile-header .mobile-header-profile .profile {
     margin: 0;
     padding: 0;
-    border-bottom: 0;
+    border: 0;
   }
 
   .mobile-header-profile .profile img {
@@ -78,7 +80,6 @@ MobileHeader.css = `
 
   .mobile-header-toolbar {
     gap: 0.75rem;
-    justify-content: flex-start;
   }
 
   .mobile-header-utilities {
@@ -115,6 +116,11 @@ MobileHeader.css = `
 }
 
 @media all and (max-width: 340px) {
+  .mobile-header {
+    gap: 0.55rem;
+    padding-top: 1rem;
+  }
+
   .mobile-header-toolbar {
     gap: 0.55rem;
   }
