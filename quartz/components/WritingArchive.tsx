@@ -77,7 +77,8 @@ function sortByPublishedDate(first: WritingPage, second: WritingPage): number {
 
 const WritingArchive: QuartzComponent = ({ allFiles, fileData }) => {
   const slug = String(fileData.slug ?? "")
-  const writingType = writingTypes.find((entry) => slug === `blog/${entry.slug}`) as WritingType | undefined
+  const writingType = writingTypes.find((entry) => slug === `blog/${entry.slug}`) as
+    WritingType | undefined
 
   if (!writingType) return null
 
@@ -91,7 +92,9 @@ const WritingArchive: QuartzComponent = ({ allFiles, fileData }) => {
   return (
     <div class="writing-archive" aria-label={`${writingType.title} archive`}>
       <p class="writing-archive-description">{writingType.description}</p>
-      <p class="writing-archive-count">{pages.length === 1 ? "1 piece" : `${pages.length} pieces`}</p>
+      <p class="writing-archive-count">
+        {pages.length === 1 ? "1 piece" : `${pages.length} pieces`}
+      </p>
 
       {pages.length > 0 ? (
         <ul class="writing-archive-items">

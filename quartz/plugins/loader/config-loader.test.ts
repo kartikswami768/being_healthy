@@ -15,7 +15,10 @@ const makeConstructor = (name: string): QuartzComponentConstructor => {
   return () => makeComponent(name)
 }
 
-function makeEntry(source: string, layout?: { position: LayoutPosition; priority: number }): PluginJsonEntry {
+function makeEntry(
+  source: string,
+  layout?: { position: LayoutPosition; priority: number },
+): PluginJsonEntry {
   return {
     source,
     enabled: true,
@@ -32,21 +35,30 @@ describe("position assignment", () => {
   test("places component in correct position from layout.position", () => {
     const component = makeComponent("MyPlugin")
     componentRegistry.register("my-plugin", component, "test-source")
-    const result = buildLayoutForEntries([makeEntry("my-plugin", { position: "left", priority: 10 })], {})
+    const result = buildLayoutForEntries(
+      [makeEntry("my-plugin", { position: "left", priority: 10 })],
+      {},
+    )
     assert.deepStrictEqual(result.left, [component])
   })
 
   test("places component in footer position", () => {
     const component = makeComponent("FooterComp")
     componentRegistry.register("footer-comp", component, "test-source")
-    const result = buildLayoutForEntries([makeEntry("footer-comp", { position: "footer", priority: 20 })], {})
+    const result = buildLayoutForEntries(
+      [makeEntry("footer-comp", { position: "footer", priority: 20 })],
+      {},
+    )
     assert.deepStrictEqual(result.footer, [component])
   })
 
   test("places component in header position", () => {
     const component = makeComponent("HeaderComp")
     componentRegistry.register("header-comp", component, "test-source")
-    const result = buildLayoutForEntries([makeEntry("header-comp", { position: "header", priority: 5 })], {})
+    const result = buildLayoutForEntries(
+      [makeEntry("header-comp", { position: "header", priority: 5 })],
+      {},
+    )
     assert.deepStrictEqual(result.header, [component])
   })
 

@@ -89,7 +89,10 @@ const BlogList: QuartzComponent = ({ allFiles, fileData }) => {
         const typePages = pages.filter((page) => getFrontmatter(page).type === writingType.key)
         const previewPages = typePages.slice(0, blogPreviewCount)
         const hasArchive = typePages.length > blogPreviewCount
-        const archiveHref = resolveRelative(fileData.slug as FullSlug, `blog/${writingType.slug}` as FullSlug)
+        const archiveHref = resolveRelative(
+          fileData.slug as FullSlug,
+          `blog/${writingType.slug}` as FullSlug,
+        )
 
         if (typePages.length === 0) return null
 

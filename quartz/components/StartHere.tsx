@@ -74,7 +74,9 @@ const StartHere: QuartzComponent = ({ allFiles, fileData }) => {
             {(() => {
               const frontmatter = getFrontmatter(startPage)
               const title = String(frontmatter.title ?? "Untitled")
-              const description = String(frontmatter.description ?? startPage.description ?? "").trim()
+              const description = String(
+                frontmatter.description ?? startPage.description ?? "",
+              ).trim()
               const href = resolveRelative(fileData.slug as FullSlug, startPage.slug as FullSlug)
 
               return (
@@ -133,9 +135,13 @@ const StartHere: QuartzComponent = ({ allFiles, fileData }) => {
       )}
 
       <p class="homepage-start-here-network">
-        The writing is meant to grow as a connected set of ideas. <a
+        The writing is meant to grow as a connected set of ideas.{" "}
+        <a
           class="internal internal-link"
-          href={resolveRelative(fileData.slug as FullSlug, "notes/building-a-knowledge-network" as FullSlug)}
+          href={resolveRelative(
+            fileData.slug as FullSlug,
+            "notes/building-a-knowledge-network" as FullSlug,
+          )}
         >
           See how the network works.
         </a>
