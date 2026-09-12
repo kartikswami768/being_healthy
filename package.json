@@ -22,7 +22,7 @@
   },
   "engines": {
     "npm": ">=10.9.2",
-    "node": ">=22"
+    "node": "22.x"
   },
   "keywords": [
     "notes",
@@ -98,7 +98,7 @@
     "hast-util-to-jsx-runtime": "^2.3.6",
     "isomorphic-git": "^1.36.3",
     "lightningcss": "^1.31.0",
-    "micromorph": "^0.4.5",
+    "micromatch": "^4.0.8",
     "minimatch": "^10.1.0",
     "preact": "^10.28.2",
     "preact-render-to-string": "^6.6.5",
