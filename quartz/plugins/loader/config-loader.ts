@@ -568,6 +568,7 @@ export function buildLayoutForEntries(
   const positions: Record<
     string,
     {
+      name: string
       component: QuartzComponent
       priority: number
       group?: string
@@ -610,6 +611,7 @@ export function buildLayoutForEntries(
     const posArray = positions[layout.position]
     if (posArray)
       posArray.push({
+        name,
         component,
         priority: layout.priority,
         group: layout.group,
@@ -643,9 +645,11 @@ export function buildLayoutForEntries(
         optsArg,
       )
     } else component = reg.component as QuartzComponent
-    posArray.push({ component, priority: layoutDefaults?.defaultPriority ?? 50 })
+    posArray.push({ name, component, priority: layoutDefaults?.defaultPriority ?? 50 })
   }
-  const mobileHeader = positions.left
+  const profile = positions.left.find((item) => item.name === "profile")?.component
+  const navigation = positions.header.find((item) => item.name === "navigation")?.component
+  const sidebar = positions.left
     .filter((item) => item.group === "toolbar")
     .sort((a, b) => a.priority - b.priority)
     .map((item) => item.component)
@@ -694,7 +698,7 @@ export function buildLayoutForEntries(
   return {
     header: buildPosition(positions.header),
     left: buildPosition(positions.left),
-    mobileHeader,
+    mobileHeader: { profile, navigation, sidebar },
     right: buildPosition(positions.right),
     beforeBody: buildPosition(positions.beforeBody),
     afterBody: buildPosition(positions.afterBody),

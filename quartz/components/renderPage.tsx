@@ -26,6 +26,7 @@ interface RenderComponents {
   left: QuartzComponent[]
   right: QuartzComponent[]
   footer: QuartzComponent[]
+  mobileHeader?: FullPageLayout["mobileHeader"]
   frame?: string
 }
 

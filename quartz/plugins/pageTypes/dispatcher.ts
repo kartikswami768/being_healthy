@@ -33,6 +33,7 @@ export function resolveLayout(
     left: overrides.left ?? sharedDefaults.left ?? [],
     right: overrides.right ?? sharedDefaults.right ?? [],
     footer: overrides.footer ?? sharedDefaults.footer ?? [],
+    mobileHeader: overrides.mobileHeader ?? sharedDefaults.mobileHeader,
     frame,
   }
 }

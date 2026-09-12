@@ -1,21 +1,27 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
-import Navigation from "./Navigation"
-import Profile from "./Profile"
+import type { FullPageLayout } from "../cfg"
 
 type MobileHeaderProps = QuartzComponentProps & {
-  children?: QuartzComponentProps["children"]
+  mobileHeader?: FullPageLayout["mobileHeader"]
 }
 
 const MobileHeader: QuartzComponent = (props: MobileHeaderProps) => {
-  const { children } = props
+  const { mobileHeader } = props
+  const sidebar = mobileHeader?.sidebar ?? []
 
   return (
     <div class="mobile-header">
       <div class="mobile-header-main">
-        <Profile {...props} />
-        <Navigation {...props} />
+        {mobileHeader?.profile && <mobileHeader.profile {...props} />}
+        {mobileHeader?.navigation && <mobileHeader.navigation {...props} />}
       </div>
-      {children && <div class="mobile-header-sidebar">{children}</div>}
+      {sidebar.length > 0 && (
+        <div class="mobile-header-sidebar">
+          {sidebar.map((Component) => (
+            <Component {...props} />
+          ))}
+        </div>
+      )}
     </div>
   )
 }

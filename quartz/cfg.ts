@@ -97,7 +97,11 @@ export interface FullPageLayout {
   right: QuartzComponent[]
   footer: QuartzComponent[]
   /** Components captured for the mobile header before grouped layout wrappers are created. */
-  mobileHeader?: QuartzComponent[]
+  mobileHeader?: {
+    profile?: QuartzComponent
+    navigation?: QuartzComponent
+    sidebar: QuartzComponent[]
+  }
   /** Page frame name (e.g. "default", "full-width", "minimal"). Defaults to "default". */
   frame?: string
 }

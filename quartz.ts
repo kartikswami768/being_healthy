@@ -7,6 +7,7 @@ import NotebookMark from "./quartz/components/NotebookMark"
 import Profile from "./quartz/components/Profile"
 import StartHere from "./quartz/components/StartHere"
 import WritingArchive from "./quartz/components/WritingArchive"
+import type { QuartzComponent } from "./quartz/components/types"
 
 componentRegistry.register("blog-list", BlogList, "local", {
   name: "blog-list",
@@ -89,10 +90,14 @@ function localComponent(name: string) {
 
 const existingHeader = loadedLayout.defaults.header ?? []
 const existingLeft = loadedLayout.defaults.left ?? []
-const mobileHeader = localComponent("mobile-header")
-const profile = localComponent("profile")
+const mobileHeaderComponent = localComponent("mobile-header")
+const mobileHeader = ((props) =>
+  mobileHeaderComponent({
+    ...props,
+    mobileHeader: loadedLayout.defaults.mobileHeader,
+  })) as QuartzComponent
+Object.assign(mobileHeader, mobileHeaderComponent)
 
 loadedLayout.defaults.header = [mobileHeader, ...existingHeader]
-loadedLayout.defaults.left = [profile, ...existingLeft.filter((component) => component !== profile)]
 
 export const layout = loadedLayout
