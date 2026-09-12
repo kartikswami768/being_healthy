@@ -25,6 +25,7 @@ import { loadComponentsFromPackage } from "./componentLoader"
 import { loadFramesFromPackage } from "./frameLoader"
 import { componentRegistry } from "../../components/registry"
 import { getCondition } from "./conditions"
+import Flex from "../../components/Flex"
 import MobileOnly from "../../components/MobileOnly"
 import DesktopOnly from "../../components/DesktopOnly"
 import ConditionalRender from "../../components/ConditionalRender"
@@ -360,8 +361,8 @@ function findFactory(module: Record<string, unknown>, expectedCategory?: Process
   if (typeof module.plugin === "function") return module.plugin as Function
   const exportedFunctions = Object.entries(module).filter(
     ([key, value]) => typeof value === "function" && !key.startsWith("__"),
-  )
-  if (exportedFunctions.length === 1) return exportedFunctions[0][1] as Function
+  ) as [string, Function][]
+  if (exportedFunctions.length === 1) return exportedFunctions[0][1]
   if (exportedFunctions.length > 1 && expectedCategory) {
     for (const [, fn] of exportedFunctions) {
       try {
@@ -420,8 +421,8 @@ export async function loadQuartzLayout(layoutOverrides?: {
 }> {
   const json = readPluginsJson()
   if (!json) {
-    const oldLayout = await import("../../../quartz")
-    return oldLayout.layout
+    const oldConfig = await import("../../../quartz")
+    return oldConfig.layout
   }
   const enabledWithLayout = json.plugins.filter((e) => e.enabled)
   const layoutConfig = json.layout ?? {}
@@ -436,10 +437,11 @@ export async function loadQuartzLayout(layoutOverrides?: {
       const ptLayout = buildLayoutForEntries(filteredEntries, layoutConfig)
       if (override.positions) {
         for (const [pos, components] of Object.entries(override.positions)) {
-          if (!Array.isArray(components) || components.length !== 0) continue
-          const key = pos as keyof Pick<FullPageLayout, "header" | "left" | "right" | "beforeBody" | "afterBody" | "footer">
-          if (key in ptLayout) {
-            ;(ptLayout as Record<string, unknown>)[key] = []
+          if (Array.isArray(components) && components.length === 0) {
+            const key = pos as keyof Pick<FullPageLayout, "header" | "left" | "right" | "beforeBody" | "afterBody" | "footer">
+            if (key in ptLayout) {
+              ;(ptLayout as Record<string, unknown>)[key] = []
+            }
           }
         }
       }
@@ -469,15 +471,7 @@ export async function loadQuartzLayout(layoutOverrides?: {
 }
 
 export function buildLayoutForEntries(entries: PluginJsonEntry[], layoutConfig: LayoutConfig): Partial<FullPageLayout> {
-  const positions: Record<
-    string,
-    {
-      component: QuartzComponent
-      priority: number
-      group?: string
-      groupOptions?: PluginLayoutDeclaration["groupOptions"]
-    }[]
-  > = {
+  const positions: Record<string, { component: QuartzComponent; priority: number; group?: string; groupOptions?: PluginLayoutDeclaration["groupOptions"] }[]> = {
     header: [],
     left: [],
     right: [],
@@ -562,22 +556,13 @@ export function buildLayoutForEntries(entries: PluginJsonEntry[], layoutConfig: 
         }))
         entries.push({
           priority: item.priority,
-          component: undefined as never,
-        })
-        const last = entries[entries.length - 1]
-        last.component = {
-          ...({} as QuartzComponent),
-          ...({} as QuartzComponent),
-        } as QuartzComponent
-        last.component = (() => {
-          const component = Flex({
+          component: Flex({
             components: flexComponents,
             direction: groupConfig.direction ?? "row",
             wrap: groupConfig.wrap,
             gap: groupConfig.gap ?? "1rem",
-          })
-          return component as QuartzComponent
-        })()
+          }) as QuartzComponent,
+        })
       } else entries.push({ priority: item.priority, component: item.component })
     }
     entries.sort((a, b) => a.priority - b.priority)
