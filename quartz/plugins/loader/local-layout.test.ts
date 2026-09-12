@@ -15,11 +15,7 @@ const makeConstructor = (name: string): QuartzComponentConstructor => {
   return () => makeComponent(name)
 }
 
-const makeEntry = (
-  source: string,
-  priority: number,
-  mobileHeader = true,
-): PluginJsonEntry => ({
+const makeEntry = (source: string, priority: number, mobileHeader = true): PluginJsonEntry => ({
   source,
   enabled: true,
   options: {},
@@ -127,10 +123,7 @@ describe("local layout composition", () => {
     componentRegistry.register("darkmode", darkMode, "test-source")
     componentRegistry.register("search", search, "test-source")
 
-    const result = buildLayoutForEntries(
-      [makeEntry("darkmode", 30), makeEntry("search", 20)],
-      {},
-    )
+    const result = buildLayoutForEntries([makeEntry("darkmode", 30), makeEntry("search", 20)], {})
 
     assert.deepStrictEqual(result.mobileHeader?.utilities, [search, darkMode])
   })
