@@ -79,7 +79,7 @@ function renderItem(page: BlogPage, from: FullSlug) {
 }
 
 const BlogList: QuartzComponent = ({ allFiles, fileData }) => {
-  if (fileData.slug !== "blog") return null
+  if (fileData.slug !== "blog" && fileData.slug !== "blog/index") return null
 
   const pages = allFiles.filter(isPublicWriting).sort(sortByPublishedDate)
 
