@@ -200,37 +200,37 @@ plugins:
     layout:
       position: beforeBody
       priority: 30
-  - source: "./quartz/plugins/profile"
+  - source: "profile"
     enabled: true
     layout:
       position: left
       priority: 5
-  - source: "./quartz/plugins/start-here"
+  - source: "start-here"
     enabled: true
     layout:
       position: afterBody
       priority: 20
-  - source: "./quartz/plugins/navigation"
+  - source: "navigation"
     enabled: true
     layout:
       position: header
       priority: 10
-  - source: "./quartz/plugins/notebook-mark"
+  - source: "notebook-mark"
     enabled: true
     layout:
       position: afterBody
       priority: 15
-  - source: "./quartz/plugins/blog-list"
+  - source: "blog-list"
     enabled: true
     layout:
       position: afterBody
       priority: 30
-  - source: "./quartz/plugins/writing-archive"
+  - source: "writing-archive"
     enabled: true
     layout:
       position: afterBody
       priority: 30
-  - source: "./quartz/components/ExplorerToggle"
+  - source: "explorer-toggle"
     enabled: true
     layout:
       position: left
@@ -313,7 +313,6 @@ plugins:
       enableInteraction: true
       darkMode: auto
       exportPadding: 20
-    order: 50
 layout:
   groups:
     toolbar:
