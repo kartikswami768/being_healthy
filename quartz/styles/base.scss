@@ -349,8 +349,9 @@ a {
     min-width: 100%;
     margin: 0;
   }
+}
 
-  .footnotes {
+.footnotes {
   margin-top: 2rem;
   border-top: 1px solid var(--lightgray);
 }
@@ -618,9 +619,4 @@ hr {
 audio,
 video {
   width: 100%;
-  border-radius: 5px;
-}
-
-video {
-  max-height: 60vh;
 }
