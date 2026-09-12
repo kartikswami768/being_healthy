@@ -87,6 +87,8 @@ export interface PluginLayoutDeclaration {
   display?: LayoutDisplay
   condition?: string
   group?: string
+  /** Explicitly include this component in the mobile header utility row. */
+  mobileHeader?: boolean
   groupOptions?: {
     grow?: boolean
     shrink?: boolean
