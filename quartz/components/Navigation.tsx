@@ -62,10 +62,6 @@ Navigation.css = `
 }
 
 @media all and (max-width: 800px) {
-  .page-header > header > .primary-navigation {
-    display: none;
-  }
-
   .primary-navigation {
     width: 100%;
     margin-left: 0;
@@ -74,12 +70,6 @@ Navigation.css = `
 
   .primary-navigation-link {
     padding: var(--site-space-2) 0;
-  }
-}
-
-@media all and (min-width: 801px) {
-  .primary-navigation-links {
-    display: flex;
   }
 }
 `
