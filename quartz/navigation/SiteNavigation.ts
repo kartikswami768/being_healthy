@@ -9,7 +9,6 @@ export type NavigationLink = {
 export type SiteNavigation = {
   primary: NavigationLink[]
   writing: NavigationLink[]
-  topics: NavigationLink[]
   startHere: NavigationLink[]
   recent: NavigationLink[]
 }
@@ -71,22 +70,6 @@ export function buildSiteNavigation(
     .filter(({ type }) => files.some((file) => (file.frontmatter as any)?.type === type))
     .map(({ label, href }) => ({ label, href, current: current === href.slice(1) }))
 
-  const topics = new Map<string, string>()
-  for (const file of files) {
-    const frontmatter = file.frontmatter as Record<string, any> | undefined
-    const tags = Array.isArray(frontmatter?.tags) ? frontmatter.tags : []
-    for (const tag of tags) {
-      const value = String(tag).trim()
-      if (!value || value.toLowerCase() === "start-here") continue
-      const label = value.replace(/[-_]+/g, " ").replace(/\b\w/g, (char) => char.toUpperCase())
-      topics.set(value.toLowerCase(), label)
-    }
-  }
-
-  const topicLinks: NavigationLink[] = Array.from(topics.entries())
-    .sort((a, b) => a[1].localeCompare(b[1]))
-    .map(([slug, label]) => ({ label, href: `/tags/${slug}` }))
-
   const recent = [...files]
     .sort((a, b) => dateFor(b) - dateFor(a))
     .slice(0, 5)
@@ -103,5 +86,5 @@ export function buildSiteNavigation(
       href: `/${String(file.slug).replace(/^\//, "")}`,
     }))
 
-  return { primary, writing, topics: topicLinks, startHere, recent }
+  return { primary, writing, startHere, recent }
 }
