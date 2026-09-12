@@ -35,40 +35,27 @@ describe("position assignment", () => {
   test("places component in correct position from layout.position", () => {
     const component = makeComponent("MyPlugin")
     componentRegistry.register("my-plugin", component, "test-source")
-
-    const result = buildLayoutForEntries(
-      [makeEntry("my-plugin", { position: "left", priority: 10 })],
-      {},
-    )
+    const result = buildLayoutForEntries([makeEntry("my-plugin", { position: "left", priority: 10 })], {})
     assert.deepStrictEqual(result.left, [component])
   })
 
   test("places component in footer position", () => {
     const component = makeComponent("FooterComp")
     componentRegistry.register("footer-comp", component, "test-source")
-
-    const result = buildLayoutForEntries(
-      [makeEntry("footer-comp", { position: "footer", priority: 20 })],
-      {},
-    )
+    const result = buildLayoutForEntries([makeEntry("footer-comp", { position: "footer", priority: 20 })], {})
     assert.deepStrictEqual(result.footer, [component])
   })
 
   test("places component in header position", () => {
     const component = makeComponent("HeaderComp")
     componentRegistry.register("header-comp", component, "test-source")
-
-    const result = buildLayoutForEntries(
-      [makeEntry("header-comp", { position: "header", priority: 5 })],
-      {},
-    )
+    const result = buildLayoutForEntries([makeEntry("header-comp", { position: "header", priority: 5 })], {})
     assert.deepStrictEqual(result.header, [component])
   })
 
   test("returns empty arrays when no entries have layout", () => {
     const component = makeComponent("NoLayout")
     componentRegistry.register("no-layout", component, "test-source")
-
     const result = buildLayoutForEntries([makeEntry("no-layout")], {})
     assert.deepStrictEqual(result.header, [])
     assert.deepStrictEqual(result.left, [])
@@ -90,7 +77,6 @@ describe("defaultPosition fallback", () => {
       defaultPosition: "footer",
       defaultPriority: 50,
     })
-
     const result = buildLayoutForEntries([makeEntry("f")], {})
     assert.deepStrictEqual(result.footer, [component])
   })
@@ -104,7 +90,6 @@ describe("defaultPosition fallback", () => {
       version: "1",
       defaultPosition: "right",
     })
-
     const result = buildLayoutForEntries([makeEntry("p", { position: "left", priority: 10 })], {})
     assert.deepStrictEqual(result.left, [component])
     assert.deepStrictEqual(result.right, [])
@@ -119,7 +104,6 @@ describe("defaultPosition fallback", () => {
       version: "1",
       defaultPosition: "body",
     })
-
     const result = buildLayoutForEntries([makeEntry("bad")], {})
     assert.deepStrictEqual(result.header, [])
     assert.deepStrictEqual(result.left, [])
@@ -138,7 +122,6 @@ describe("priority sorting", () => {
     componentRegistry.register("a", compA, "test-source")
     componentRegistry.register("b", compB, "test-source")
     componentRegistry.register("c", compC, "test-source")
-
     const result = buildLayoutForEntries(
       [
         makeEntry("a", { position: "left", priority: 30 }),
@@ -147,7 +130,6 @@ describe("priority sorting", () => {
       ],
       {},
     )
-
     const names = result.left?.map((component) => component.displayName)
     assert.deepStrictEqual(names, ["B", "C", "A"])
   })
@@ -156,7 +138,6 @@ describe("priority sorting", () => {
     const explicit = makeComponent("Explicit")
     const ctor = makeConstructor("Default")
     const defaulted = ctor(undefined)
-
     componentRegistry.register("explicit", explicit, "test-source")
     componentRegistry.register("defaulted", defaulted, "test-source", {
       name: "defaulted",
@@ -165,12 +146,10 @@ describe("priority sorting", () => {
       version: "1",
       defaultPosition: "left",
     })
-
     const result = buildLayoutForEntries(
       [makeEntry("explicit", { position: "left", priority: 40 }), makeEntry("defaulted")],
       {},
     )
-
     const names = result.left?.map((component) => component.displayName)
     assert.deepStrictEqual(names, ["Explicit", "Default"])
   })
@@ -180,14 +159,8 @@ describe("buildLayoutForEntries with display wrappers", () => {
   test("applies display wrapper for mobile-only", () => {
     const component = makeComponent("Wrapped")
     componentRegistry.register("wrapped-plugin", component, "test-source")
-
     const result = buildLayoutForEntries(
-      [
-        {
-          ...makeEntry("wrapped-plugin", { position: "left", priority: 10 }),
-          layout: { position: "left", priority: 10, display: "mobile-only" },
-        },
-      ],
+      [{ ...makeEntry("wrapped-plugin", { position: "left", priority: 10 }), layout: { position: "left", priority: 10, display: "mobile-only" } }],
       {},
     )
     assert.strictEqual(result.left?.length, 1)
@@ -197,14 +170,8 @@ describe("buildLayoutForEntries with display wrappers", () => {
   test("applies display wrapper for desktop-only", () => {
     const component = makeComponent("Wrapped")
     componentRegistry.register("wrapped-plugin", component, "test-source")
-
     const result = buildLayoutForEntries(
-      [
-        {
-          ...makeEntry("wrapped-plugin", { position: "left", priority: 10 }),
-          layout: { position: "left", priority: 10, display: "desktop-only" },
-        },
-      ],
+      [{ ...makeEntry("wrapped-plugin", { position: "left", priority: 10 }), layout: { position: "left", priority: 10, display: "desktop-only" } }],
       {},
     )
     assert.strictEqual(result.left?.length, 1)
@@ -214,14 +181,8 @@ describe("buildLayoutForEntries with display wrappers", () => {
   test("applies display wrapper for tablet", () => {
     const component = makeComponent("Wrapped")
     componentRegistry.register("wrapped-plugin", component, "test-source")
-
     const result = buildLayoutForEntries(
-      [
-        {
-          ...makeEntry("wrapped-plugin", { position: "left", priority: 10 }),
-          layout: { position: "left", priority: 10, display: "tablet" },
-        },
-      ],
+      [{ ...makeEntry("wrapped-plugin", { position: "left", priority: 10 }), layout: { position: "left", priority: 10, display: "tablet" } }],
       {},
     )
     assert.strictEqual(result.left?.length, 1)
