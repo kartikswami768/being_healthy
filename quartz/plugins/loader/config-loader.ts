@@ -96,14 +96,12 @@ function validateDependencies(
   const warnings: string[] = []
   const sourceToEntry = new Map<string, PluginJsonEntry>()
   for (const entry of entries) sourceToEntry.set(sourceKey(entry.source), entry)
-
   for (const entry of entries) {
     if (!entry.enabled) continue
     const manifest = manifests.get(sourceKey(entry.source))
     if (!manifest?.dependencies?.length) continue
     const pluginName = manifest.displayName || extractPluginName(entry.source)
     const pluginOrder = entry.order ?? manifest.defaultOrder ?? 50
-
     for (const dep of manifest.dependencies) {
       const depEntry = sourceToEntry.get(dep)
       const depName = extractPluginName(dep)
@@ -112,9 +110,7 @@ function validateDependencies(
         continue
       }
       if (!depEntry.enabled) {
-        warnings.push(
-          `Plugin "${pluginName}" depends on "${depName}" which is disabled. "${pluginName}" may not function correctly.`,
-        )
+        warnings.push(`Plugin "${pluginName}" depends on "${depName}" which is disabled. "${pluginName}" may not function correctly.`)
       }
       const depManifest = manifests.get(dep)
       const depOrder = depEntry.order ?? depManifest?.defaultOrder ?? 50
@@ -125,7 +121,6 @@ function validateDependencies(
       }
     }
   }
-
   const graph = new Map<string, string[]>()
   for (const entry of entries) {
     const manifest = manifests.get(sourceKey(entry.source))
@@ -133,7 +128,6 @@ function validateDependencies(
   }
   const visited = new Set<string>()
   const inStack = new Set<string>()
-
   function detectCycle(node: string, pathSoFar: string[]): string[] | null {
     if (inStack.has(node)) {
       const cycleStart = pathSoFar.indexOf(node)
@@ -149,7 +143,6 @@ function validateDependencies(
     inStack.delete(node)
     return null
   }
-
   for (const node of graph.keys()) {
     const cycle = detectCycle(node, [])
     if (cycle) {
@@ -217,7 +210,6 @@ export async function loadQuartzConfig(configOverrides?: Partial<GlobalConfigura
     const oldConfig = await import("../../../quartz")
     return oldConfig.default
   }
-
   const configuration = {
     ...(json.configuration as unknown as GlobalConfiguration),
     ...configOverrides,
@@ -226,13 +218,10 @@ export async function loadQuartzConfig(configOverrides?: Partial<GlobalConfigura
   const enabledEntries = entries.filter((e) => e.enabled)
   const manifests = new Map<string, PluginManifest | undefined>()
   for (const entry of enabledEntries) manifests.set(sourceKey(entry.source), await getManifest(entry.source))
-
   const dependencyValidation = validateDependencies(entries, manifests)
   if (dependencyValidation.errors.length) throw new Error(dependencyValidation.errors.join("\n"))
   if (dependencyValidation.warnings.length) {
-    dependencyValidation.warnings.forEach((warning) =>
-      console.warn(styleText("yellow", "⚠") + " " + warning),
-    )
+    dependencyValidation.warnings.forEach((warning) => console.warn(styleText("yellow", "⚠") + " " + warning))
   }
 
   const transformers: { entry: PluginJsonEntry; manifest: PluginManifest | undefined }[] = []
@@ -252,7 +241,6 @@ export async function loadQuartzConfig(configOverrides?: Partial<GlobalConfigura
     }
     const categories = Array.isArray(category) ? category : category ? [category] : []
     const matchedProcessing = categories.filter((c) => (processingCategories as readonly string[]).includes(c))
-
     if (matchedProcessing.length > 0) {
       for (const cat of matchedProcessing) categoryMap[cat].push({ entry, manifest })
       continue
@@ -270,12 +258,8 @@ export async function loadQuartzConfig(configOverrides?: Partial<GlobalConfigura
           await module.init(Object.keys(options).length > 0 ? options : undefined)
         }
       } catch {}
-      if (manifest?.components && Object.keys(manifest.components).length > 0) {
-        await loadComponentsFromPackage(gitSpec.name, manifest)
-      }
-      if (manifest?.frames && Object.keys(manifest.frames).length > 0) {
-        await loadFramesFromPackage(gitSpec.name, manifest)
-      }
+      if (manifest?.components && Object.keys(manifest.components).length > 0) await loadComponentsFromPackage(gitSpec.name, manifest)
+      if (manifest?.frames && Object.keys(manifest.frames).length > 0) await loadFramesFromPackage(gitSpec.name, manifest)
       continue
     }
 
@@ -283,18 +267,12 @@ export async function loadQuartzConfig(configOverrides?: Partial<GlobalConfigura
     try {
       const module = await import(toFileUrl(entryPoint))
       const detected = detectCategoryFromModule(module)
-      if (detected) {
-        categoryMap[detected].push({ entry, manifest })
-      } else if (manifest?.components && Object.keys(manifest.components).length > 0) {
+      if (detected) categoryMap[detected].push({ entry, manifest })
+      else if (manifest?.components && Object.keys(manifest.components).length > 0) {
         await loadComponentsFromPackage(gitSpec.name, manifest)
-        if (manifest?.frames && Object.keys(manifest.frames).length > 0) {
-          await loadFramesFromPackage(gitSpec.name, manifest)
-        }
+        if (manifest?.frames && Object.keys(manifest.frames).length > 0) await loadFramesFromPackage(gitSpec.name, manifest)
       } else {
-        console.warn(
-          styleText("yellow", "⚠") +
-            ` Could not determine category for plugin "${extractPluginName(entry.source)}". Skipping.`,
-        )
+        console.warn(styleText("yellow", "⚠") + ` Could not determine category for plugin "${extractPluginName(entry.source)}". Skipping.`)
       }
     } catch {
       const hasComponents = manifest?.components && Object.keys(manifest.components).length > 0
@@ -302,10 +280,7 @@ export async function loadQuartzConfig(configOverrides?: Partial<GlobalConfigura
       if (hasComponents) await loadComponentsFromPackage(gitSpec.name, manifest)
       if (hasFrames) await loadFramesFromPackage(gitSpec.name, manifest)
       if (!hasComponents && !hasFrames) {
-        console.warn(
-          styleText("yellow", "⚠") +
-            ` Could not load plugin "${extractPluginName(entry.source)}" to detect category. Skipping.`,
-        )
+        console.warn(styleText("yellow", "⚠") + ` Could not load plugin "${extractPluginName(entry.source)}" to detect category. Skipping.`)
       }
     }
   }
@@ -313,8 +288,7 @@ export async function loadQuartzConfig(configOverrides?: Partial<GlobalConfigura
   const sortByOrder = (
     a: { entry: PluginJsonEntry; manifest: PluginManifest | undefined },
     b: { entry: PluginJsonEntry; manifest: PluginManifest | undefined },
-  ) =>
-    (a.entry.order ?? a.manifest?.defaultOrder ?? 50) - (b.entry.order ?? b.manifest?.defaultOrder ?? 50)
+  ) => (a.entry.order ?? a.manifest?.defaultOrder ?? 50) - (b.entry.order ?? b.manifest?.defaultOrder ?? 50)
 
   transformers.sort(sortByOrder)
   filters.sort(sortByOrder)
@@ -332,23 +306,13 @@ export async function loadQuartzConfig(configOverrides?: Partial<GlobalConfigura
         let module
         if (spec.npmPackage) module = await import(spec.name)
         else module = await import(toFileUrl(getPluginEntryPoint(spec.name)))
-
-        if (manifest?.components && Object.keys(manifest.components).length > 0) {
-          await loadComponentsFromPackage(spec.name, manifest)
-        }
-        if (manifest?.frames && Object.keys(manifest.frames).length > 0) {
-          await loadFramesFromPackage(spec.name, manifest)
-        }
-
+        if (manifest?.components && Object.keys(manifest.components).length > 0) await loadComponentsFromPackage(spec.name, manifest)
+        if (manifest?.frames && Object.keys(manifest.frames).length > 0) await loadFramesFromPackage(spec.name, manifest)
         const factory = findFactory(module, expectedCategory)
         if (!factory) {
-          console.warn(
-            styleText("yellow", "⚠") +
-              ` Plugin "${extractPluginName(entry.source)}" has no factory function for category "${expectedCategory}".`,
-          )
+          console.warn(styleText("yellow", "⚠") + ` Plugin "${extractPluginName(entry.source)}" has no factory function for category "${expectedCategory}".`)
           continue
         }
-
         const pluginOverrides = componentRegistry.getOptionOverrides(spec.name)
         const options = { ...manifest?.defaultOptions, ...entry.options, ...pluginOverrides }
         const instance = factory(Object.keys(options).length > 0 ? options : undefined)
@@ -356,10 +320,7 @@ export async function loadQuartzConfig(configOverrides?: Partial<GlobalConfigura
         if (!validateCategory(instance, expectedCategory)) continue
         instances.push(instance as T)
       } catch (err) {
-        console.error(
-          styleText("red", "✗") +
-            ` Failed to instantiate plugin "${extractPluginName(entry.source)}": ${err instanceof Error ? err.message : String(err)}`,
-        )
+        console.error(styleText("red", "✗") + ` Failed to instantiate plugin "${extractPluginName(entry.source)}": ${err instanceof Error ? err.message : String(err)}`)
       }
     }
     return instances
@@ -367,35 +328,16 @@ export async function loadQuartzConfig(configOverrides?: Partial<GlobalConfigura
 
   const builtinPlugins = await import("../index")
   const builtinTransformers: QuartzTransformerPluginInstance[] = []
-  const builtinEmitters: QuartzEmitterPluginInstance[] = [
-    builtinPlugins.ComponentResources(),
-    builtinPlugins.Assets(),
-    builtinPlugins.Static(),
-  ]
+  const builtinEmitters: QuartzEmitterPluginInstance[] = [builtinPlugins.ComponentResources(), builtinPlugins.Assets(), builtinPlugins.Static()]
   const builtinPageTypes: PageTypePluginEntry[] = [builtinPlugins.PageTypes.NotFoundPageType()]
   const plugins: PluginTypes = {
-    transformers: [
-      ...builtinTransformers,
-      ...(await instantiate<QuartzTransformerPluginInstance>(transformers, "transformer")),
-    ],
+    transformers: [...builtinTransformers, ...(await instantiate<QuartzTransformerPluginInstance>(transformers, "transformer"))],
     filters: await instantiate<QuartzFilterPluginInstance>(filters, "filter"),
-    emitters: [
-      ...builtinEmitters,
-      ...(await instantiate<QuartzEmitterPluginInstance>(emitters, "emitter")),
-    ],
-    pageTypes: [
-      ...(await instantiate<PageTypePluginEntry>(pageTypes, "pageType")),
-      ...builtinPageTypes,
-    ],
+    emitters: [...builtinEmitters, ...(await instantiate<QuartzEmitterPluginInstance>(emitters, "emitter"))],
+    pageTypes: [...(await instantiate<PageTypePluginEntry>(pageTypes, "pageType")), ...builtinPageTypes],
   }
-
   const layout = await loadQuartzLayout()
-  plugins.emitters.push(
-    builtinPlugins.PageTypes.PageTypeDispatcher({
-      defaults: layout.defaults,
-      byPageType: layout.byPageType,
-    }),
-  )
+  plugins.emitters.push(builtinPlugins.PageTypes.PageTypeDispatcher({ defaults: layout.defaults, byPageType: layout.byPageType }))
   return { configuration, plugins }
 }
 
@@ -403,31 +345,23 @@ type ProcessingCategory = "transformer" | "filter" | "emitter" | "pageType"
 
 function validateCategory(instance: Record<string, unknown>, expected: ProcessingCategory): boolean {
   switch (expected) {
-    case "pageType":
-      return "match" in instance && "body" in instance && "layout" in instance
-    case "emitter":
-      return "emit" in instance
-    case "filter":
-      return "shouldPublish" in instance
-    case "transformer":
-      return "textTransform" in instance || "markdownPlugins" in instance || "htmlPlugins" in instance
+    case "pageType": return "match" in instance && "body" in instance && "layout" in instance
+    case "emitter": return "emit" in instance
+    case "filter": return "shouldPublish" in instance
+    case "transformer": return "textTransform" in instance || "markdownPlugins" in instance || "htmlPlugins" in instance
   }
 }
 
 function findFactory(module: Record<string, unknown>, expectedCategory?: ProcessingCategory): Function | null {
   if (typeof module.default === "function") return module.default as Function
   if (typeof module.plugin === "function") return module.plugin as Function
-  const exportedFunctions = Object.entries(module).filter(
-    ([key, value]) => typeof value === "function" && !key.startsWith("__"),
-  )
+  const exportedFunctions = Object.entries(module).filter(([key, value]) => typeof value === "function" && !key.startsWith("__"))
   if (exportedFunctions.length === 1) return exportedFunctions[0][1] as Function
   if (exportedFunctions.length > 1 && expectedCategory) {
     for (const [, fn] of exportedFunctions) {
       try {
         const instance = (fn as Function)()
-        if (instance && typeof instance === "object" && validateCategory(instance, expectedCategory)) {
-          return fn as Function
-        }
+        if (instance && typeof instance === "object" && validateCategory(instance, expectedCategory)) return fn as Function
       } catch {}
     }
   }
@@ -456,14 +390,10 @@ function detectCategoryFromModule(module: unknown): ProcessingCategory | null {
   return null
 }
 
-function applyDisplayWrapper(
-  component: QuartzComponent,
-  display: "mobile-only" | "desktop-only" | "tablet",
-): QuartzComponent {
+function applyDisplayWrapper(component: QuartzComponent, display: "mobile-only" | "desktop-only" | "tablet"): QuartzComponent {
   if (display === "mobile-only") return MobileOnly(component) as QuartzComponent
   if (display === "desktop-only") return DesktopOnly(component) as QuartzComponent
-  const tabletOnly = (props: QuartzComponentProps) =>
-    `<div class="tablet-only">${String(props.children ?? "")}</div>`
+  const tabletOnly = (props: QuartzComponentProps) => `<div class="tablet-only">${String(props.children ?? "")}</div>`
   return ((props: QuartzComponentProps) => tabletOnly(props)) as unknown as QuartzComponent
 }
 
@@ -538,15 +468,7 @@ export async function loadQuartzLayout(layoutOverrides?: {
 }
 
 export function buildLayoutForEntries(entries: PluginJsonEntry[], layoutConfig: LayoutConfig): Partial<FullPageLayout> {
-  const positions: Record<
-    string,
-    {
-      component: QuartzComponent
-      priority: number
-      group?: string
-      groupOptions?: PluginLayoutDeclaration["groupOptions"]
-    }[]
-  > = {
+  const positions: Record<string, { component: QuartzComponent; priority: number; group?: string; groupOptions?: PluginLayoutDeclaration["groupOptions"] }[]> = {
     header: [],
     left: [],
     right: [],
@@ -559,12 +481,8 @@ export function buildLayoutForEntries(entries: PluginJsonEntry[], layoutConfig: 
     if (!entry.layout) continue
     const layout = entry.layout
     const name = extractPluginName(entry.source)
-    const registered =
-      componentRegistry.get(name) ?? componentRegistry.get(`${formatSourceDisplay(entry.source)}/${name}`)
-    const pascalName = name
-      .split("-")
-      .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
-      .join("")
+    const registered = componentRegistry.get(name) ?? componentRegistry.get(`${formatSourceDisplay(entry.source)}/${name}`)
+    const pascalName = name.split("-").map((s) => s.charAt(0).toUpperCase() + s.slice(1)).join("")
     const reg = registered ?? componentRegistry.get(pascalName)
     if (!reg) continue
 
@@ -577,7 +495,6 @@ export function buildLayoutForEntries(entries: PluginJsonEntry[], layoutConfig: 
     } else {
       component = reg.component as QuartzComponent
     }
-
     if (layout.display && layout.display !== "all") component = applyDisplayWrapper(component, layout.display)
     if (layout.condition) component = applyConditionWrapper(component, layout.condition)
     const posArray = positions[layout.position]
@@ -587,12 +504,8 @@ export function buildLayoutForEntries(entries: PluginJsonEntry[], layoutConfig: 
   for (const entry of entries) {
     if (!entry.enabled || entry.layout) continue
     const name = extractPluginName(entry.source)
-    const registered =
-      componentRegistry.get(name) ?? componentRegistry.get(`${formatSourceDisplay(entry.source)}/${name}`)
-    const pascalName = name
-      .split("-")
-      .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
-      .join("")
+    const registered = componentRegistry.get(name) ?? componentRegistry.get(`${formatSourceDisplay(entry.source)}/${name}`)
+    const pascalName = name.split("-").map((s) => s.charAt(0).toUpperCase() + s.slice(1)).join("")
     const reg = registered ?? componentRegistry.get(pascalName)
     if (!reg) continue
 
@@ -656,7 +569,6 @@ export function buildLayoutForEntries(entries: PluginJsonEntry[], layoutConfig: 
         entries.push({ priority: item.priority, component: item.component })
       }
     }
-
     entries.sort((a, b) => a.priority - b.priority)
     return entries.map((e) => e.component)
   }
