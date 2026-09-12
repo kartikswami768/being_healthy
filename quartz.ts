@@ -1,7 +1,6 @@
 import { loadQuartzConfig, loadQuartzLayout } from "./quartz/plugins/loader/config-loader"
 import { componentRegistry } from "./quartz/components/registry"
 import BlogList from "./quartz/components/BlogList"
-import FrontmatterDebug from "./quartz/components/FrontmatterDebug"
 import MobileHeader from "./quartz/components/MobileHeader"
 import Navigation from "./quartz/components/Navigation"
 import NotebookMark from "./quartz/components/NotebookMark"
@@ -16,15 +15,6 @@ componentRegistry.register("blog-list", BlogList, "local", {
   version: "1.0.0",
   defaultPosition: "afterBody",
   defaultPriority: 30,
-})
-
-componentRegistry.register("frontmatter-debug", FrontmatterDebug, "local", {
-  name: "frontmatter-debug",
-  displayName: "Frontmatter Debug",
-  description: "Temporarily displays parsed frontmatter for diagnostic purposes.",
-  version: "1.0.0",
-  defaultPosition: "beforeBody",
-  defaultPriority: 1,
 })
 
 componentRegistry.register("mobile-header", MobileHeader, "local", {
@@ -99,11 +89,9 @@ function localComponent(name: string) {
 
 const existingHeader = loadedLayout.defaults.header ?? []
 const existingLeft = loadedLayout.defaults.left ?? []
-const existingBeforeBody = loadedLayout.defaults.beforeBody ?? []
 const navigation = localComponent("navigation")
 const mobileHeader = localComponent("mobile-header")
 const profile = localComponent("profile")
-const frontmatterDebug = localComponent("frontmatter-debug")
 
 loadedLayout.defaults.header = [
   mobileHeader,
@@ -111,6 +99,5 @@ loadedLayout.defaults.header = [
 ]
 
 loadedLayout.defaults.left = [profile, ...existingLeft.filter((component) => component !== profile)]
-loadedLayout.defaults.beforeBody = [frontmatterDebug, ...existingBeforeBody]
 
 export const layout = loadedLayout
