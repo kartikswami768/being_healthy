@@ -583,7 +583,25 @@ export function buildLayoutForEntries(
     afterBody: [],
     footer: [],
   }
-  for (const entry of entries) {
+  const layoutEntries = [...entries]
+  const configuredNames = new Set(entries.map((entry) => extractPluginName(entry.source)))
+  for (const [name, registered] of componentRegistry.getAll()) {
+    if (!registered.manifest?.layoutManaged || configuredNames.has(name)) continue
+    const defaultPosition = registered.manifest.defaultPosition
+    if (!defaultPosition) continue
+    const validPositions = ["header", "left", "right", "beforeBody", "afterBody", "footer"]
+    if (!validPositions.includes(defaultPosition)) continue
+    layoutEntries.push({
+      source: name,
+      enabled: true,
+      options: {},
+      layout: {
+        position: defaultPosition as PluginLayoutDeclaration["position"],
+        priority: registered.manifest.defaultPriority ?? 50,
+      },
+    })
+  }
+  for (const entry of layoutEntries) {
     if (!entry.layout) continue
     const layout = entry.layout
     const name = extractPluginName(entry.source)
@@ -620,7 +638,7 @@ export function buildLayoutForEntries(
         mobileHeader: layout.mobileHeader,
       })
   }
-  for (const entry of entries) {
+  for (const entry of layoutEntries) {
     if (!entry.enabled || entry.layout) continue
     const name = extractPluginName(entry.source)
     const registered =
@@ -650,13 +668,38 @@ export function buildLayoutForEntries(
     posArray.push({ name, component, priority: layoutDefaults?.defaultPriority ?? 50 })
   }
   const profile = positions.left.find((item) => item.name === "profile")?.component
-  const navigation = positions.header.find((item) => item.name === "navigation")?.component
+  const navigationRegistration = Array.from(componentRegistry.getAll().entries()).find(
+    ([, registered]) => registered.manifest?.mobileHeaderRole === "navigation",
+  )
+  const navigation = navigationRegistration
+    ? typeof navigationRegistration[1].component === "function" &&
+      !("displayName" in navigationRegistration[1].component)
+      ? componentRegistry.instantiate(
+          navigationRegistration[1].component as QuartzComponentConstructor,
+          componentRegistry.getOptionOverrides(navigationRegistration[0]),
+        )
+      : (navigationRegistration[1].component as QuartzComponent)
+    : positions.header.find((item) => item.name === "navigation")?.component
   const utilities = positions.left
     .filter((item) => item.mobileHeader)
     .sort((a, b) => a.priority - b.priority)
     .map((item) => item.component)
+  const mobileHeaderItem = positions.header.find((item) => item.name === "mobile-header")
+  if (mobileHeaderItem) {
+    const baseMobileHeader = mobileHeaderItem.component
+    const mobileHeader = ((props: QuartzComponentProps) =>
+      baseMobileHeader({
+        ...props,
+        mobileHeader: { profile, navigation, utilities },
+      })) as QuartzComponent
+    Object.assign(mobileHeader, baseMobileHeader)
+    mobileHeaderItem.component = mobileHeader
+  }
   const buildPosition = (items: typeof positions.header): QuartzComponent[] => {
-    const sorted = [...items].sort((a, b) => a.priority - b.priority)
+    const navigationComponent = navigation
+    const sorted = [...items]
+      .filter((item) => !(items === positions.header && item.component === navigationComponent))
+      .sort((a, b) => a.priority - b.priority)
     const groups = new Map<string, typeof sorted>()
     for (const item of sorted) {
       if (item.group) {
