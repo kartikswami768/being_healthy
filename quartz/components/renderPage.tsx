@@ -212,41 +212,42 @@ export function renderTranscludes(
         let startDepth = undefined
         let endIdx = undefined
         for (const [i, htmlEl] of page.htmlAst.children.entries()) {
-          if (!(htmlEl.type === "element" && htmlEl.tagName.match(headerRegex))) continue
-          const depth = Number(htmlEl.tagName.substring(1))
-
+          if (htmlEl.type !== "element") continue
+          const tag = htmlEl.tagName.toLowerCase()
+          if (!headerRegex.test(tag)) continue
           if (startIdx === undefined || startDepth === undefined) {
             if (htmlEl.properties?.id === blockRef) {
               startIdx = i
-              startDepth = depth
+              startDepth = Number(tag.slice(1))
             }
-          } else if (depth <= startDepth) {
-            endIdx = i
-            break
+          } else {
+            const depth = Number(tag.slice(1))
+            if (depth <= startDepth) {
+              endIdx = i
+              break
+            }
           }
         }
 
-        if (startIdx === undefined) {
-          visited.delete(transcludeTarget)
-          continue
-        }
-
-        el.children = [
-          ...(page.htmlAst.children.slice(startIdx, endIdx) as ElementContent[]).map((c) =>
-            normalizeHastElement(c as Element, slug, transcludeTarget),
-          ),
-          {
-            type: "element",
-            tagName: "a",
-            properties: {
-              href: inner.properties?.href,
-              class: ["internal", "internal-link", "transclude-src"],
+        if (startIdx !== undefined && startDepth !== undefined) {
+          const section = page.htmlAst.children.slice(startIdx, endIdx)
+          el.children = [
+            ...(section as ElementContent[]).map((c) =>
+              normalizeHastElement(c as Element, slug, transcludeTarget),
+            ),
+            {
+              type: "element",
+              tagName: "a",
+              properties: {
+                href: inner.properties?.href,
+                class: ["internal", "internal-link", "transclude-src"],
+              },
+              children: [
+                { type: "text", value: i18n(cfg.locale).components.transcludes.linkToOriginal },
+              ],
             },
-            children: [
-              { type: "text", value: i18n(cfg.locale).components.transcludes.linkToOriginal },
-            ],
-          },
-        ]
+          ]
+        }
       } else {
         el.children = [
           {
@@ -356,7 +357,7 @@ export function renderPage(
             ]}
           </Body>
         </div>
-      </Body>
+      </body>
       {pageResources.js
         .filter((resource) => resource.loadTime === "afterDOMReady")
         .map((res) => JSResourceToScriptElement(res, true))}
