@@ -94,7 +94,11 @@ const BlogList: QuartzComponent = ({ allFiles, fileData }) => {
         if (typePages.length === 0) return null
 
         return (
-          <section class="blog-list-section" aria-labelledby={`blog-${writingType.key}`} key={writingType.key}>
+          <section
+            class="blog-list-section"
+            aria-labelledby={`blog-${writingType.key}`}
+            key={writingType.key}
+          >
             <div class="blog-list-section-heading">
               <h2 id={`blog-${writingType.key}`}>{writingType.title}</h2>
               {hasArchive && (
