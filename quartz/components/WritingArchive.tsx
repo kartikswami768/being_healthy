@@ -3,10 +3,34 @@ import { Date as DateComponent } from "./Date"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 
 const writingTypes = [
-  { key: "question", title: "Everyday Questions", slug: "questions", description: "Questions about health, the body, food, exercise, habits, and things people encounter in ordinary life." },
-  { key: "essay", title: "Essays", slug: "essays", description: "Longer explorations of health, medicine, psychology, behaviour, and ideas that deserve more than a quick answer." },
-  { key: "case", title: "Case Stories", slug: "cases", description: "Interesting medical cases and the reasoning behind them: what makes them puzzling, instructive, or memorable." },
-  { key: "note", title: "Notes & Observations", slug: "notes", description: "Shorter thoughts, observations, and pieces of learning that do not need to become a full essay." },
+  {
+    key: "question",
+    title: "Everyday Questions",
+    slug: "questions",
+    description:
+      "Questions about health, the body, food, exercise, habits, and things people encounter in ordinary life.",
+  },
+  {
+    key: "essay",
+    title: "Essays",
+    slug: "essays",
+    description:
+      "Longer explorations of health, medicine, psychology, behaviour, and ideas that deserve more than a quick answer.",
+  },
+  {
+    key: "case",
+    title: "Case Stories",
+    slug: "cases",
+    description:
+      "Interesting medical cases and the reasoning behind them: what makes them puzzling, instructive, or memorable.",
+  },
+  {
+    key: "note",
+    title: "Notes & Observations",
+    slug: "notes",
+    description:
+      "Shorter thoughts, observations, and pieces of learning that do not need to become a full essay.",
+  },
 ] as const
 
 type WritingPage = QuartzComponentProps["allFiles"][number]
@@ -67,9 +91,7 @@ const WritingArchive: QuartzComponent = ({ allFiles, fileData }) => {
   return (
     <div class="writing-archive" aria-label={`${writingType.title} archive`}>
       <p class="writing-archive-description">{writingType.description}</p>
-      <p class="writing-archive-count">
-        {pages.length === 1 ? "1 piece" : `${pages.length} pieces`}
-      </p>
+      <p class="writing-archive-count">{pages.length === 1 ? "1 piece" : `${pages.length} pieces`}</p>
 
       {pages.length > 0 ? (
         <ul class="writing-archive-items">
