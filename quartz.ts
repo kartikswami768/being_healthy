@@ -1,6 +1,5 @@
 import { loadQuartzConfig, loadQuartzLayout } from "./quartz/plugins/loader/config-loader"
 import { componentRegistry } from "./quartz/components/registry"
-import * as builtinPlugins from "./quartz/plugins"
 import BlogList from "./quartz/components/BlogList"
 import MobileHeader from "./quartz/components/MobileHeader"
 import Navigation from "./quartz/components/Navigation"
@@ -8,7 +7,6 @@ import NotebookMark from "./quartz/components/NotebookMark"
 import Profile from "./quartz/components/Profile"
 import StartHere from "./quartz/components/StartHere"
 import WritingArchive from "./quartz/components/WritingArchive"
-import type { QuartzComponent } from "./quartz/components/types"
 
 componentRegistry.register("blog-list", BlogList, "local", {
   name: "blog-list",
@@ -75,31 +73,6 @@ componentRegistry.register("writing-archive", WritingArchive, "local", {
 
 const config = await loadQuartzConfig()
 const layout = await loadQuartzLayout()
-
-const mobileHeaderComponent = componentRegistry.instantiate(MobileHeader)
-const navigation = layout.defaults.mobileHeader?.navigation
-const mobileHeaderLayout = layout.defaults.mobileHeader
-const mobileHeader = ((props) =>
-  mobileHeaderComponent({
-    ...props,
-    mobileHeader: mobileHeaderLayout,
-  })) as QuartzComponent
-Object.assign(mobileHeader, mobileHeaderComponent)
-
-const header = layout.defaults.header ?? []
-const registeredMobileHeader = componentRegistry.instantiate(MobileHeader)
-layout.defaults.header = header.filter(
-  (component) => component !== registeredMobileHeader && component !== navigation,
-)
-layout.defaults.header.unshift(mobileHeader)
-
-config.plugins.emitters = config.plugins.emitters.slice(0, -1)
-config.plugins.emitters.push(
-  builtinPlugins.PageTypes.PageTypeDispatcher({
-    defaults: layout.defaults,
-    byPageType: layout.byPageType,
-  }),
-)
 
 export default config
 export { layout }
