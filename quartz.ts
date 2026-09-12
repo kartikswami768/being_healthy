@@ -90,7 +90,7 @@ Object.assign(mobileHeader, mobileHeaderComponent)
 
 layout.defaults.mobileHeader = { profile, navigation, utilities: mobileUtilities }
 layout.defaults.left = [profile, ...(layout.defaults.left ?? [])]
-layout.defaults.header = [mobileHeader, navigation, ...(layout.defaults.header ?? [])]
+layout.defaults.header = [mobileHeader, ...(layout.defaults.header ?? [])]
 
 config.plugins.emitters = config.plugins.emitters.slice(0, -1)
 config.plugins.emitters.push(
