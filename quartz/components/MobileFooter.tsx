@@ -6,7 +6,11 @@ function InlineLinks({ links }: { links: NavigationLink[] }) {
     <div class="mobile-footer-links">
       {links.map((link, index) => (
         <span class="mobile-footer-link-wrap">
-          {index > 0 && <span class="mobile-footer-separator" aria-hidden="true">·</span>}
+          {index > 0 && (
+            <span class="mobile-footer-separator" aria-hidden="true">
+              ·
+            </span>
+          )}
           <a href={link.href} aria-current={link.current ? "page" : undefined}>
             {link.label}
           </a>
