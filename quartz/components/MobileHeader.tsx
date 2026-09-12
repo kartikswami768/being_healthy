@@ -7,9 +7,7 @@ type MobileHeaderProps = QuartzComponentProps & {
 
 const MobileHeader: QuartzComponent = (props: MobileHeaderProps) => {
   const { mobileHeader } = props
-  // The mobile toolbar is intentionally limited to Search and Dark Mode.
-  // Reader Mode remains available in the desktop sidebar.
-  const sidebar = (mobileHeader?.sidebar ?? []).slice(0, 2)
+  const sidebar = mobileHeader?.sidebar ?? []
 
   return (
     <div class="mobile-header">
@@ -70,8 +68,11 @@ MobileHeader.css = `
   .mobile-header-utilities {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
     flex: 0 0 auto;
+  }
+
+  .mobile-header-utilities .readermode {
+    display: none !important;
   }
 
   .mobile-header-divider {
@@ -102,10 +103,6 @@ MobileHeader.css = `
 @media all and (max-width: 340px) {
   .mobile-header-toolbar {
     gap: 0.65rem;
-  }
-
-  .mobile-header-utilities {
-    gap: 0.5rem;
   }
 
   .mobile-header-toolbar .primary-navigation-links {
