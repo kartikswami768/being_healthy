@@ -1,6 +1,5 @@
 import { loadQuartzConfig, loadQuartzLayout } from "./quartz/plugins/loader/config-loader"
 import { componentRegistry } from "./quartz/components/registry"
-import { componentRegistry as _componentRegistry } from "./quartz/components/registry"
 import * as builtinPlugins from "./quartz/plugins"
 import BlogList from "./quartz/components/BlogList"
 import MobileHeader from "./quartz/components/MobileHeader"
