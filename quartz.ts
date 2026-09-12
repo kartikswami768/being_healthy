@@ -87,13 +87,17 @@ function localComponent(name: string) {
   return componentRegistry.instantiate(registered.component as any)
 }
 
+const existingHeader = loadedLayout.defaults.header ?? []
+const existingLeft = loadedLayout.defaults.left ?? []
+const navigation = localComponent("navigation")
+const mobileHeader = localComponent("mobile-header")
+const profile = localComponent("profile")
+
 loadedLayout.defaults.header = [
-  localComponent("mobile-header"),
-  ...(loadedLayout.defaults.header ?? []).filter(
-    (component) => component !== localComponent("navigation"),
-  ),
+  mobileHeader,
+  ...existingHeader.filter((component) => component !== navigation),
 ]
 
-loadedLayout.defaults.left = [localComponent("profile"), ...(loadedLayout.defaults.left ?? [])]
+loadedLayout.defaults.left = [profile, ...existingLeft.filter((component) => component !== profile)]
 
 export const layout = loadedLayout
