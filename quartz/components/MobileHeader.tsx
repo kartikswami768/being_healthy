@@ -56,10 +56,20 @@ MobileHeader.css = `
 }
 
 @media all and (max-width: 800px) {
+  .center > .page-header {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  .center > .page-header > header {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
   .mobile-header {
     flex-direction: column;
     gap: 0.75rem;
-    padding-top: 1.5rem;
+    padding-top: 1rem;
   }
 
   .mobile-header-profile {
@@ -118,7 +128,7 @@ MobileHeader.css = `
 @media all and (max-width: 340px) {
   .mobile-header {
     gap: 0.55rem;
-    padding-top: 1rem;
+    padding-top: 0.75rem;
   }
 
   .mobile-header-toolbar {
