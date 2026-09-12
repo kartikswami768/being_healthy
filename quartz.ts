@@ -1,7 +1,6 @@
 import { loadQuartzConfig, loadQuartzLayout } from "./quartz/plugins/loader/config-loader"
 import { componentRegistry } from "./quartz/components/registry"
 import BlogList from "./quartz/components/BlogList"
-import ExplorerToggle from "./quartz/components/ExplorerToggle"
 import Navigation from "./quartz/components/Navigation"
 import NotebookMark from "./quartz/components/NotebookMark"
 import Profile from "./quartz/components/Profile"
@@ -15,15 +14,6 @@ componentRegistry.register("blog-list", BlogList, "local", {
   version: "1.0.0",
   defaultPosition: "afterBody",
   defaultPriority: 30,
-})
-
-componentRegistry.register("explorer-toggle", ExplorerToggle, "local", {
-  name: "explorer-toggle",
-  displayName: "Explorer Toggle",
-  description: "Provides a persistent way to reopen the notebook explorer on tablet layouts.",
-  version: "1.0.0",
-  defaultPosition: "left",
-  defaultPriority: 1,
 })
 
 componentRegistry.register("navigation", Navigation, "local", {
@@ -87,53 +77,13 @@ function localComponent(name: string) {
   return componentRegistry.instantiate(registered.component as any)
 }
 
-const header = [
+const headerComponents = [localComponent("navigation"), ...(loadedLayout.defaults.header ?? [])]
+
+loadedLayout.defaults.header = [
   localComponent("navigation"),
   ...(loadedLayout.defaults.header ?? []),
 ]
-const left = [localComponent("profile"), ...(loadedLayout.defaults.left ?? [])]
 
-const HeaderStack: any = (headerProps: any) => (
-  <div class="site-header-stack">
-    <div class="desktop-header-content">
-      {header.map((Component: any) => (
-        <Component {...headerProps} />
-      ))}
-    </div>
-    <div class="mobile-header-content">
-      {header.map((Component: any) => (
-        <Component {...headerProps} />
-      ))}
-      <div class="mobile-header-sidebar">
-        {left.map((Component: any) => (
-          <Component {...headerProps} />
-        ))}
-      </div>
-    </div>
-  </div>
-)
-
-HeaderStack.css = `
-.mobile-header-content {
-  display: none;
-}
-
-@media all and (max-width: 800px) {
-  .desktop-header-content {
-    display: none;
-  }
-
-  .mobile-header-content {
-    display: contents;
-  }
-
-  .mobile-header-sidebar {
-    display: block;
-  }
-}
-`
-
-loadedLayout.defaults.header = [HeaderStack]
-loadedLayout.defaults.left = loadedLayout.defaults.left ?? []
+loadedLayout.defaults.left = [localComponent("profile"), ...(loadedLayout.defaults.left ?? [])]
 
 export const layout = loadedLayout
