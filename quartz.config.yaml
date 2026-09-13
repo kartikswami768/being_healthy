@@ -28,8 +28,8 @@ configuration:
         dark: "#2b2b2b"
         secondary: "#284b63"
         tertiary: "#84a59d"
-        highlight: rgba(143, 159, 169, 0.15)
-        textHighlight: "#fff23688"
+        highlight: rgba(132, 165, 157, 0.18)
+        textHighlight: "#f4df6b99"
       darkMode:
         light: "#161618"
         lightgray: "#393639"
@@ -38,8 +38,8 @@ configuration:
         dark: "#ebebec"
         secondary: "#7b97aa"
         tertiary: "#84a59d"
-        highlight: rgba(143, 159, 169, 0.15)
-        textHighlight: "#b3aa0288"
+        highlight: rgba(132, 165, 157, 0.18)
+        textHighlight: "#d9c95f88"
 plugins:
   - source: "@quartz-community/created-modified-date"
     enabled: true
@@ -231,6 +231,7 @@ plugins:
       hidePropertiesView: true
       delimiters: ---
       language: yaml
+      
     order: 5
     layout:
       position: beforeBody
