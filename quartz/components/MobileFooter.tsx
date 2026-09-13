@@ -63,8 +63,9 @@ MobileFooter.css = `
 @media all and (max-width: 1000px) {
   .mobile-site-footer {
     display: block;
-    width: 100%;
+    width: calc(100% + 2rem);
     margin-top: 3rem;
+    margin-left: -1rem;
     padding: 2rem 1rem 2.25rem;
     border-top: 1px solid var(--site-sage-border);
     background: var(--site-sage-pale);
@@ -131,6 +132,13 @@ MobileFooter.css = `
     font-family: var(--headerFont);
     font-size: 0.76rem;
     line-height: 1.4;
+  }
+}
+
+@media all and (max-width: 340px) {
+  .mobile-site-footer {
+    width: calc(100% + 1.5rem);
+    margin-left: -0.75rem;
   }
 }
 `
