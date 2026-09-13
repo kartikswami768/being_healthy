@@ -61,6 +61,23 @@ Navigation.css = `
   text-underline-offset: 0.35rem;
 }
 
+// Publication pages should not expose volatile date/reading-time metadata.
+body[data-slug="index"] .content-meta,
+body[data-slug="blog"] .content-meta,
+body[data-slug="about"] .content-meta {
+  display: none;
+}
+
+// Internal links should read like normal editorial links, not highlights.
+a.internal {
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 0;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
 @media all and (max-width: 800px) {
   .primary-navigation {
     width: 100%;
