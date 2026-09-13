@@ -22,7 +22,9 @@ const HomepageCategories: QuartzComponent = ({ fileData }) => {
             class="homepage-category-card"
             href={resolveRelative(fileData.slug as FullSlug, `blog/${writingType.slug}` as FullSlug)}
           >
-            <span class="homepage-category-index">{String(writingTypes.indexOf(writingType) + 1).padStart(2, "0")}</span>
+            <span class="homepage-category-index">
+              {String(writingTypes.indexOf(writingType) + 1).padStart(2, "0")}
+            </span>
             <h3>{writingType.title}</h3>
             <p>{writingType.description}</p>
           </a>
@@ -33,10 +35,19 @@ const HomepageCategories: QuartzComponent = ({ fileData }) => {
 }
 
 HomepageCategories.css = `
+:root {
+  --site-sage: var(--tertiary);
+  --site-sage-deep: color-mix(in srgb, var(--tertiary) 72%, var(--secondary) 28%);
+  --site-sage-pale: color-mix(in srgb, var(--light) 91%, var(--tertiary) 9%);
+  --site-sage-surface: color-mix(in srgb, var(--light) 84%, var(--tertiary) 16%);
+  --site-sage-hover: color-mix(in srgb, var(--light) 78%, var(--tertiary) 22%);
+  --site-sage-border: color-mix(in srgb, var(--tertiary) 45%, var(--lightgray) 55%);
+}
+
 .homepage-categories {
   margin-top: var(--site-space-8);
   padding: var(--site-space-6);
-  border: 1px solid var(--site-border);
+  border: 1px solid var(--site-sage-border);
   border-radius: var(--site-radius-lg);
   background: var(--site-sage-pale);
 }
