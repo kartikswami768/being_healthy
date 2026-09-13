@@ -27,6 +27,12 @@ Profile.css = `
   line-height: 1.1;
 }
 
+@media all and (max-width: 800px) {
+  .mobile-header .profile-site-title {
+    display: block;
+  }
+}
+
 .profile-role {
   margin-top: 0.3rem;
   color: var(--site-muted);
@@ -42,12 +48,6 @@ Profile.css = `
   color: var(--site-heading);
   font-family: var(--headerFont);
   font-weight: 600;
-}
-
-@media all and (max-width: 800px) {
-  .mobile-header .profile-site-title {
-    display: block;
-  }
 }
 `
 
