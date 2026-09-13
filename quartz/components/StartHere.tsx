@@ -68,7 +68,10 @@ const StartHere: QuartzComponent = ({ allFiles, fileData }) => {
       {startPage ? (
         <div class="homepage-start-here-primary">
           <div class="homepage-section-heading">
-            <h2 id="homepage-start-here-title">Start here</h2>
+            <div>
+              <p class="homepage-eyebrow">A good place to begin</p>
+              <h2 id="homepage-start-here-title">Start here</h2>
+            </div>
           </div>
           <div class="homepage-start-here-entry">
             {(() => {
@@ -88,7 +91,7 @@ const StartHere: QuartzComponent = ({ allFiles, fileData }) => {
                   </h3>
                   {description && <p>{description}</p>}
                   <a class="homepage-start-here-read internal internal-link" href={href}>
-                    Read
+                    Read the note →
                   </a>
                 </>
               )
@@ -100,7 +103,10 @@ const StartHere: QuartzComponent = ({ allFiles, fileData }) => {
       {recentPages.length > 0 && (
         <div class="homepage-recent" aria-labelledby="homepage-recent-title">
           <div class="homepage-section-heading">
-            <h2 id="homepage-recent-title">Recent writing</h2>
+            <div>
+              <p class="homepage-eyebrow">What I've been writing</p>
+              <h2 id="homepage-recent-title">Recent writing</h2>
+            </div>
             <a
               class="homepage-section-link internal internal-link"
               href={resolveRelative(fileData.slug as FullSlug, "blog" as FullSlug)}
@@ -109,7 +115,7 @@ const StartHere: QuartzComponent = ({ allFiles, fileData }) => {
             </a>
           </div>
           <ol class="homepage-recent-list">
-            {recentPages.map((page) => {
+            {recentPages.map((page, index) => {
               const frontmatter = getFrontmatter(page)
               const title = String(frontmatter.title ?? "Untitled")
               const description = String(frontmatter.description ?? page.description ?? "").trim()
@@ -118,6 +124,7 @@ const StartHere: QuartzComponent = ({ allFiles, fileData }) => {
 
               return (
                 <li class="homepage-recent-item" key={page.slug as string}>
+                  <span class="homepage-recent-index">{String(index + 1).padStart(2, "0")}</span>
                   <div>
                     <h3>
                       <a class="internal internal-link" href={href}>
@@ -125,8 +132,8 @@ const StartHere: QuartzComponent = ({ allFiles, fileData }) => {
                       </a>
                     </h3>
                     {description && <p>{description}</p>}
+                    {publishedDate && <DateComponent date={publishedDate} locale={"en-US"} />}
                   </div>
-                  {publishedDate && <DateComponent date={publishedDate} locale={"en-US"} />}
                 </li>
               )
             })}
@@ -152,79 +159,112 @@ const StartHere: QuartzComponent = ({ allFiles, fileData }) => {
 
 StartHere.css = `
 .homepage-start-here {
-  margin-top: var(--site-space-7);
-  padding-top: var(--site-space-5);
-  padding-bottom: var(--site-space-5);
+  margin-top: var(--site-space-8);
+  padding-top: var(--site-space-7);
   border-top: 1px solid var(--site-border);
-  border-bottom: 1px solid var(--site-border);
 }
 
 .homepage-start-here-primary {
-  padding-bottom: var(--site-space-5);
+  padding: var(--site-space-6);
+  border: 1px solid var(--site-sage-border);
+  border-radius: var(--site-radius-lg);
+  background: var(--site-sage-surface);
 }
 
-.homepage-start-here h2 {
-  margin-top: 0;
-  margin-bottom: var(--site-space-4);
+.homepage-start-here h2,
+.homepage-recent h2 {
+  margin: 0;
+}
+
+.homepage-eyebrow {
+  margin: 0 0 var(--site-space-2);
+  color: var(--site-sage-deep);
+  font-family: var(--headerFont);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.homepage-start-here-entry {
+  margin-top: var(--site-space-5);
 }
 
 .homepage-start-here-entry h3 {
-  margin-top: 0;
-  font-size: clamp(1.45rem, 2.5vw, 1.8rem);
+  margin: 0;
+  font-size: clamp(1.45rem, 2.5vw, 1.85rem);
 }
 
 .homepage-start-here-entry p {
-  max-width: var(--site-content-measure);
+  max-width: 62ch;
+  margin: var(--site-space-3) 0 0;
   color: var(--site-muted);
 }
 
 .homepage-start-here-read {
   display: inline-block;
-  margin-top: var(--site-space-2);
+  margin-top: var(--site-space-4);
   color: var(--site-primary);
   font-family: var(--headerFont);
   font-weight: 600;
+  text-decoration: none;
 }
 
 .homepage-recent {
-  padding-top: var(--site-space-5);
+  margin-top: var(--site-space-8);
+  padding-top: var(--site-space-6);
   border-top: 1px solid var(--site-border);
 }
 
 .homepage-section-heading {
   display: flex;
-  align-items: baseline;
+  align-items: end;
   justify-content: space-between;
   gap: var(--site-space-4);
 }
 
-.homepage-section-heading h2 {
-  margin-bottom: 0;
-}
-
 .homepage-section-link {
   color: var(--site-muted);
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   white-space: nowrap;
 }
 
 .homepage-recent-list {
   margin: var(--site-space-5) 0 0;
-  padding-left: 1.3rem;
+  padding: 0;
+  list-style: none;
 }
 
 .homepage-recent-item {
-  margin: var(--site-space-5) 0;
-  padding-left: var(--site-space-2);
+  display: grid;
+  grid-template-columns: 2.25rem minmax(0, 1fr);
+  gap: var(--site-space-3);
+  margin: 0;
+  padding: var(--site-space-4) 0;
+  border-top: 1px solid var(--site-border);
+}
+
+.homepage-recent-item:last-child {
+  border-bottom: 1px solid var(--site-border);
+}
+
+.homepage-recent-index {
+  padding-top: 0.15rem;
+  color: var(--site-sage-deep);
+  font-family: var(--codeFont);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
 }
 
 .homepage-recent-item h3 {
   margin: 0;
+  font-size: 1.12rem;
 }
 
 .homepage-recent-item p {
   margin: var(--site-space-2) 0 0;
   color: var(--site-muted);
+  font-size: 0.92rem;
 }
 
 .homepage-recent-item time {
@@ -232,21 +272,29 @@ StartHere.css = `
   margin-top: var(--site-space-2);
   color: var(--site-muted);
   font-family: var(--codeFont);
-  font-size: 0.72rem;
+  font-size: 0.68rem;
 }
 
 .homepage-start-here-network {
   max-width: 65ch;
-  margin: var(--site-space-5) 0 0;
+  margin: var(--site-space-6) 0 0;
   color: var(--site-muted);
-  font-size: 0.92rem;
+  font-size: 0.9rem;
 }
 
-@media all and (max-width: 600px) {
+@media all and ($mobile) {
+  .homepage-start-here-primary {
+    padding: var(--site-space-4);
+  }
+
+  .homepage-recent {
+    margin-top: var(--site-space-7);
+  }
+
   .homepage-section-heading {
     align-items: flex-start;
     flex-direction: column;
-    gap: var(--site-space-1);
+    gap: var(--site-space-2);
   }
 }
 `
