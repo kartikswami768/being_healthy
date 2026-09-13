@@ -71,7 +71,9 @@ MobileHeader.css = `
 }
 
 .mobile-header-toolbar > .primary-navigation {
-  width: 100%;
+  width: auto;
+  margin-left: auto;
+  justify-content: flex-end;
 }
 
 @media all and (min-width: 801px) {
