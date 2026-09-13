@@ -231,7 +231,7 @@ plugins:
       hidePropertiesView: true
       delimiters: ---
       language: yaml
-      
+
     order: 5
     layout:
       position: beforeBody
