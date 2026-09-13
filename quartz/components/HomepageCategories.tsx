@@ -20,7 +20,10 @@ const HomepageCategories: QuartzComponent = ({ fileData }) => {
         {writingTypes.map((writingType) => (
           <a
             class="homepage-category-card"
-            href={resolveRelative(fileData.slug as FullSlug, `blog/${writingType.slug}` as FullSlug)}
+            href={resolveRelative(
+              fileData.slug as FullSlug,
+              `blog/${writingType.slug}` as FullSlug,
+            )}
           >
             <span class="homepage-category-index">
               {String(writingTypes.indexOf(writingType) + 1).padStart(2, "0")}
