@@ -282,7 +282,7 @@ StartHere.css = `
   font-size: 0.9rem;
 }
 
-@media all and ($mobile) {
+@media all and (max-width: 800px) {
   .homepage-start-here-primary {
     padding: var(--site-space-4);
   }
