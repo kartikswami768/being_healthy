@@ -11,6 +11,10 @@ const MobileHeader: QuartzComponent = (props: MobileHeaderProps) => {
 
   return (
     <div class="mobile-header">
+      <div class="site-header-brand" aria-label="Notes on Being Human">
+        Notes on Being Human
+      </div>
+
       <div class="mobile-header-profile">
         {mobileHeader?.profile && <mobileHeader.profile {...props} />}
       </div>
@@ -36,8 +40,20 @@ MobileHeader.css = `
   width: 100%;
   min-width: 0;
   align-items: center;
-  background: var(--site-sage-pale);
-  border-bottom: 1px solid var(--site-sage-border);
+  gap: 2rem;
+  padding: 0 0 1rem;
+  border-bottom: 1px solid var(--site-border);
+  background: var(--site-canvas);
+}
+
+.site-header-brand {
+  flex: 0 0 auto;
+  color: var(--site-heading);
+  font-family: var(--headerFont);
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
 }
 
 .mobile-header-profile,
@@ -49,12 +65,34 @@ MobileHeader.css = `
 .mobile-header-toolbar {
   display: flex;
   align-items: center;
-  width: 100%;
   min-width: 0;
+  flex: 1;
+  margin-left: auto;
 }
 
 .mobile-header-toolbar > .primary-navigation {
-  margin-left: auto;
+  width: 100%;
+}
+
+@media all and (min-width: 801px) {
+  .center > .page-header {
+    margin-top: 2rem !important;
+    padding-top: 0 !important;
+  }
+
+  .center > .page-header > header {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  .left.sidebar,
+  .right.sidebar {
+    padding-top: 2rem !important;
+  }
+
+  .left.sidebar {
+    padding-right: 1rem !important;
+  }
 }
 
 @media all and (max-width: 800px) {
@@ -69,9 +107,18 @@ MobileHeader.css = `
   }
 
   .mobile-header {
+    width: calc(100% + 2rem);
+    margin-left: -1rem;
     flex-direction: column;
+    align-items: stretch;
     gap: 0.75rem;
     padding: 1rem 1rem 0.9rem;
+    border-bottom: 1px solid var(--site-sage-border);
+    background: var(--site-sage-pale);
+  }
+
+  .site-header-brand {
+    display: none;
   }
 
   .mobile-header-profile {
@@ -106,6 +153,7 @@ MobileHeader.css = `
 
   .mobile-header-toolbar {
     gap: 0.75rem;
+    flex: 0 0 auto;
   }
 
   .mobile-header-utilities {
@@ -128,7 +176,7 @@ MobileHeader.css = `
     min-width: 0;
     margin-left: 0;
     justify-content: flex-start;
-    flex: 0 0 auto;
+    flex: 1 1 auto;
   }
 
   .mobile-header-toolbar .primary-navigation-links {
@@ -143,6 +191,8 @@ MobileHeader.css = `
 
 @media all and (max-width: 340px) {
   .mobile-header {
+    width: calc(100% + 1.5rem);
+    margin-left: -0.75rem;
     gap: 0.55rem;
     padding: 0.75rem 0.75rem 0.7rem;
   }
