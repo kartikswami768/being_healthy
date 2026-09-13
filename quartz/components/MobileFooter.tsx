@@ -42,7 +42,9 @@ const MobileFooter: QuartzComponent = ({ allFiles, fileData }: QuartzComponentPr
             <a href="https://github.com/kartikswami768">GitHub</a>
           </span>
           <span class="mobile-footer-link-wrap">
-            <span class="mobile-footer-separator" aria-hidden="true">·</span>
+            <span class="mobile-footer-separator" aria-hidden="true">
+              ·
+            </span>
             <a href="mailto:kartikswami768@gmail.com">Email</a>
           </span>
         </div>
