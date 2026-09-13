@@ -36,6 +36,8 @@ MobileHeader.css = `
   width: 100%;
   min-width: 0;
   align-items: center;
+  background: var(--site-sage-pale);
+  border-bottom: 1px solid var(--site-sage-border);
 }
 
 .mobile-header-profile,
@@ -69,7 +71,7 @@ MobileHeader.css = `
   .mobile-header {
     flex-direction: column;
     gap: 0.75rem;
-    padding-top: 1rem;
+    padding: 1rem 1rem 0.9rem;
   }
 
   .mobile-header-profile {
@@ -84,8 +86,22 @@ MobileHeader.css = `
     border: 0;
   }
 
+  .mobile-header-profile .profile-site-title {
+    margin-bottom: 0.7rem;
+    color: var(--site-primary);
+    font-size: 1.45rem;
+  }
+
   .mobile-header-profile .profile img {
     display: none;
+  }
+
+  .mobile-header-profile .profile-name {
+    font-size: 0.88rem;
+  }
+
+  .mobile-header-profile .profile-role {
+    font-size: 0.7rem;
   }
 
   .mobile-header-toolbar {
@@ -104,7 +120,7 @@ MobileHeader.css = `
     width: 1px;
     height: 1.5rem;
     flex: 0 0 auto;
-    background: var(--lightgray);
+    background: var(--site-sage-border);
   }
 
   .mobile-header-toolbar > .primary-navigation {
@@ -128,7 +144,7 @@ MobileHeader.css = `
 @media all and (max-width: 340px) {
   .mobile-header {
     gap: 0.55rem;
-    padding-top: 0.75rem;
+    padding: 0.75rem 0.75rem 0.7rem;
   }
 
   .mobile-header-toolbar {
