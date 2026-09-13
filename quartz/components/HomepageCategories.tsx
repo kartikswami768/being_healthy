@@ -133,7 +133,7 @@ HomepageCategories.css = `
   line-height: 1.55;
 }
 
-@media all and ($mobile) {
+@media all and (max-width: 800px) {
   .homepage-categories {
     margin-top: var(--site-space-7);
     padding: var(--site-space-4);
