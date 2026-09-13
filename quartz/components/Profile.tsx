@@ -17,6 +17,7 @@ const Profile: QuartzComponent = () => {
 
 Profile.css = `
 .profile-site-title {
+  display: none;
   margin-bottom: 1rem;
   color: var(--site-sage-deep);
   font-family: var(--headerFont);
@@ -41,6 +42,12 @@ Profile.css = `
   color: var(--site-heading);
   font-family: var(--headerFont);
   font-weight: 600;
+}
+
+@media all and (max-width: 800px) {
+  .mobile-header .profile-site-title {
+    display: block;
+  }
 }
 `
 
