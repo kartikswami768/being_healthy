@@ -27,6 +27,12 @@ Profile.css = `
   line-height: 1.1;
 }
 
+@media all and (max-width: 800px) {
+  .mobile-header .profile-site-title {
+    display: block;
+  }
+}
+
 .profile-role {
   margin-top: 0.3rem;
   color: var(--site-muted);
@@ -44,42 +50,21 @@ Profile.css = `
   font-weight: 600;
 }
 
-@media all and (min-width: 801px) and (max-width: 1200px) {
-  .left .profile {
-    margin-bottom: 1.15rem;
-  }
-
-  .left .profile img {
-    width: 56px;
-    height: 56px;
-    margin-bottom: 0.45rem;
-  }
-
-  .left .profile-name {
-    font-size: 0.92rem;
-  }
-
-  .left .profile-role {
-    margin-top: 0.2rem;
-    font-size: 0.67rem;
-    line-height: 1.2;
-    letter-spacing: -0.01em;
-    white-space: nowrap;
-  }
-
-  .left .profile-role-secondary {
-    margin-top: 0.12rem;
-  }
-
-  .left .profile + .flex-component {
-    margin-top: 0.65rem;
-  }
+// Hide volatile date/reading-time metadata on the publication pages.
+body[data-slug="index"] .content-meta,
+body[data-slug="blog"] .content-meta,
+body[data-slug="about"] .content-meta {
+  display: none;
 }
 
-@media all and (max-width: 800px) {
-  .mobile-header .profile-site-title {
-    display: block;
-  }
+// Internal links should read like links, not highlighted labels.
+a.internal {
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 0;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
 }
 `
 
