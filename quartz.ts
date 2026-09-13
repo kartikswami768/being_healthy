@@ -2,6 +2,7 @@ import { loadQuartzConfig, loadQuartzLayout } from "./quartz/plugins/loader/conf
 import { componentRegistry } from "./quartz/components/registry"
 import BlogList from "./quartz/components/BlogList"
 import DesktopSidebar from "./quartz/components/DesktopSidebar"
+import HomepageCategories from "./quartz/components/HomepageCategories"
 import MobileFooter from "./quartz/components/MobileFooter"
 import MobileHeader from "./quartz/components/MobileHeader"
 import Navigation from "./quartz/components/Navigation"
@@ -27,6 +28,16 @@ componentRegistry.register("desktop-sidebar", DesktopSidebar, "local", {
   version: "1.0.0",
   defaultPosition: "left",
   defaultPriority: 20,
+  layoutManaged: true,
+})
+
+componentRegistry.register("homepage-categories", HomepageCategories, "local", {
+  name: "homepage-categories",
+  displayName: "Homepage Categories",
+  description: "Displays the four writing types as editorial blocks on the homepage.",
+  version: "1.0.0",
+  defaultPosition: "afterBody",
+  defaultPriority: 15,
   layoutManaged: true,
 })
 
