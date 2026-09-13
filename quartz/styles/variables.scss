@@ -32,9 +32,9 @@ $mobileGrid: (
   templateAreas:
     '"grid-header"\
       "grid-center"\
+      "grid-footer"\
       "grid-sidebar-left"\
-      "grid-sidebar-right"\
-      "grid-footer"',
+      "grid-sidebar-right"',
 );
 $tabletGrid: (
   templateRows: "auto auto auto auto",
