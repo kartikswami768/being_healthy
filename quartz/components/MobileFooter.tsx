@@ -24,7 +24,7 @@ const MobileFooter: QuartzComponent = ({ allFiles, fileData }: QuartzComponentPr
   const navigation = buildSiteNavigation(allFiles, fileData.slug ?? "")
 
   return (
-    <footer class="mobile-site-footer" aria-label="Site navigation">
+    <footer class="mobile-site-footer" aria-label="Site footer">
       <div class="mobile-footer-group">
         <p class="mobile-footer-eyebrow">Explore</p>
         <InlineLinks links={navigation.primary} />
@@ -60,7 +60,7 @@ MobileFooter.css = `
   display: none;
 }
 
-@media all and (max-width: 1000px) {
+@media all and (max-width: 1200px) {
   .mobile-site-footer {
     display: block;
     width: calc(100% + 2rem);
@@ -79,7 +79,7 @@ MobileFooter.css = `
     margin-bottom: 1.5rem;
   }
 
-  .mobile-footer-group:last-of-type {
+  .mobile-footer-contact {
     margin-bottom: 0;
   }
 
