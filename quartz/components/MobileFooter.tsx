@@ -26,17 +26,17 @@ const MobileFooter: QuartzComponent = ({ allFiles, fileData }: QuartzComponentPr
   return (
     <footer class="mobile-site-footer" aria-label="Site navigation">
       <div class="mobile-footer-group">
-        <h2>Explore</h2>
+        <p class="mobile-footer-eyebrow">Explore</p>
         <InlineLinks links={navigation.primary} />
       </div>
 
       <div class="mobile-footer-group">
-        <h2>Writing</h2>
+        <p class="mobile-footer-eyebrow">Writing</p>
         <InlineLinks links={navigation.writing} />
       </div>
 
       <div class="mobile-footer-group mobile-footer-contact">
-        <h2>Contact</h2>
+        <p class="mobile-footer-eyebrow">Contact</p>
         <div class="mobile-footer-links">
           <span class="mobile-footer-link-wrap">
             <a href="https://github.com/kartikswami768">GitHub</a>
@@ -49,6 +49,8 @@ const MobileFooter: QuartzComponent = ({ allFiles, fileData }: QuartzComponentPr
           </span>
         </div>
       </div>
+
+      <div class="mobile-footer-signoff">Notes on Being Human · Kartik Swami</div>
     </footer>
   )
 }
@@ -63,25 +65,30 @@ MobileFooter.css = `
     display: block;
     width: 100%;
     margin-top: 3rem;
-    padding-top: 1.75rem;
-    border-top: 1px solid var(--lightgray);
+    padding: 2rem 1rem 2.25rem;
+    border-top: 1px solid var(--site-sage-border);
+    background: var(--site-sage-pale);
+  }
+
+  .mobile-site-footer + .mobile-site-footer {
+    display: none;
   }
 
   .mobile-footer-group {
-    margin-bottom: 1.25rem;
+    margin-bottom: 1.5rem;
   }
 
-  .mobile-footer-group:last-child {
+  .mobile-footer-group:last-of-type {
     margin-bottom: 0;
   }
 
-  .mobile-site-footer .mobile-footer-group h2 {
-    margin: 0 0 0.4rem;
-    color: var(--site-muted);
-    font-family: var(--bodyFont);
+  .mobile-footer-eyebrow {
+    margin: 0 0 0.5rem;
+    color: var(--site-sage-deep);
+    font-family: var(--headerFont);
     font-size: 0.68rem;
     font-weight: 700;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.11em;
     line-height: 1.3;
     text-transform: uppercase;
   }
@@ -90,7 +97,7 @@ MobileFooter.css = `
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.1rem 0.4rem;
+    gap: 0.2rem 0.45rem;
   }
 
   .mobile-footer-link-wrap {
@@ -99,21 +106,31 @@ MobileFooter.css = `
   }
 
   .mobile-site-footer .mobile-footer-links a {
-    color: var(--darkgray);
+    color: var(--site-primary);
     font-family: var(--bodyFont);
-    font-size: 0.82rem;
-    font-weight: 500;
-    line-height: 1.5;
+    font-size: 0.86rem;
+    font-weight: 550;
+    line-height: 1.55;
     text-decoration: none;
   }
 
   .mobile-site-footer .mobile-footer-links a:hover,
   .mobile-site-footer .mobile-footer-links a[aria-current="page"] {
-    color: var(--secondary);
+    color: var(--site-sage-deep);
   }
 
   .mobile-footer-separator {
-    color: var(--lightgray);
+    color: var(--site-sage);
+  }
+
+  .mobile-footer-signoff {
+    margin-top: 1.75rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--site-sage-border);
+    color: var(--site-muted);
+    font-family: var(--headerFont);
+    font-size: 0.76rem;
+    line-height: 1.4;
   }
 }
 `
