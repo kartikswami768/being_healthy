@@ -38,21 +38,24 @@ DesktopSidebar.css = `
   display: none;
 }
 
-@media all and (min-width: 1001px) {
+@media all and (min-width: 801px) {
+  .sidebar-scroll-region {
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+
   .site-sidebar {
     display: block;
     min-width: 0;
-    max-height: calc(100vh - 2rem);
-    position: sticky;
-    top: 1rem;
+    position: static;
   }
 
   .site-sidebar-scroll {
-    max-height: calc(100vh - 2rem);
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    padding-right: 0.75rem;
-    scrollbar-width: thin;
+    max-height: none;
+    overflow: visible;
+    padding-right: 0.25rem;
   }
 
   .site-sidebar-group {
