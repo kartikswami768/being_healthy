@@ -34,6 +34,19 @@ const MobileFooter: QuartzComponent = ({ allFiles, fileData }: QuartzComponentPr
         <h2>Writing</h2>
         <InlineLinks links={navigation.writing} />
       </div>
+
+      <div class="mobile-footer-group mobile-footer-contact">
+        <h2>Contact</h2>
+        <div class="mobile-footer-links">
+          <span class="mobile-footer-link-wrap">
+            <a href="https://github.com/kartikswami768">GitHub</a>
+          </span>
+          <span class="mobile-footer-link-wrap">
+            <span class="mobile-footer-separator" aria-hidden="true">·</span>
+            <a href="mailto:kartikswami768@gmail.com">Email</a>
+          </span>
+        </div>
+      </div>
     </footer>
   )
 }
