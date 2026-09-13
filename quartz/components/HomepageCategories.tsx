@@ -1,5 +1,5 @@
 import { FullSlug, resolveRelative } from "../util/path"
-import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
+import { QuartzComponent, QuartzComponentConstructor } from "./types"
 import { writingTypes } from "../navigation/WritingTypes"
 
 const HomepageCategories: QuartzComponent = ({ fileData }) => {
