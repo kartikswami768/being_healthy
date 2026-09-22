@@ -71,3 +71,5 @@ Maybe.
 But now I have found my groove, and now I am doing something. And not just something. I am doing a lot.
 
 And if I remain consistent, I am going to go places.
+
+> By the way, I was able to realize all this because of that special friend. So, thanks to them.
