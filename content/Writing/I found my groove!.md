@@ -4,8 +4,6 @@ type: note
 draft: false
 title: I found my groove!
 ---
-## I found my groove
-
 So college ended in mid-May. Ended with a bang, and with a lot of stress around dealing with the people around me. Yes, manage. Because there were a lot of expectations from all sides—friends, family, relatives, seniors. And some of those “close friends” made the situation a little bit more difficult, because college was ending and they were feeling a lot of things. They were overwhelmed.
 
 On the other hand, I was happy because I would be free in a few days to do whatever I wanted. No internship duties and no upcoming exams to prepare for. Yes, there was this NEET PG coming up, and people around me were beginning to feel the fight getting closer to them. But I had already decided that I would enter that race only to walk.
@@ -72,4 +70,4 @@ But now I have found my groove, and now I am doing something. And not just somet
 
 And if I remain consistent, I am going to go places.
 
-> By the way, I was able to realize all this because of that special friend. So, thanks to them.
+> By the way, I was able to realize all this because of that special friend. So, thankyou <3.
